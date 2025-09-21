@@ -1,4 +1,4 @@
-# A simple Github Pages template for academic personal website.
+# Academic Personal site of Jingxu Gu
 
 ## Introduction
 
