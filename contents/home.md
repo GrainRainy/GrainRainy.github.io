@@ -16,11 +16,7 @@ If you need a reliable teammate who is familiar with <strong style="color:red;">
 
 #### Biography
 
-I have experience in NLP and computer systems(both architecture and high performance machine learning systems), along with extensive industry research internship experience. This includes:
-
-* Participating in the pretraining of the Yi-Lightning model at 01.AI.
-* Contributing to ML Infra of the pretraining of the foundation model at ModelBest (with TsinghuaNLP).
-* Participating in the finetuning of the CodeLLM [Raccoon](https://raccoon.sensetime.com/code) (Copilot-like) at SenseTime (with CUHK MMLab).
+I'm a freshman of NJU, majoring in software engineering.
 
 #### Research Interests
 
@@ -35,26 +31,18 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
     * Foundation LLM (Yi-lightning)
     * RAG (GraphRAG): Examples includes [PaperHelper](https://github.com/JerryYin777/PaperHelper).
 
+-----
+
 #### Education
 
-🕒 **2023.12 - 2024.12**  
-📍 **University of Minnesota Twin Cities**  
-🎓 **B.A. in Computer Science with Distinction**
+🕒 **2022.9 - 2025.6**  
+📍 **Shijiazhuang No.2 Senior High School**  
 
 ---
 
-🕒 **2021.9 - 2023.8** *(Transferred Out)*  
-📍 **Nanchang University**  
-🎓 **B.Eng. in Artificial Intelligence**
-
-
-#### Misc
-
-* Before transferring to the University of Minnesota, I studied at Nanchang University, majoring in Artificial Intelligence in a top-tier class with a School Academic Special Scholarship. I was the leader of Nanchang University Supercomputer Cluster Team ([NCUSCC](https://ncuscc.github.io/)) Leader, with experience of ASC22 and SC23(IndySCC). 
-
-* I am passionate about open source and firmly believe in its potential to disseminate knowledge widely, leverage technology to lead innovation to the world and contribute to the advancement of human society. I am proud to have garnered over **4k stars** and acquired over **370 followers** on [GitHub](https://github.com/JerryYin777). I occasionally share my explorations in the machine learning system and LLM field on [![知乎](https://img.shields.io/badge/%E7%9F%A5%E4%B9%8E-%231E2A2A?style=for-the-badge&logo=zhihu&logoColor=blue)](https://www.zhihu.com/people/ycr222/posts) in Mandarin.
-
-* I love league of legends and valorant games!
+🕒 **2021.9 - 2023.8** *(Undergraduate)*  
+📍 **NanJing University**  
+🎓 **Majoring in Software Engineering**
 
 #### Contact<p id="contact-info"></p>
 
@@ -62,4 +50,4 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
 
 * If you're an undergraduate student feeling uncertain, especially from a diverse background, and hope to gain some learning experiences from me, I also warmly welcome that!
 
-* ✉️ [yin00486 [at] umn.edu](mailto:yin00486@umn.edu)
+* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:251250188@smail.nju.edu.cn)
