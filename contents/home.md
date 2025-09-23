@@ -1,13 +1,8 @@
 <p id="contact-info"></p>
 
-* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:jingxugu@smail.nju.edu.cn)
+* ✉️ [Jingxugu@smail.nju.edu.cn](mailto:jingxugu@smail.nju.edu.cn)
 
-[Github](https://github.com/GrainRainy)
-
-[Email](jingxugu5@gmail.com)
-
-[知乎](https://www.zhihu.com/people/can-ruo-fan-xing-73-19)
-
+[Github](https://github.com/GrainRainy) | [Email](jingxugu@smail.nju.edu.cn) | [知乎](https://www.zhihu.com/people/can-ruo-fan-xing-73-19)
 
 #### Biography
 
@@ -23,15 +18,10 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
 
 🕒 **2022.9 - 2025.6**  
 📍 **Shijiazhuang No.2 Senior High School**  
-🎓 **TOP 0.005% in College Entrance Examination**
+📝 **TOP 0.005% in College Entrance Examination**
 
 ---
 
 🕒 **2025.9 - 2029.6** *(Undergraduate)*  
 📍 **NanJing University**  
 🎓 **Major in Software Engineering**
-
-### function test
-
-If you need a reliable teammate who is familiar with <strong style="color:red;"><strong>both NLP and computer systems </strong></strong> with <strong style="color:red;"><strong>extensive industry experiences</strong></strong>, feel free to <a href="#contact-info">Contact Me</a>!
-
