@@ -1,6 +1,11 @@
+<p id="contact-info"></p>
+
+* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:jingxugu@smail.nju.edu.cn)
 
 [Github](https://github.com/GrainRainy)
+
 [Email](jingxugu5@gmail.com)
+
 [知乎](https://www.zhihu.com/people/can-ruo-fan-xing-73-19)
 
 
@@ -25,14 +30,6 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
 🕒 **2025.9 - 2029.6** *(Undergraduate)*  
 📍 **NanJing University**  
 🎓 **Major in Software Engineering**
-
-#### Contact<p id="contact-info"></p>
-
-* </strong></strong>I am very enthusiastic about discussing academic issues or any interesting project-related topics!</strong></strong> If you'd like to engage in a discussion or collaborate, feel free to contact me via email at any time. 
-
-* If you're an undergraduate student feeling uncertain, especially from a diverse background, and hope to gain some learning experiences from me, I also warmly welcome that!
-
-* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:jingxugu@smail.nju.edu.cn)
 
 ### function test
 
