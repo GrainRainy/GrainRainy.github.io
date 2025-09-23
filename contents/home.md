@@ -10,16 +10,7 @@ I'm a freshman of NJU, majoring in software engineering.
 
 #### Research Interests
 
-My current passion revolves around building **EFFICIENT** system solutions to AGI (<strong style="color:red;"><strong>Now I am interested in O1-like models ML Infra</strong></strong>), this includes:
-
-1. <strong><strong>Machine Learning System</strong></strong> 
-    * Training: Design more effective training system and algorithms, example includes [BMTrain](https://github.com/OpenBMB/BMTrain).
-    * Parameter Efficient Fine Tuning (PEFT): Improve LoRA-like architecture and low bit model compression. example includes [IAPT](https://aclanthology.org/2024.acl-long.771.pdf). 
-    * Long context inference: example includes [Cross Layer Attention](https://github.com/JerryYin777/Cross-Layer-Attention).
-2. <strong><strong>LLM & LLM applications</strong></strong> 
-    * CodeLLM
-    * Foundation LLM (Yi-lightning)
-    * RAG (GraphRAG): Examples includes [PaperHelper](https://github.com/JerryYin777/PaperHelper).
+My current passion revolves around building **EFFICIENT** system solutions to AGI (<strong style="color:red;"><strong>Now I am interested in O1-like models ML Infra</strong></strong>).
 
 -----
 
@@ -27,17 +18,23 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
 
 🕒 **2022.9 - 2025.6**  
 📍 **Shijiazhuang No.2 Senior High School**  
+🎓 **TOP 0.005% in College Entrance Examination**
 
 ---
 
-🕒 **2021.9 - 2023.8** *(Undergraduate)*  
+🕒 **2025.9 - 2029.6** *(Undergraduate)*  
 📍 **NanJing University**  
-🎓 **Majoring in Software Engineering**
+🎓 **Major in Software Engineering**
 
 #### Contact<p id="contact-info"></p>
 
-* </strong></strong>I am very enthusiastic about discussing academic issues or any interesting project-related topics! </strong></strong> If you'd like to engage in a discussion or collaborate, feel free to contact me via email at any time. 
+* </strong></strong>I am very enthusiastic about discussing academic issues or any interesting project-related topics!</strong></strong> If you'd like to engage in a discussion or collaborate, feel free to contact me via email at any time. 
 
 * If you're an undergraduate student feeling uncertain, especially from a diverse background, and hope to gain some learning experiences from me, I also warmly welcome that!
 
-* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:251250188@smail.nju.edu.cn)
+* ✉️ [Jingxugu @ smail.nju.edu.cn](mailto:jingxugu@smail.nju.edu.cn)
+
+### function test
+
+If you need a reliable teammate who is familiar with <strong style="color:red;"><strong>both NLP and computer systems </strong></strong> with <strong style="color:red;"><strong>extensive industry experiences</strong></strong>, feel free to <a href="#contact-info">Contact Me</a>!
+
