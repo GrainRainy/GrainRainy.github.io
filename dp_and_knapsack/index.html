@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="基础动态规划 $Dynamic\ Programming$主要思想 类似于递推, 将当前状态的属性（最大值 $max$, 最小值 $min$, 解的个数 $nums$）由上一个状态转移而来, 从而继承上一个状态的属性, 具有最优子结构属性, 由此得出状态转移方程. $\rm dp$ 的状态转移方程可以有两种思考方式：顺推和逆推. 顺推即考虑当前状态能向后推出何状态, 逆推即考虑当前状态由哪些状态转">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性动态规划与背包问题 | 学习笔记">
+<meta property="og:url" content="http://example.com/dp_and_knapsack/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="基础动态规划 $Dynamic\ Programming$主要思想 类似于递推, 将当前状态的属性（最大值 $max$, 最小值 $min$, 解的个数 $nums$）由上一个状态转移而来, 从而继承上一个状态的属性, 具有最优子结构属性, 由此得出状态转移方程. $\rm dp$ 的状态转移方程可以有两种思考方式：顺推和逆推. 顺推即考虑当前状态能向后推出何状态, 逆推即考虑当前状态由哪些状态转">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2022-10-13T05:40:03.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.035Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >线性动态规划与背包问题 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            线性动态规划与背包问题 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        dp_and_knapsack
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            10/13
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            13:40
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="基础动态规划-Dynamic-Programming"><a href="#基础动态规划-Dynamic-Programming" class="headerlink" title="基础动态规划 $Dynamic\ Programming$"></a>基础动态规划 $Dynamic\ Programming$</h1><h2 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h2><p><img src="https://pic.imgdb.cn/item/63c2db87be43e0d30efed1c5.png"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>类似于递推, 将当前状态的属性（最大值 $max$, 最小值 $min$, 解的个数 $nums$）由上一个状态转移而来, 从而继承上一个状态的属性, 具有<strong>最优子结构</strong>属性, 由此得出状态转移方程.</p>
+<p>$\rm dp$ 的状态转移方程可以有两种思考方式：顺推和逆推. 顺推即考虑当前状态能向后推出何状态, 逆推即考虑当前状态由哪些状态转移而来. </p>
+<h2 id="状态转移方程的推导方式"><a href="#状态转移方程的推导方式" class="headerlink" title="状态转移方程的推导方式"></a>状态转移方程的推导方式</h2><p>以 <a target="_blank" rel="noopener" href="http://bailian.openjudge.cn/practice/4008/">openjudge4008-糖果</a> 为例. </p>
+<h3 id="1-顺推"><a href="#1-顺推" class="headerlink" title="1. 顺推"></a>1. 顺推</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f[i + <span class="number">1</span>][j] = f[i][j]; <span class="comment">// 不选当前第 i + 1 件物品</span></span><br><span class="line">f[i + <span class="number">1</span>][(j + a[i + <span class="number">1</span>] % k)] = f[i][j] + a[i + <span class="number">1</span>]; <span class="comment">// 选当前第 i + 1 件物品</span></span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是, 在顺推中 $f_{i, j}$ 表示未计算 $i, j$ 值的状态, 因此顺推的目标解为 $f_{n + 1, k}$. </p>
+<h3 id="2-逆推"><a href="#2-逆推" class="headerlink" title="2. 逆推"></a>2. 逆推</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f[i][j] = f[i - <span class="number">1</span>][j]; <span class="comment">// 不选当前第 i 件物品</span></span><br><span class="line">f[i][j] = f[i - <span class="number">1</span>][((j - a[i]) % k + k) % k] + a[i]; <span class="comment">// 选当前第 i 件物品,  + k % k 意在保证下标的恒正性</span></span><br></pre></td></tr></table></figure>
+
+<p>对于两种状态取 $max$ 即可. </p>
+<p>同时, 该状态需要具有<strong>无后效性</strong>的特点, 即当前状态的选择无法影响下一状态的决策. </p>
+<p>另外值得注意的是, 我们需要对dp边界的初始值进行特判. </p>
+<h2 id="动态规划问题的时间复杂度分析"><a href="#动态规划问题的时间复杂度分析" class="headerlink" title="动态规划问题的时间复杂度分析"></a>动态规划问题的时间复杂度分析</h2><p>状态数量 * 转移计算量</p>
+<hr>
+<h2 id="背包问题："><a href="#背包问题：" class="headerlink" title="背包问题："></a>背包问题：</h2><p>给定 $n$ 个物体, 和一个容量是 $v$ 的背包, 每个物体的体积是 $vi$, 权重是 $wi$, 求如何装物品使得总权重最大</p>
+<p>在背包问题中, 一般用 $f_{i, j}$ 表示所有从前 $i$ 个物品中选并且总体积不超过 $j$ 的所有选法中 最大 &#x2F; 最小 的总价值</p>
+<h3 id="经典背包问题特点"><a href="#经典背包问题特点" class="headerlink" title="经典背包问题特点"></a>经典背包问题特点</h3><table>
+<thead>
+<tr>
+<th align="center">背包问题</th>
+<th align="center">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$0&#x2F;1$ 背包</td>
+<td align="center">每件物品最多只能用一次</td>
+</tr>
+<tr>
+<td align="center">完全背包</td>
+<td align="center">每件物品可以用无限次</td>
+</tr>
+<tr>
+<td align="center">多重背包</td>
+<td align="center">每件物品可以使用有限次</td>
+</tr>
+<tr>
+<td align="center">分组背包</td>
+<td align="center">将所有物品分为若干组, 每组物品中最多只能选一个物品</td>
+</tr>
+</tbody></table>
+<p>另外为了方便叙述, 在以下的讲解中, 各数组含义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m; <span class="comment">// n 表示所有物品的个数, m 表示背包容量</span></span><br><span class="line"><span class="type">int</span> v[N + <span class="number">10</span>], w[N + <span class="number">10</span>]; <span class="comment">// v 表示各个物品所占的体积, w 表示各个物品的价值</span></span><br><span class="line"><span class="type">int</span> f[N + <span class="number">10</span>][N + <span class="number">10</span>]; <span class="comment">// f_&#123;i, j&#125; 表示选 i 件物品, 体积为 j 的价值最大值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="0-1-背包"><a href="#0-1-背包" class="headerlink" title="$0&#x2F;1$ 背包"></a><a href="(https://www.acwing.com/problem/content/2/)">$0&#x2F;1$ 背包</a></h3><p>尝试考虑暴力：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// for (int j = 0; j &lt;= m; j ++) f[0][j] = 0;</span></span><br><span class="line"><span class="comment">// 一件物品都不选, 可省略 </span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j ++) &#123;</span><br><span class="line">        f[i][j] = f[i - <span class="number">1</span>][j]; <span class="comment">// 不取 i 的情况</span></span><br><span class="line">        <span class="keyword">if</span> (j &gt;= v[i]) f[i][j] = <span class="built_in">max</span>(f[i][j], f[i - <span class="number">1</span>][j - v[i]] + w[i]);</span><br><span class="line">        <span class="comment">// 能够装下 i 时取 i 的情况 </span></span><br><span class="line">    &#125;</span><br><span class="line">cout &lt;&lt; f[n][m] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<p>在 dp 每一层的状态计算中不难发现, 每一层第一维度的值都和上一层的值有关 <code>f[i][j] = f[i - 1][j]</code> , 第二维度的值只可能出现 <code>j</code> 或 <code>j - v[i]</code>, 那么可以利用滚动数组对空间进行优化：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = m; j &gt;= v[i]; j --)</span><br><span class="line">    <span class="comment">// 将 j 倒序计算, 则可以保证 j - v[i] 为 i - 1 层的值</span></span><br><span class="line">        <span class="comment">// f[i][j] = f[i - 1][j]; 删除</span></span><br><span class="line">        <span class="comment">// if (j &gt;= v[i]) j 直接从 v[i] 开始, 则无需判断</span></span><br><span class="line">        f[j] = <span class="built_in">max</span>(f[j], f[j - v[i]] + w[i]);</span><br></pre></td></tr></table></figure>
+
+<p>看到这里, 如果您对于为何倒序枚举的问题仍不是很明白, 那么可以尝试使用暴力枚举的方法做一下 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2347">$\rm Luogu\ P2347$ - 砝码称重</a>. 通过思考这道题的枚举顺序, 能够加深您对背包枚举顺序的理解.</p>
+<p>不难发现, 分别枚举砝码种类, 砝码个数, 在可用的重量上加上当前种类的重量即可.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; nums[i]; j ++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1000</span>; k &gt;= <span class="number">0</span>; k --)</span><br><span class="line">            <span class="keyword">if</span> (f[k]) f[k + w[i]] = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在枚举砝码的时候, 如果 $k$ 正向枚举, 会出现刚刚用过的砝码继续在下一层重量循环累积, 而一个砝码在同一个砝码循环是只能用一次的. 而由于 $f[k+w[i]]&#x3D;1$ 一定是大于 $f[k]$ 的, 因此使用倒序枚举会有效规避掉此问题.</p>
+<p>同时我们发现, 当 $k$ 正向枚举时, 会将同一个砝码重复使用若干次. 于是, 完全背包的一维优化由此延伸, 使用<strong>正序枚举</strong>即可, 让我们接着往下读！</p>
+<hr>
+<h3 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h3><p>完全背包的状态计算：</p>
+<p>类比于 $0&#x2F;1$ 背包将当前情况分为 选 ( $1$ ) 或 不选 ( $0$ ), 在完全背包中可以按照选多少个物品分类</p>
+<p>对于各个集合中状态的表示, 设当前物品选了 $k$ 个, 即有状态转移方程：</p>
+<p>$$ f_{i, j} &#x3D; f[i - 1][j - k * v_i] + k * w_i $$</p>
+<p>将每个情况取最大值, 即可求出当前情况的价值最大值</p>
+<h4 id="暴力"><a href="#暴力" class="headerlink" title="暴力"></a>暴力</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j ++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k * v[i] &lt;= j; k ++)</span><br><span class="line">        <span class="comment">// 枚举物品数量, 保证总体积不超过 j </span></span><br><span class="line">            f[i][j] = <span class="built_in">max</span>(f[i][j], f[i - <span class="number">1</span>][j - k * v[i]] + k * w[i]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="一维优化："><a href="#一维优化：" class="headerlink" title="一维优化："></a>一维优化：</h4><p>当对 $f_{i, j}$ 进行枚举时, 进行的过程是这样的：</p>
+<p>$$ f[i, j] &#x3D; max(f[i, j], f[i, j - v_i] + w_i, f[i, j - 2 * v_i] + 2 * w_i, …) $$</p>
+<p>在枚举 $f_{i, j}$ 时, 我们已经完成了对 $f_{i, j - v_i}$ 的枚举, 当时进行的过程是这样的：</p>
+<p>$$ f[i][j - v_i] &#x3D; max(f[i][j - v_i], f[i - 1][j - 2 * v_i] + w_i, …) $$</p>
+<p>此时我们发现, 计算 $f_{i, j}$ 的过程与计算 <code>f[i][j - v[i]]</code> 的过程非常相似, 规律可以表述为：</p>
+<p><code>max(f[i, j - v[i]] + w[i], f[i, j - 2 * v[i]] + 2 * w[i], ...) = f[i, j - v[i]] + w[i]</code></p>
+<p><img src="https://pic.imgdb.cn/item/63c2d96dbe43e0d30efaf85a.png"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>那么我们可以将状态转移方程优化为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;=n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt;= m; j ++) &#123;</span><br><span class="line">        f[i][j] = f[i - <span class="number">1</span>][j];</span><br><span class="line">        <span class="keyword">if</span> (j &gt;= v[i]) f[i][j] = <span class="built_in">max</span>(f[i][j], f[i][j - v[i]] + w[i]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>此时的状态转移方程为：<br><code>f[i][j] = max(f[i][j], f[i][j - v[i] + w[i]])</code></p>
+<p>而在01背包中的状态转移方程为：<br><code>f[i][j] = max(f[i - 1][j], f[i - 1][j - v[i] + w[i]])</code></p>
+<p>类比于 $0&#x2F;1$ 背包的一维优化, 我们可以将完全背包优化为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;=n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = v[i]; j &lt;= m; j ++)</span><br><span class="line">        f[j] = <span class="built_in">max</span>(f[j], f[j - v[i]] + w[i]);</span><br></pre></td></tr></table></figure>
+
+<p><strong>到此为止, 我们已经将完全背包的空间复杂度优化到了 $O(n)$</strong></p>
+<p>此时我们会惊奇地发现, 完全背包的一维优化与 $01$ 背包的一维优化极其相似. 关键点在于 $j$ 的枚举顺序, 倒序枚举表示当前情况中不包含当前这一层物品的选择, 也就保证了当前层物品选择的唯一性 ( $0$ &#x2F; $1$ ). 而在完全背包中, 任何一件物品都有无数件, 因此从前向后转移就包含了前面对于这一层物品的选择, 从而达到最优</p>
+<hr>
+<h3 id="多重背包"><a href="#多重背包" class="headerlink" title="多重背包"></a>多重背包</h3><p>对于每个物品都有个数限制 $s_i$, 只需枚举物品个数 $k$ 并使 $k$ 满足 $ k \le s_i$ 且 $k * v_i \le j$</p>
+<h4 id="朴素-O-nms"><a href="#朴素-O-nms" class="headerlink" title="朴素 $O(nms)$"></a>朴素 $O(nms)$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j ++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt;= s[i] <span class="keyword">and</span> k * v[i] &lt;= j; k ++)</span><br><span class="line">        <span class="comment">// 保证总体积不超过 j 的同时使 k 不超过限制个数</span></span><br><span class="line">            f[i][j] = <span class="built_in">max</span>(f[i][j], f[i - <span class="number">1</span>][j - k * v[i]] + k * w[i]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="多重背包的二进制拆分优化-O-w-cdot-n-cdot-log-s-："><a href="#多重背包的二进制拆分优化-O-w-cdot-n-cdot-log-s-：" class="headerlink" title="多重背包的二进制拆分优化 $O(w \cdot n \cdot \log s)$："></a>多重背包的二进制拆分优化 $O(w \cdot n \cdot \log s)$：</h4><p>基本原理：</p>
+<p>假设<code>s = 1023</code>, 如按照朴素方式枚举, 则需要枚举 1023 次. 此时我们将 1 ~ 1023 分为十组, 每组分别是：</p>
+<blockquote>
+<p>$2^0, 2^1, 2^2, 2^3, \cdots, 2^9$</p>
+</blockquote>
+<p>即：$1, 2, 4, 8, …, 512$</p>
+<p>易证对于 $[1, 1023]$ 区间中的每一个数字, 都可以用以上 $10$ 个数表示</p>
+<p>当 $s$ 不为 $2$ 的正整数次方时, 假设 $s &#x3D; 200$, 此时我们将 $200$ 分为以下几组：</p>
+<blockquote>
+<p>$2^0, 2^1, 2^2, 2^3, 2^4, 2^5, 2^6, 73$</p>
+</blockquote>
+<p>此时即可以用以上几组数据将 [1, 200] 区间中所有的数字表示出来</p>
+<p>将 $s$ 推广为一般数字：</p>
+<blockquote>
+<p>$2^0, 2^1, 2^2,…, 2^k, s - 2^k$</p>
+</blockquote>
+<p>由此可知, 对于任意一个 $s$ , 都可以拆分为 $logs$ 个组, 通过判断选组的情况即可转化为 <strong>$01$ 背包</strong> 问题</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++ i) &#123;</span><br><span class="line">    <span class="built_in">input</span>(v), <span class="built_in">input</span>(w), <span class="built_in">input</span>(c);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= c; j &lt;&lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = m; k &gt;= j * v; -- k)</span><br><span class="line">            f[k] = <span class="built_in">max</span>(f[k], f[k - j * v] + j * w);</span><br><span class="line">        c -= j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (c) <span class="keyword">for</span> (<span class="type">int</span> k = m; k&gt;= c * v; -- k)</span><br><span class="line">        f[k] = <span class="built_in">max</span>(f[k], f[k - c * v] + c * w);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="线性多重背包-O-n"><a href="#线性多重背包-O-n" class="headerlink" title="线性多重背包 $O(n)$"></a>线性多重背包 $O(n)$</h4><p>我们发现二进制优化的多重背包至多将每个物品分为 $logn$ 个物品, 因此时间复杂度为 $O(n \cdot logn)$. 而多重背包转移具有决策单调性, 使用单调队列可以优化至 $O(n)$ 线性, 详见 <a href="">$\rm dp$ 优化</a>. </p>
+<hr>
+<h3 id="分组背包"><a href="#分组背包" class="headerlink" title="分组背包"></a>分组背包</h3><p>将所有物品分为 $n$ 组, 每组物品中最多只能选一个物品.</p>
+<p>枚举第 $i$ 组中选第 $k$ 物品即可</p>
+<p>可得状态转移方程：</p>
+<p>$$f_{i, j} &#x3D; max(f_{i, j}, f_{<em>i - 1, j - v</em>{i, k}} + w_{i, k})$$</p>
+<p>($v_{i, k}$ 表示第 $i$ 组物品中第 $k$ 个物品的体积, 以此类推)</p>
+<p>模板：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = m; j &gt;= <span class="number">0</span>; j --)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; s[i]; k ++)</span><br><span class="line">            <span class="keyword">if</span> (v[i][k] &lt;= j)</span><br><span class="line">                f[j] = <span class="built_in">max</span>(f[j], f[j - v[i][k]] + w[i][k]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="依赖背包"><a href="#依赖背包" class="headerlink" title="依赖背包"></a>依赖背包</h3><p>选 $A$ 物品需要购买 $B$ 物品, 或选 $A$ 物品才可以买 $B,  C$ 物品</p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1064">$\rm Luogu\ P1064$ - 金明的预算方案</a></p>
+<p>基本的解决思路是, 我们将两种绑定的物品转化为分组背包, 举个例子, 若买 $A$ 之后才可以买 $B$, 会出现以下三种情况</p>
+<blockquote>
+<ol>
+<li>选 $A$ 不选 $B$</li>
+<li>选 $A$ 选 $B$</li>
+<li>不选 $A$ 不选 $B$</li>
+</ol>
+</blockquote>
+<p>对于每一种情况, 进行 $dfs$ 深度搜索绑定为一个组, 再按照分组背包的二进制解即可</p>
+<p>我们可以发现, 当有 $n$ 件物品依附于一件物品时, 分出组的个数为 $2^n + 1$ 时间复杂度起飞 ~</p>
+<p>当物品的绑定关系较为复杂时, 需要使用 <a href="">树形$\rm dp$</a> 解决以上问题</p>
+<h3 id="扩展-输出背包方案"><a href="#扩展-输出背包方案" class="headerlink" title="扩展: 输出背包方案"></a>扩展: 输出背包方案</h3><p>当解决最优化问题时, 题目可能要求输出最优化状态下的方案. 通过记录该状态从哪个状态转移而来, 输出方案时倒推到初始状态即可. </p>
+<hr>
+<h2 id="线性动态规划"><a href="#线性动态规划" class="headerlink" title="线性动态规划"></a>线性动态规划</h2><p>经典应用：</p>
+<h3 id="1-最长上升子序列"><a href="#1-最长上升子序列" class="headerlink" title="1. 最长上升子序列"></a>1. <a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/897/">最长上升子序列</a></h3><h4 id="暴力版本-O-n-2"><a href="#暴力版本-O-n-2" class="headerlink" title="暴力版本 $O(n^2)$"></a>暴力版本 $O(n^2)$</h4><h5 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h5><p>可以用 $f_i$ 表示所有以第 $i$ 个数结尾的上升子序列, 维护的属性是长度最大值 $Max$；</p>
+<ul>
+<li>那么如何将初始状态转移到 $f_i$ 呢？</li>
+</ul>
+<p>我们可以依照 $f_i$ 子序列的倒数第二个数来分类： $0$ 表示当前子序列长度为 $1$, $1$ 表示该子序列的倒数第二个数为总序列第 $1$ 个数 ……以此类推, 直到 $i -  1$ 表示该子序列的倒数第二个数为总序列第 $i - 1$ 个数. </p>
+<ul>
+<li>如何判断该状态是否成立呢？</li>
+</ul>
+<p>对于 $f_i &#x3D; j$, 只需判断 $a[j] &lt; a[i]$, 如成立则存在该状态</p>
+<p>因此得到的状态转移方程为：</p>
+<p>$$f_i &#x3D; max(f_i, f_j + 1)$$</p>
+<ul>
+<li>该解法的时间复杂度？</li>
+</ul>
+<p>状态数量 $O(n)$ * 转移计算量 $O(n)$ &#x3D; $O(n^2)$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, a[N];</span><br><span class="line"><span class="type">int</span> f[N];</span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) cin &gt;&gt; a[i];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">    f[i] = <span class="number">1</span>; <span class="comment">// 最长上升子序列至少为 1, 即为当前数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= i - <span class="number">1</span>; j ++)</span><br><span class="line">        <span class="keyword">if</span> (a[j] &lt; a[i]) f[i] = <span class="built_in">max</span>(f[i], f[j] + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> res = <span class="number">-1e9</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) res = <span class="built_in">max</span>(res, f[i]);</span><br><span class="line">cout &lt;&lt; res &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<p>另外, 也可以将选当前位置和不选当前位置单独分离出一个二维状态</p>
+<p>若要记录最长上升子序列, 则将主体部分改为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> g[N];</span><br><span class="line"><span class="comment">// 存储第 i 个点是由哪个下标位置转移而来的</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) &#123;</span><br><span class="line">    f[i] = <span class="number">1</span>, g[i] = <span class="number">0</span>; <span class="comment">// 最长上升子序列至少为 1 ,即为当前数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= i - <span class="number">1</span>; j ++)</span><br><span class="line">        <span class="keyword">if</span> (a[j] &lt; a[i] <span class="keyword">and</span> f[i] &lt; f[j] + <span class="number">1</span>) </span><br><span class="line">            f[i] = f[j] + <span class="number">1</span>, g[i] = j; <span class="comment">// 更新 f 并记录转移方向</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> k = <span class="number">1</span>; <span class="comment">// 记录最长子序列位置的下标</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">if</span> (f[k] &lt; f[i]) k = i; <span class="comment">// 维护上升子序列长度的最大值</span></span><br><span class="line">cout &lt;&lt; f[k] &lt;&lt; endl; <span class="comment">// 输出最长上升子序列长度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, len = f[k]; i &lt; len; i ++) &#123;</span><br><span class="line">    cout &lt;&lt; a[k] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    k = g[k];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 倒序输出最长上升子序列</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="单调优化版：-O-n-cdot-logn"><a href="#单调优化版：-O-n-cdot-logn" class="headerlink" title="单调优化版：$O(n \cdot logn)$"></a>单调优化版：$O(n \cdot logn)$</h4><p>观察性质可以发现, 对于</p>
+<blockquote>
+<p>$3$ $1$ $2$ $1$ $8$ $5$ $6$</p>
+</blockquote>
+<p>这个序列, 当枚举以 $8$ 为结尾的最长上升子序列时, 下标为 $1$ 的数字 $1$ 无疑是比下标为 $0$ 的数字 $3$ 更优的选择 (涵盖的值域更大, 更有机会取得最长上升子序列)</p>
+<p>因此我们可以开一个数组 $q$ 存储长度为 $i$ 的上升子序列中结尾元素最小的情况中<strong>结尾元素的最小值</strong>. </p>
+<h5 id="Q-A"><a href="#Q-A" class="headerlink" title="$Q &amp; A$"></a>$Q &amp; A$</h5><ul>
+<li>该最小值是否随结尾值 $i$ 的增大而严格单调递增？</li>
+</ul>
+<p>假设对于长度为 $k$ 的末尾最小值为 $n$ , 若 $n$ 小于或等于等于长度为 $k - 1$ 的末尾的最小值, 则对于 $k - 1$ 必有一种更优的、最小值更小的情况, 则该假设不成立</p>
+<ul>
+<li>那么如何求出以 $a_i$ 结尾的最长上升子序列的长度的最大值呢？</li>
+</ul>
+<p>对于预处理好的不同长度的上升子序列 $q$, 只需在该数组中<strong>利用二分查找</strong>找到不大于 $a_i$ 的最大的值 $q_k$ , 将 $a_i$ 接在 <code>q[k]</code> 后面即可. 此时还要注意, 由于 $q_k$ 是不大于 $a_i$ 的最大的情况, 所以 $q_{k + 1}$ 的值一定会大于 $a_i$ 因此需要更新 $q_{k + 1}$. </p>
+<p>由于对于每个点进行二分查找, 因此该算法的时间复杂度是 $O(n \cdot logn)$</p>
+<p><strong>模板：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="comment">// n 表示元素个数</span></span><br><span class="line"><span class="type">int</span> a[N], q[N];</span><br><span class="line"><span class="comment">// a[] 用于存储数列</span></span><br><span class="line"><span class="comment">// p[] 用于维护所有不同长度的最长上升子序列结尾元素的最小值 </span></span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) cin &gt;&gt; a[i];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> len = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 存储当前枚举到的最长上升子序列的长度, 即 q 数组中的元素个数 </span></span><br><span class="line">q[<span class="number">0</span>] = <span class="number">-2e9</span>; <span class="comment">// 初始化边界</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i ++) &#123;</span><br><span class="line">    <span class="comment">// 二分查找不大于 a[i] 的最大值在 p 中的元素位置</span></span><br><span class="line">    <span class="type">int</span> l = <span class="number">0</span>, r = len;</span><br><span class="line">    <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">        <span class="type">int</span> mid = l + r + <span class="number">1</span> &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (q[mid] &lt; a[i]) l = mid;</span><br><span class="line">        <span class="keyword">else</span> r = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// r 返回不大于 a[i] 的最大值的下标(即长度)</span></span><br><span class="line">    len = <span class="built_in">max</span>(len, r + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 将 a[i] 连接在不大于 a[i] 的最大值的最长上升子序列的后面, 表示长度, 即 r + 1</span></span><br><span class="line">    q[r + <span class="number">1</span>] = a[i];</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; len &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-最长公共子序列"><a href="#2-最长公共子序列" class="headerlink" title="2. 最长公共子序列"></a>2. <a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/899/">最长公共子序列</a></h3><h4 id="集合-1"><a href="#集合-1" class="headerlink" title="集合"></a>集合</h4><p>使用 $f_{i, j}$ 表示所有 <em>第一个字符串的前 $i$ 个字母构成的子序列</em> 和 <em>第二个字符串前 $j$ 个字母构成的子序列</em> 的公共子序列长度</p>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><p>长度最大值</p>
+<h4 id="集合划分"><a href="#集合划分" class="headerlink" title="集合划分"></a>集合划分</h4><p>将全集依照 是否选择 $a_i$ 和 $b_j$ 分为四个子集：</p>
+<blockquote>
+<p>$00$：$a_i$ 与 $b_j$ 均不选<br>$01$：$a_i$ 不选而 $b_j$ 选<br>$10$：$a_i$ 选而 $b_j$ 不选<br>$11$：$a_i$ 与 $b_j$ 选</p>
+</blockquote>
+<h4 id="状态表示"><a href="#状态表示" class="headerlink" title="状态表示"></a>状态表示</h4><p>对于第一种状态, 可以表示为 $f_{i - 1, j - 1}$ </p>
+<p>对于第二种状态, 可以表示为 $f_{i - 1, j}$, 但由于 f 数组表示的是子序列长度, 所以并不能达到 “不包含 $a_i$ 而包含 $b_j$ 的情况” . 因此这种情况是<strong>包含第一种状态的</strong>, 但由于所求属性为长度最大值, 这种冲突并不会影响最终结果</p>
+<p>同理, 对于第三种状态, 可以表示为 $f_{i, j - 1}$</p>
+<p>对于第四种状态, 可以表示为 $f_{i - 1, j - 1}$<br>因此,  $f$ 的状态计算只需取后三种情况的最大值即可</p>
+<p><strong>模板</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">char</span> a[N], b[N];</span><br><span class="line"><span class="type">int</span> f[N][N];</span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">cin &gt;&gt; a + <span class="number">1</span> &gt;&gt; b + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j ++) &#123;</span><br><span class="line">        f[i][j] = <span class="built_in">max</span>(f[i][j - <span class="number">1</span>], f[i - <span class="number">1</span>][j]);</span><br><span class="line">        <span class="keyword">if</span> (a[i] == b[j]) f[i][j] = <span class="built_in">max</span>(f[i][j], f[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">cout &lt;&lt; f[n][m] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度 $O(n^2)$</p>
+
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/DFS_BFS/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/6482fc961ddac507cce18117.jpg">
+                </span>
+                <h6 class="trm-op-title">深度优先搜索与广度优先搜索 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/14</li>
+                <li>17:09</li>
+                <li>基础算法</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Stack_And_Queue/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/63ba9fe4be43e0d30e10f62c.jpg">
+                </span>
+                <h6 class="trm-op-title">栈和队列 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/08</li>
+                <li>14:16</li>
+                <li>数据结构</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="基础动态规划 $Dynamic\ Programming$"><a rel="nofollow" class="trm-toc-link" href="#基础动态规划-Dynamic-Programming"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">基础动态规划 $Dynamic\ Programming$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="主要思想"><a rel="nofollow" class="trm-toc-link" href="#主要思想"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">主要思想</span></a></li><li class="trm-toc-item trm-toc-level-2" title="状态转移方程的推导方式"><a rel="nofollow" class="trm-toc-link" href="#状态转移方程的推导方式"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">状态转移方程的推导方式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 顺推"><a rel="nofollow" class="trm-toc-link" href="#1-顺推"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">1. 顺推</span></a></li><li class="trm-toc-item trm-toc-level-3" title="2. 逆推"><a rel="nofollow" class="trm-toc-link" href="#2-逆推"><span class="trm-toc-number">1.2.2.</span> <span class="trm-toc-text">2. 逆推</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="动态规划问题的时间复杂度分析"><a rel="nofollow" class="trm-toc-link" href="#动态规划问题的时间复杂度分析"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">动态规划问题的时间复杂度分析</span></a></li><li class="trm-toc-item trm-toc-level-2" title="背包问题："><a rel="nofollow" class="trm-toc-link" href="#背包问题："><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">背包问题：</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="经典背包问题特点"><a rel="nofollow" class="trm-toc-link" href="#经典背包问题特点"><span class="trm-toc-number">1.4.1.</span> <span class="trm-toc-text">经典背包问题特点</span></a></li><li class="trm-toc-item trm-toc-level-3" title="$0&#x2F;1$ 背包"><a rel="nofollow" class="trm-toc-link" href="#0-1-背包"><span class="trm-toc-number">1.4.2.</span> <span class="trm-toc-text">$0&#x2F;1$ 背包</span></a></li><li class="trm-toc-item trm-toc-level-3" title="完全背包"><a rel="nofollow" class="trm-toc-link" href="#完全背包"><span class="trm-toc-number">1.4.3.</span> <span class="trm-toc-text">完全背包</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="暴力"><a rel="nofollow" class="trm-toc-link" href="#暴力"><span class="trm-toc-number">1.4.3.1.</span> <span class="trm-toc-text">暴力</span></a></li><li class="trm-toc-item trm-toc-level-4" title="一维优化："><a rel="nofollow" class="trm-toc-link" href="#一维优化："><span class="trm-toc-number">1.4.3.2.</span> <span class="trm-toc-text">一维优化：</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="多重背包"><a rel="nofollow" class="trm-toc-link" href="#多重背包"><span class="trm-toc-number">1.4.4.</span> <span class="trm-toc-text">多重背包</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="朴素 $O(nms)$"><a rel="nofollow" class="trm-toc-link" href="#朴素-O-nms"><span class="trm-toc-number">1.4.4.1.</span> <span class="trm-toc-text">朴素 $O(nms)$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="多重背包的二进制拆分优化 $O(w \cdot n \cdot \log s)$："><a rel="nofollow" class="trm-toc-link" href="#多重背包的二进制拆分优化-O-w-cdot-n-cdot-log-s-："><span class="trm-toc-number">1.4.4.2.</span> <span class="trm-toc-text">多重背包的二进制拆分优化 $O(w \cdot n \cdot \log s)$：</span></a></li><li class="trm-toc-item trm-toc-level-4" title="线性多重背包 $O(n)$"><a rel="nofollow" class="trm-toc-link" href="#线性多重背包-O-n"><span class="trm-toc-number">1.4.4.3.</span> <span class="trm-toc-text">线性多重背包 $O(n)$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="分组背包"><a rel="nofollow" class="trm-toc-link" href="#分组背包"><span class="trm-toc-number">1.4.5.</span> <span class="trm-toc-text">分组背包</span></a></li><li class="trm-toc-item trm-toc-level-3" title="依赖背包"><a rel="nofollow" class="trm-toc-link" href="#依赖背包"><span class="trm-toc-number">1.4.6.</span> <span class="trm-toc-text">依赖背包</span></a></li><li class="trm-toc-item trm-toc-level-3" title="扩展: 输出背包方案"><a rel="nofollow" class="trm-toc-link" href="#扩展-输出背包方案"><span class="trm-toc-number">1.4.7.</span> <span class="trm-toc-text">扩展: 输出背包方案</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="线性动态规划"><a rel="nofollow" class="trm-toc-link" href="#线性动态规划"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">线性动态规划</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="1. 最长上升子序列"><a rel="nofollow" class="trm-toc-link" href="#1-最长上升子序列"><span class="trm-toc-number">1.5.1.</span> <span class="trm-toc-text">1. 最长上升子序列</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="暴力版本 $O(n^2)$"><a rel="nofollow" class="trm-toc-link" href="#暴力版本-O-n-2"><span class="trm-toc-number">1.5.1.1.</span> <span class="trm-toc-text">暴力版本 $O(n^2)$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="单调优化版：$O(n \cdot logn)$"><a rel="nofollow" class="trm-toc-link" href="#单调优化版：-O-n-cdot-logn"><span class="trm-toc-number">1.5.1.2.</span> <span class="trm-toc-text">单调优化版：$O(n \cdot logn)$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="2. 最长公共子序列"><a rel="nofollow" class="trm-toc-link" href="#2-最长公共子序列"><span class="trm-toc-number">1.5.2.</span> <span class="trm-toc-text">2. 最长公共子序列</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="集合"><a rel="nofollow" class="trm-toc-link" href="#集合-1"><span class="trm-toc-number">1.5.2.1.</span> <span class="trm-toc-text">集合</span></a></li><li class="trm-toc-item trm-toc-level-4" title="属性"><a rel="nofollow" class="trm-toc-link" href="#属性"><span class="trm-toc-number">1.5.2.2.</span> <span class="trm-toc-text">属性</span></a></li><li class="trm-toc-item trm-toc-level-4" title="集合划分"><a rel="nofollow" class="trm-toc-link" href="#集合划分"><span class="trm-toc-number">1.5.2.3.</span> <span class="trm-toc-text">集合划分</span></a></li><li class="trm-toc-item trm-toc-level-4" title="状态表示"><a rel="nofollow" class="trm-toc-link" href="#状态表示"><span class="trm-toc-number">1.5.2.4.</span> <span class="trm-toc-text">状态表示</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

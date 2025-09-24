@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="贪心 从局部最优推向全局最优  基本思想始终做出当前最优选择, 从而期望全局达到最优. 值得注意的是, 如果当前最优选择无法保证推出全局最优解, 我们可以更换策略如动态规划.  贪心证明方式 贪心不证明, 亲人两行泪   反证法: 对于当前的贪心策略, 否定当前的选择来证明是否能达到最优解 构造法: 将问题构造成已知的算法或数据结构从而证明贪心策略正确 数学归纳  反证法的应用实例：田忌赛马贪心策">
+<meta property="og:type" content="article">
+<meta property="og:title" content="贪心 | 学习笔记">
+<meta property="og:url" content="http://example.com/Greedy/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="贪心 从局部最优推向全局最优  基本思想始终做出当前最优选择, 从而期望全局达到最优. 值得注意的是, 如果当前最优选择无法保证推出全局最优解, 我们可以更换策略如动态规划.  贪心证明方式 贪心不证明, 亲人两行泪   反证法: 对于当前的贪心策略, 否定当前的选择来证明是否能达到最优解 构造法: 将问题构造成已知的算法或数据结构从而证明贪心策略正确 数学归纳  反证法的应用实例：田忌赛马贪心策">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-12-21T01:04:34.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.000Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+
+<title >贪心 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            贪心 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        Greedy
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            12/21
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            09:04
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h1><blockquote>
+<p>从局部最优推向全局最优</p>
+</blockquote>
+<h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><p>始终做出当前最优选择, 从而期望全局达到最优. 值得注意的是, 如果当前最优选择无法保证推出全局最优解, 我们可以更换策略如<strong>动态规划</strong>. </p>
+<h2 id="贪心证明方式"><a href="#贪心证明方式" class="headerlink" title="贪心证明方式"></a>贪心证明方式</h2><blockquote>
+<p>贪心不证明, 亲人两行泪</p>
+</blockquote>
+<ol>
+<li>反证法: 对于当前的贪心策略, 否定当前的选择来证明是否能达到最优解</li>
+<li>构造法: 将问题构造成已知的算法或数据结构从而证明贪心策略正确</li>
+<li>数学归纳</li>
+</ol>
+<h3 id="反证法的应用实例：田忌赛马"><a href="#反证法的应用实例：田忌赛马" class="headerlink" title="反证法的应用实例：田忌赛马"></a>反证法的应用实例：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1650">田忌赛马</a></h3><p>贪心策略：</p>
+<ol>
+<li>如果田忌目前的最快🐎快于齐王的最快马, 则两者比</li>
+<li>如果田忌的最快马慢于齐王的最快马, 则用田忌的最慢马与齐王的最快马比</li>
+<li>如果两者的最快马速度相等, 则：<ol>
+<li>若田忌的最慢马快于齐王的最慢马, 则两个最慢马比</li>
+<li>若田忌的最慢马慢于齐王的最慢马或者两者相等, 则用田忌的最慢马与齐王的最快马比</li>
+</ol>
+</li>
+</ol>
+<h4 id="Solutions"><a href="#Solutions" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> l1 = <span class="number">1</span>, r1 = n, l2 = <span class="number">1</span>, r2 = n;</span><br><span class="line"><span class="comment">// 1 refers to TianJi, 2 refers to the King</span></span><br><span class="line"><span class="built_in">sort</span> (hs1 + <span class="number">1</span>, hs1 + n + <span class="number">1</span>, <span class="built_in">greater</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line"><span class="built_in">sort</span> (hs2 + <span class="number">1</span>, hs2 + n + <span class="number">1</span>, <span class="built_in">greater</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (l1 &lt;= r1 &amp;&amp; l2 &lt;= r2) &#123;</span><br><span class="line">	<span class="keyword">if</span> (hs1[l1] &gt; hs2[l2]) l1 ++, l2 ++, mny ++;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (hs1[l1] &lt; hs2[l2]) r1 --, l2 ++, mny --;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (hs1[r1] &gt; hs2[r2]) r1 --, r2 --, mny ++;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (hs1[r1] &lt; hs2[l2]) mny --;</span><br><span class="line">			r1 --, l2 ++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; mny * <span class="number">200</span> &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最优操作序列的贪心思想-Exchange-Argument"><a href="#最优操作序列的贪心思想-Exchange-Argument" class="headerlink" title="最优操作序列的贪心思想: Exchange Argument"></a>最优操作序列的贪心思想: Exchange Argument</h2><h2 id="经典套路"><a href="#经典套路" class="headerlink" title="经典套路"></a>经典套路</h2><h3 id="工序安排问题"><a href="#工序安排问题" class="headerlink" title="工序安排问题"></a>工序安排问题</h3><h4 id="单工序-机器不同-HNOI2001-产品加工"><a href="#单工序-机器不同-HNOI2001-产品加工" class="headerlink" title="单工序 机器不同: HNOI2001 产品加工"></a>单工序 机器不同: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2224">HNOI2001 产品加工</a></h4><h4 id="双工序-物品相同-机器不同-Product-Processing"><a href="#双工序-物品相同-机器不同-Product-Processing" class="headerlink" title="双工序 物品相同 机器不同: Product Processing"></a>双工序 物品相同 机器不同: Product Processing</h4><p>订单需要完成 $q$ 件产品. 该产品的制作需要经过机器 A 和 机器 B 总共两道工序. 工厂里有 $n$ 个机器 A 以及 $m$ 个机器 B, 都只能同时加工一件产品. </p>
+<p>编号为 $i$ 的机器 A, 加工完一件产品（完成产品的第一道工序）需要 $t_i$ 小时, 编号为 $j$ 的机器 B, 加工完一件产品（完成产品第二道工序）需要 $d_j$ 小时. </p>
+<p>求最少需要多少时间使全部产品加工完毕. </p>
+<p>$q \le 10^6, n, m \le 10^5$. </p>
+<h5 id="Solutions-1"><a href="#Solutions-1" class="headerlink" title="$Solutions$"></a>$Solutions$</h5><p>由于 $1$ 操作与 $2$ 操作相对独立, 因此可以拆分来看. </p>
+<p>对于 $1$ 操作, 直接贪心或二分答案均可: </p>
+<p>1. </p>
+<h4 id="双工序-第二工序需等待：工序安排"><a href="#双工序-第二工序需等待：工序安排" class="headerlink" title="双工序 第二工序需等待：工序安排"></a>双工序 第二工序需等待：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2751">工序安排</a></h4><h4 id="双工序-第二工序无需等待：午餐"><a href="#双工序-第二工序无需等待：午餐" class="headerlink" title="双工序 第二工序无需等待：午餐"></a>双工序 第二工序无需等待：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2577">午餐</a></h4><p>仅需一步贪心转化：第二工序时间长的先进行第一工序</p>
+<p>剩下的是 $\text{dp}$ <del>虚晃一枪, 没想到吧</del></p>
+<hr>
+<h3 id="区间问题"><a href="#区间问题" class="headerlink" title="区间问题"></a>区间问题</h3><h4 id="选择不相交的区间"><a href="#选择不相交的区间" class="headerlink" title="选择不相交的区间"></a>选择不相交的区间</h4><blockquote>
+<p>数轴上有 $n$ 个区间, 每条线段都有起点和终点, 选择最多的不相交的线段个数. </p>
+</blockquote>
+<h5 id="Solutions-2"><a href="#Solutions-2" class="headerlink" title="$Solutions$"></a>$Solutions$</h5><p>对右端点进行排序, 一次选择左端点大于前一个已经选择的右端点的区间</p>
+<h4 id="区间选点-完全覆盖：雷达安装"><a href="#区间选点-完全覆盖：雷达安装" class="headerlink" title="区间选点 完全覆盖：雷达安装"></a>区间选点 完全覆盖：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1325">雷达安装</a></h4><blockquote>
+<p>数轴上有 $n$ 个闭区间 $[a, b]$ . 取尽可能少的点, 使得每个区间内都至少有一个点 （不同区间内含的点可以是同一个）. </p>
+</blockquote>
+<p>最优的贪心策略为：</p>
+<p>右端点升序排列, 右端点相等的左端点降序, 当有区间的左端点大于当前右端点时, 则增加一个新的点</p>
+<h5 id="Solutions-3"><a href="#Solutions-3" class="headerlink" title="$Solutions$"></a>$Solutions$</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">range</span> &#123;</span><br><span class="line">	<span class="type">double</span> l, r;</span><br><span class="line">	<span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> range &amp;t) <span class="type">const</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (r != t.r) <span class="keyword">return</span> r &lt; t.r;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">return</span> l &gt; t.l;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;nums[N];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, d, ans;</span><br><span class="line">cin &gt;&gt; n &gt;&gt; d;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>, x, y; i &lt;= n; ++ i) &#123;</span><br><span class="line">	cin &gt;&gt; x &gt;&gt; y;</span><br><span class="line">	<span class="keyword">if</span> (y &lt;= d) &#123;</span><br><span class="line">		nums[i].l = x - <span class="built_in">sqrt</span>(d * d - y * y);</span><br><span class="line">		nums[i].r = x + <span class="built_in">sqrt</span>(d * d - y * y);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;-1&quot;</span>) &amp; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(nums + <span class="number">1</span>, nums + n + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> tmpr = nums[<span class="number">1</span>].r;</span><br><span class="line">ans = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; ++ i)</span><br><span class="line">	<span class="keyword">if</span> (nums[i].l &gt; tmpr) tmpr = nums[i].r, ans ++;</span><br><span class="line">cout &lt;&lt; ans &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="区间完全覆盖问题"><a href="#区间完全覆盖问题" class="headerlink" title="区间完全覆盖问题"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/909/">区间完全覆盖问题</a></h4><p>给定 $n$ 个闭区间 $[a, b]$, 选择尽量少的区间覆盖一条指定线段 $[s,t]$. </p>
+<h5 id="Soluitons"><a href="#Soluitons" class="headerlink" title="$Soluitons$"></a>$Soluitons$</h5><p>维护一个当前覆盖区间的最右侧端点 $p$. 将所有线段按左端点排序, 每次选择左端点 $\le p$ 且右端点最大的区间即可. </p>
+<h5 id="扩展-线段带权"><a href="#扩展-线段带权" class="headerlink" title="扩展: 线段带权"></a>扩展: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4644">线段带权</a></h5><p>与贪心关系不大, 见 <a href="">数据结构优化 dp</a></p>
+<h4 id="区间并集：SDOI2005-区间"><a href="#区间并集：SDOI2005-区间" class="headerlink" title="区间并集：SDOI2005 区间"></a>区间并集：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2434">SDOI2005 区间</a></h4><p>给定 $n$ 个闭区间 $[a, b]$ , 求能够覆盖的长度. </p>
+<h5 id="贪心策略"><a href="#贪心策略" class="headerlink" title="贪心策略"></a>贪心策略</h5><ol>
+<li>按区间左端点排序</li>
+<li>动态维护某一区间 $x$, 考虑对下一个区间 $y$ 分类讨论：<ol>
+<li>$l_x \le l_y$ 且 $r_x \geqslant r_y$</li>
+<li>$l_x \le l_y$ 且 $r_x &lt; r_y$</li>
+<li>$r_x &lt; l_y$</li>
+</ol>
+</li>
+</ol>
+<p>对于第一种情况：维持原来的起始点 $st$ 和结束点 $ed$ 即可<br>对于第二种情况：将尾节点更新成 $2$ 区间的尾节点<br>对于第三种情况：将维护的此区间存入答案, 将 $3$ 区间作为新的动态维护空间</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> PII = pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">vector&lt;PII&gt; segs; <span class="comment">// 表示所有区间 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span> <span class="params">(vector&lt;PII&gt; &amp;segs)</span> </span>&#123;</span><br><span class="line">	vector&lt;PII&gt; ans; <span class="comment">// 用于存储合并区间后的结果 </span></span><br><span class="line">	<span class="built_in">sort</span>(segs.<span class="built_in">begin</span>(), segs.<span class="built_in">end</span>());</span><br><span class="line">	<span class="comment">// sort 对 pair 进行排序时, 先根据first关键字排序, 再根据second关键字排序</span></span><br><span class="line">	<span class="type">int</span> st = <span class="number">-2e9</span>, ed = <span class="number">-2e9</span>;</span><br><span class="line">	<span class="comment">// 边界值, 依据题目数据范围而定</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> seg : segs) &#123;</span><br><span class="line">		<span class="keyword">if</span> (ed &lt; seg.first) &#123;</span><br><span class="line">            <span class="keyword">if</span> (st != <span class="number">-2e9</span>) ans.<span class="built_in">push_back</span>(&#123;st, ed&#125;);</span><br><span class="line">			st = seg.first, ed = seg.second;</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="keyword">else</span> ed = <span class="built_in">max</span>(ed, seg.second);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// merge  </span></span><br><span class="line">	<span class="keyword">if</span> (st != <span class="number">-2e9</span>) ans.<span class="built_in">push_back</span>(&#123;st, ed&#125;); <span class="comment">// 判空 </span></span><br><span class="line">	segs = ans; <span class="comment">// 更新区间 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, l, r; i &lt; n; ++ i) &#123;</span><br><span class="line">		cin &gt;&gt; l &gt;&gt; r;</span><br><span class="line">		segs.<span class="built_in">push_back</span>(&#123;l, r&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">merge</span>(segs);</span><br><span class="line">	cout &lt;&lt; segs.<span class="built_in">size</span>() &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="USACO08JAN-Telephone-Lines"><a href="#USACO08JAN-Telephone-Lines" class="headerlink" title="USACO08JAN - Telephone Lines"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1948">USACO08JAN - Telephone Lines</a></h3><p>使用最基础的贪心转化, 即求所有从起点到终点的路径中第 $k + 1$ 条边最短的路径, 考虑到第 $k + 1$ 条边不太好找, 尝试二分答案, 对小于 $mid$ 的边边权赋为 $0$, 大于 $mid$ 的边权赋为 $1$, 意为使当前 $mid$ 成立需要至少有多少条被 $k$ 处理的边, 最短路跑出的 <code>dist[n]</code> 与 $k$ 比较再进行二分即可. </p>
+<h2 id="扩展-反悔贪心"><a href="#扩展-反悔贪心" class="headerlink" title="扩展: 反悔贪心"></a>扩展: 反悔贪心</h2><h3 id="不相邻植树问题"><a href="#不相邻植树问题" class="headerlink" title="不相邻植树问题"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1484">不相邻植树问题</a></h3><h4 id="简化题意"><a href="#简化题意" class="headerlink" title="简化题意"></a>简化题意</h4><p>在长度为 $n$ 的序列中选 $m$ 个不相邻的元素使权值和最大.</p>
+<h4 id="Solutions-4"><a href="#Solutions-4" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><p>不难发现选择不相邻元素所能选出的最多元素个数为 $\lceil \frac{n}{2} \rceil$, 即每次间隔 $1$ 个选. </p>
+<p>首先有个很假的贪心: 按权值从大到小选, 同时标记当前选的数的左右两边为不可选位置. 如果遇到不可选位置就跳过. 这个贪心可以很轻易被 $\rm hack$: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 8 9 8 1</span><br></pre></td></tr></table></figure>
+
+<p>以上决策的缺陷在于同时选当前数两边的数后权值有可能比当前数大, 当前一步做出的决策仅对于选当前个数的情况来说是最优的. 于是考虑设计决策使之能够在选更多数的情况下更改前面取到的局部最优解方案. </p>
+<p>首先处理权值的反悔. 仍以上面的数据举例, 当从优先队列中取出 $9$ 计入答案后, 向队列中插入权值为 $8 + 8 - 9$ 的点即可, 在下一次选择是会抵消 $9$ 对答案做出的贡献. </p>
+<p>然后考虑非法位置如何处理. 当取出 $9$ 时我们标记了两个 $8$ 位置非法, 当改为选 $8$ 时, 需要标记第一个 $8$ 前的 $1$ 和第二个 $8$ 后的 $1$. 考虑使用一个双向链表维护当前位置的前一个位置和后一个位置, 每次选择当前位置时删除当前位置的两侧位置的链表节点即可. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++ i) &#123;</span><br><span class="line">	<span class="built_in">rd</span>(w[i]), pre[i] = i - <span class="number">1</span>, suf[i] = i + <span class="number">1</span>;</span><br><span class="line">	q.<span class="built_in">push</span>(&#123;i, w[i]&#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> (k) &#123;</span><br><span class="line">	<span class="type">int</span> u = q.<span class="built_in">top</span>().id; q.<span class="built_in">pop</span>();</span><br><span class="line">	<span class="keyword">if</span> (st[u]) <span class="keyword">continue</span>;</span><br><span class="line">	<span class="keyword">if</span> (w[u] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">	k --, st[pre[u]] = st[suf[u]] = <span class="literal">true</span>;</span><br><span class="line">	ans += w[u], w[u] = w[pre[u]] + w[suf[u]] - w[u];</span><br><span class="line">	pre[u] = pre[pre[u]], suf[u] = suf[suf[u]];</span><br><span class="line">	suf[pre[u]] = pre[suf[u]] = u;</span><br><span class="line">	q.<span class="built_in">push</span>(&#123;u, w[u]&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="扩展的扩展-环形不相邻植树问题"><a href="#扩展的扩展-环形不相邻植树问题" class="headerlink" title="扩展的扩展: 环形不相邻植树问题"></a>扩展的扩展: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1792">环形不相邻植树问题</a></h4><p>题意基本相同, 只是变为在环上植树. 如果真正理解了上面双向链表的功能, 环形问题应该也是能够迎刃而解的: 将 $pre_1$ 设为 $n$, $suf_n$ 设为 $1$ 即可. </p>
+
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Test_Blog/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/63ba94f0be43e0d30efced59.jpg">
+                </span>
+                <h6 class="trm-op-title">Hello World | Test Blog</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/12/24</li>
+                <li>13:04</li>
+                <li>Unclassified</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/STL/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/63ba9f4cbe43e0d30e0ffb56.jpg">
+                </span>
+                <h6 class="trm-op-title">STL进阶 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/11/15</li>
+                <li>18:40</li>
+                <li>数据结构</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="贪心"><a rel="nofollow" class="trm-toc-link" href="#贪心"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">贪心</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="基本思想"><a rel="nofollow" class="trm-toc-link" href="#基本思想"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">基本思想</span></a></li><li class="trm-toc-item trm-toc-level-2" title="贪心证明方式"><a rel="nofollow" class="trm-toc-link" href="#贪心证明方式"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">贪心证明方式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="反证法的应用实例：田忌赛马"><a rel="nofollow" class="trm-toc-link" href="#反证法的应用实例：田忌赛马"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">反证法的应用实例：田忌赛马</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions"><span class="trm-toc-number">1.2.1.1.</span> <span class="trm-toc-text">$Solutions$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="最优操作序列的贪心思想: Exchange Argument"><a rel="nofollow" class="trm-toc-link" href="#最优操作序列的贪心思想-Exchange-Argument"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">最优操作序列的贪心思想: Exchange Argument</span></a></li><li class="trm-toc-item trm-toc-level-2" title="经典套路"><a rel="nofollow" class="trm-toc-link" href="#经典套路"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">经典套路</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="工序安排问题"><a rel="nofollow" class="trm-toc-link" href="#工序安排问题"><span class="trm-toc-number">1.4.1.</span> <span class="trm-toc-text">工序安排问题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="单工序 机器不同: HNOI2001 产品加工"><a rel="nofollow" class="trm-toc-link" href="#单工序-机器不同-HNOI2001-产品加工"><span class="trm-toc-number">1.4.1.1.</span> <span class="trm-toc-text">单工序 机器不同: HNOI2001 产品加工</span></a></li><li class="trm-toc-item trm-toc-level-4" title="双工序 物品相同 机器不同: Product Processing"><a rel="nofollow" class="trm-toc-link" href="#双工序-物品相同-机器不同-Product-Processing"><span class="trm-toc-number">1.4.1.2.</span> <span class="trm-toc-text">双工序 物品相同 机器不同: Product Processing</span></a></li><li class="trm-toc-item trm-toc-level-4" title="双工序 第二工序需等待：工序安排"><a rel="nofollow" class="trm-toc-link" href="#双工序-第二工序需等待：工序安排"><span class="trm-toc-number">1.4.1.3.</span> <span class="trm-toc-text">双工序 第二工序需等待：工序安排</span></a></li><li class="trm-toc-item trm-toc-level-4" title="双工序 第二工序无需等待：午餐"><a rel="nofollow" class="trm-toc-link" href="#双工序-第二工序无需等待：午餐"><span class="trm-toc-number">1.4.1.4.</span> <span class="trm-toc-text">双工序 第二工序无需等待：午餐</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="区间问题"><a rel="nofollow" class="trm-toc-link" href="#区间问题"><span class="trm-toc-number">1.4.2.</span> <span class="trm-toc-text">区间问题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="选择不相交的区间"><a rel="nofollow" class="trm-toc-link" href="#选择不相交的区间"><span class="trm-toc-number">1.4.2.1.</span> <span class="trm-toc-text">选择不相交的区间</span></a></li><li class="trm-toc-item trm-toc-level-4" title="区间选点 完全覆盖：雷达安装"><a rel="nofollow" class="trm-toc-link" href="#区间选点-完全覆盖：雷达安装"><span class="trm-toc-number">1.4.2.2.</span> <span class="trm-toc-text">区间选点 完全覆盖：雷达安装</span></a></li><li class="trm-toc-item trm-toc-level-4" title="区间完全覆盖问题"><a rel="nofollow" class="trm-toc-link" href="#区间完全覆盖问题"><span class="trm-toc-number">1.4.2.3.</span> <span class="trm-toc-text">区间完全覆盖问题</span></a></li><li class="trm-toc-item trm-toc-level-4" title="区间并集：SDOI2005 区间"><a rel="nofollow" class="trm-toc-link" href="#区间并集：SDOI2005-区间"><span class="trm-toc-number">1.4.2.4.</span> <span class="trm-toc-text">区间并集：SDOI2005 区间</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="USACO08JAN - Telephone Lines"><a rel="nofollow" class="trm-toc-link" href="#USACO08JAN-Telephone-Lines"><span class="trm-toc-number">1.4.3.</span> <span class="trm-toc-text">USACO08JAN - Telephone Lines</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="扩展: 反悔贪心"><a rel="nofollow" class="trm-toc-link" href="#扩展-反悔贪心"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">扩展: 反悔贪心</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="不相邻植树问题"><a rel="nofollow" class="trm-toc-link" href="#不相邻植树问题"><span class="trm-toc-number">1.5.1.</span> <span class="trm-toc-text">不相邻植树问题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="简化题意"><a rel="nofollow" class="trm-toc-link" href="#简化题意"><span class="trm-toc-number">1.5.1.1.</span> <span class="trm-toc-text">简化题意</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions-4"><span class="trm-toc-number">1.5.1.2.</span> <span class="trm-toc-text">$Solutions$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="扩展的扩展: 环形不相邻植树问题"><a rel="nofollow" class="trm-toc-link" href="#扩展的扩展-环形不相邻植树问题"><span class="trm-toc-number">1.5.1.3.</span> <span class="trm-toc-text">扩展的扩展: 环形不相邻植树问题</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

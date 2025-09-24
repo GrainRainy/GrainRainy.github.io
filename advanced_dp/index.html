@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="进阶动态规划与常见题型包含：区间 $\rm dp$, 树形 $\rm dp$, 状压 $\rm dp$, 计数 $\rm dp$, 数位 $\rm dp$, 以及其他有一定难度的状态设计.  区间 $\rm dp$石子合并将若干个集合合并为一个集合, 每次合并付出一定代价, 求将所有集合合并为一个集合所付出的最小代价 考虑设 $f_{i, j}$ 表示将所有从第 $i$ 个集合到第 $j$ 个集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划进阶 | 常见题型总结">
+<meta property="og:url" content="http://example.com/advanced_dp/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="进阶动态规划与常见题型包含：区间 $\rm dp$, 树形 $\rm dp$, 状压 $\rm dp$, 计数 $\rm dp$, 数位 $\rm dp$, 以及其他有一定难度的状态设计.  区间 $\rm dp$石子合并将若干个集合合并为一个集合, 每次合并付出一定代价, 求将所有集合合并为一个集合所付出的最小代价 考虑设 $f_{i, j}$ 表示将所有从第 $i$ 个集合到第 $j$ 个集合">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2023-01-18T15:07:31.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.034Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="常见题型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >动态规划进阶 | 常见题型总结</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            动态规划进阶 | 常见题型总结
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        advanced_dp
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            01/18
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            23:07
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="进阶动态规划与常见题型"><a href="#进阶动态规划与常见题型" class="headerlink" title="进阶动态规划与常见题型"></a>进阶动态规划与常见题型</h1><p>包含：区间 $\rm dp$, 树形 $\rm dp$, 状压 $\rm dp$, 计数 $\rm dp$, 数位 $\rm dp$, 以及其他有一定难度的状态设计. </p>
+<h2 id="区间-rm-dp"><a href="#区间-rm-dp" class="headerlink" title="区间 $\rm dp$"></a>区间 $\rm dp$</h2><h3 id="石子合并"><a href="#石子合并" class="headerlink" title="石子合并"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1880">石子合并</a></h3><p>将若干个集合合并为一个集合, 每次合并付出一定代价, 求将所有集合合并为一个集合所付出的最小代价</p>
+<p>考虑设 $f_{i, j}$ 表示将所有从第 $i$ 个集合到第 $j$ 个集合合并为一个集合的合并方式</p>
+<h4 id="状态表示"><a href="#状态表示" class="headerlink" title="状态表示"></a>状态表示</h4><p>我们可以发现, 不论哪种合并方式, 最后一步均为将两个集合合并为一个集合, 因此可以以<strong>最后一次合并集合的分界线</strong>分类, 即可以将全集分为 $k - 1$ 个部分</p>
+<p><img src="https://pic.imgdb.cn/item/63c2d7f6be43e0d30ef83121.png"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>由此, 第三维度的 $k$ 仅需从 $1$ 枚举到 $j - 1$ 即可</p>
+<h4 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h4><p>状态的二维转移需要 $O(n^2)$, 枚举 $k$ 的时间为 $O(n)$, 因此总时间复杂度为 $O(n^3)$</p>
+<h4 id="Solutions"><a href="#Solutions" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><p>先从小到大枚举区间长度, 再从前往后枚举区间左端点, 最后枚举分割点的决策</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> s[N], f[N][N];</span><br><span class="line"><span class="comment">// s 存储前缀和</span></span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) cin &gt;&gt; s[i];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i ++) s[i] += s[i - <span class="number">1</span>]; <span class="comment">// 处理前缀和</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> len = <span class="number">2</span>; len &lt;= n; len ++) <span class="comment">// 枚举待合并的区间长度</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i + len - <span class="number">1</span> &lt;= n; i ++) &#123; <span class="comment">// 枚举区间位置</span></span><br><span class="line">        <span class="type">int</span> l = i, r = i + len - <span class="number">1</span>; <span class="comment">//  取出起始位置 </span></span><br><span class="line">        f[l][r] = INF; <span class="comment">// 初始化一个最大值, 循环找出最小值 </span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = l; k &lt; r; k ++)</span><br><span class="line">            f[l][r] = <span class="built_in">min</span>(f[l][r], f[l][k] + f[k + <span class="number">1</span>][r] + s[r] - s[l - <span class="number">1</span>]);</span><br><span class="line">        <span class="comment">// 按合并区间的分界线分类枚举 </span></span><br><span class="line">    &#125;</span><br><span class="line">cout &lt;&lt; f[<span class="number">1</span>][n] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="树形-rm-dp"><a href="#树形-rm-dp" class="headerlink" title="树形 $\rm dp$"></a>树形 $\rm dp$</h2><h3 id="典例-1-树的直径"><a href="#典例-1-树的直径" class="headerlink" title="典例 $1$ - 树的直径"></a>典例 $1$ - 树的直径</h3><h4 id="简化题意"><a href="#简化题意" class="headerlink" title="简化题意"></a>简化题意</h4><p>给定一棵树, 要求在 $O(n)$ 时间内求树的直径, 直径定义为树上任意两节点之间最长的简单路径. </p>
+<h4 id="Solution-："><a href="#Solution-：" class="headerlink" title="$Solution$："></a>$Solution$：</h4><p>尝试按边权分为两种情况：</p>
+<h5 id="1-当边权恒定时："><a href="#1-当边权恒定时：" class="headerlink" title="1.当边权恒定时："></a>1.当边权恒定时：</h5><ol>
+<li>任取一点作为起点, 找到距离该点最远的一个点 $u$</li>
+<li>找到距离 $u$ 最远的一个点 $v$</li>
+</ol>
+<h6 id="证明："><a href="#证明：" class="headerlink" title="证明："></a>证明：</h6><p>如需证明该方法的正确性, 只需证明任取一点 $a$ , 距离 $a$ 最远的一个点一定是树的一条直径的端点(起点)</p>
+<p>假设任取一点 $a$ , 距离 $a$ 最远的一个点 $u$ 不是树的一条直径的端点. 取出该树的直径 $bc$, 由于树整体连通的特性, $a$ 点一定可以到达 $c$ 点. 则会出现以下几种情况：</p>
+<ol>
+<li><p>$au$ 与 直径 $bc$ 相离</p>
+<p> 在两条边上分别任取两点 $x$ $y$ 如图</p>
+<p> <img src="https://pic.imgdb.cn/item/63c791fbbe43e0d30e1361ff.jpg"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p> 在上图中, 我们可以发现 $bu$ 两条边比直径更大, 不符合题意</p>
+</li>
+<li><p>$au$ 与 直径 $bc$ 相交</p>
+<p><img src="https://pic.imgdb.cn/item/63c79319be43e0d30e159a22.jpg"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>由于 $u$ 是距离 $a$ 最远的点, 所以边 $1$ 一定大于边 $2$, 因此我们又找到了一条比直径更长的边, 不符合题意</p>
+</li>
+</ol>
+<h5 id="2-当边权为任意实数时："><a href="#2-当边权为任意实数时：" class="headerlink" title="2.当边权为任意实数时："></a>2.当边权为任意实数时：</h5><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1074/">Acwing1072 - 树的最长路径</a></p>
+<p><strong>集合表示</strong></p>
+<p>在树中随意选择一个节点作为根节点, 将全集按照高度最高的点分类, 枚举时依照点枚举, 表示在当前点作为当前路径最高点的情况中路权最大值</p>
+<p>如果求一个点作为当前路径最高点的情况中路径的最大值, 只需提前处理它的子节点作为当前路径最高点的情况, 从中取路权<strong>最长值</strong>与<strong>次长值</strong>, 相加即为该点的路权最大值</p>
+<h4 id="Code"><a href="#Code" class="headerlink" title="$Code$"></a>$Code$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> father)</span></span>&#123;</span><br><span class="line"><span class="comment">// 返回从当前点向下搜索的最大长度  </span></span><br><span class="line"><span class="comment">// fahter 防止 dfs 反向搜索</span></span><br><span class="line">	<span class="type">int</span> dist = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> d1 = <span class="number">0</span>, d2 = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">// 表示以当前节点为起始位置, 向下搜索的最长距离与次长距离 </span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[u], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="keyword">if</span> (j == father) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="type">int</span> d = <span class="built_in">dfs</span>(j, u) + edge[i].w;</span><br><span class="line">		dist = <span class="built_in">max</span>(dist, d);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (d &gt;= d1) d2 = d1, d1 = d;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (d &gt; d2) d2 = d;</span><br><span class="line">		<span class="comment">// 对最大值和次大值进行维护 </span></span><br><span class="line">	&#125;</span><br><span class="line">	ans = <span class="built_in">max</span>(ans, d1 + d2);</span><br><span class="line">	<span class="keyword">return</span> dist;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(head, <span class="number">-1</span>, <span class="keyword">sizeof</span> head);</span><br><span class="line">	cin &gt;&gt; n; </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">		<span class="type">int</span> x, y, z;</span><br><span class="line">		cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;</span><br><span class="line">		<span class="built_in">add</span>(x, y, z);</span><br><span class="line">		<span class="built_in">add</span>(y, x, z);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 传入 father 参数, 防止向反方向前进导致 TLE</span></span><br><span class="line">	cout &lt;&lt; ans &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="扩展-寻找直径必经边-SDOI2013-直径"><a href="#扩展-寻找直径必经边-SDOI2013-直径" class="headerlink" title="扩展: 寻找直径必经边 SDOI2013 直径"></a>扩展: 寻找直径必经边 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3304">SDOI2013 直径</a></h4><h3 id="典例-2-树的中心"><a href="#典例-2-树的中心" class="headerlink" title="典例 $2$ - 树的中心"></a>典例 $2$ - <a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1075/">树的中心</a></h3><h4 id="简化题意-1"><a href="#简化题意-1" class="headerlink" title="简化题意"></a>简化题意</h4><p>给定一棵树, 找一个点使得该点到树中其他结点的最远距离最近. </p>
+<h4 id="Solutions-1"><a href="#Solutions-1" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><p>分别维护每个点到其他节点的最长距离, 在所有点的最远距离中取最小值</p>
+<p>对于一个节点到其他点的最长距离, 可以分为以下几类：</p>
+<ol>
+<li>向下行进的边<br>类似于 <strong>树的重心</strong>中的处理方式, 维护向下距离 $dist$ 即可 </li>
+<li>向上行进的边<br>将该边分成两个部分, 从该点向上行进到点 $u$ , 再判断 该点的 $dist$ 是否经过当前点<ol>
+<li>未经过当前点, 加上 $dist_u$ 即可</li>
+<li>走过当前点, 加上次长路径(除去当前值所在的子树)</li>
+</ol>
+</li>
+</ol>
+<h4 id="Solutions-2"><a href="#Solutions-2" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">int</span> d1[N], d2[N];</span><br><span class="line"><span class="comment">// d1 表示从该点向下行进的最长距离</span></span><br><span class="line"><span class="comment">// d2 表示从该点向下行进的次长距离 </span></span><br><span class="line"><span class="type">int</span> up[N];</span><br><span class="line"><span class="comment">// up 表示从当前点向上行进的最长距离 </span></span><br><span class="line"><span class="type">int</span> p1[N], p2[N];</span><br><span class="line"><span class="comment">// 用于存储最长边和次长边由哪里转移而来 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dfs_d</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> father)</span> </span>&#123;</span><br><span class="line"><span class="comment">// 求从 u 点向下走的最长路径 </span></span><br><span class="line">	d1[u] = d2[u] = -INF; <span class="comment">// 为对实数边权进行处理, 初始值赋为负无穷</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[u], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="keyword">if</span> (j == father) <span class="keyword">continue</span>; <span class="comment">// 如果该点是向上搜索的, 那么直接跳过</span></span><br><span class="line">		<span class="type">int</span> d = <span class="built_in">dfs_d</span>(j, u) + edge[i].w; <span class="comment">// 取出向下的最长距离 </span></span><br><span class="line">		<span class="keyword">if</span> (d &gt;= d1[u]) &#123;</span><br><span class="line">			d2[u] = d1[u], d1[u] = d;</span><br><span class="line">			p2[u] = p1[u], p1[u] = j;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (d &gt; d2[u]) d2[u] = d, p2[u] = j;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (d1[u] == -INF) d1[u] = d2[u] = <span class="number">0</span>; <span class="comment">// 对于叶节点的特殊处理 </span></span><br><span class="line">	<span class="keyword">return</span> d1[u];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs_u</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> father)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[u], j; ~i; i = edge[i].nxt)&#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="keyword">if</span> (j == father) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">if</span> (p1[u] == j) up[j] = <span class="built_in">max</span>(up[u], d2[u]) + edge[i].w;</span><br><span class="line">		<span class="comment">//  最长路径由该节点所在子树转移而来, 则使用次大值 </span></span><br><span class="line">		<span class="keyword">else</span> up[j] = <span class="built_in">max</span>(up[u], d1[u]) + edge[i].w;</span><br><span class="line">		<span class="built_in">dfs_u</span>(j, u);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(head, <span class="number">-1</span>, <span class="keyword">sizeof</span> head);</span><br><span class="line">	cin &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, x, y, z; i &lt; n - <span class="number">1</span>; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;</span><br><span class="line">		<span class="built_in">add</span>(x, y, z), <span class="built_in">add</span>(y, x, z);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">dfs_d</span>(<span class="number">1</span>, <span class="number">-1</span>); <span class="comment">// 向下搜索 </span></span><br><span class="line">	<span class="built_in">dfs_u</span>(<span class="number">1</span>, <span class="number">-1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> res = INF;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">		res = <span class="built_in">min</span>(res, <span class="built_in">max</span>(d1[i], up[i]));</span><br><span class="line">	cout &lt;&lt; res &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="典例-3-CF685B-树的重心"><a href="#典例-3-CF685B-树的重心" class="headerlink" title="典例 $3$ - CF685B - 树的重心"></a>典例 $3$ - <a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/685/B">CF685B - 树的重心</a></h3><h4 id="简化题意-2"><a href="#简化题意-2" class="headerlink" title="简化题意"></a>简化题意</h4><p>给定一棵树和若干询问, 询问以 $x$ 为根节点的子树的重心</p>
+<p>对于树上的每一个点, 计算其所有子树中最大子树的节点数, 这个值最小的点就是这棵树的重心. </p>
+<h4 id="Solution"><a href="#Solution" class="headerlink" title="$Solution$"></a>$Solution$</h4><p>首先我们需要了解树重心的性质：</p>
+<ol>
+<li><p>以树的重心为根时, 所有子树的大小都不超过整棵树大小的一半. </p>
+</li>
+<li><p>树中所有点到某个点的距离和中, 到重心的距离和是最小的（如果有两个重心, 那么到它们的距离和相同）. </p>
+</li>
+<li><p>把两棵树通过一条边相连得到一棵新的树, 那么新的树的重心在连接原来两棵树的重心的路径上. </p>
+</li>
+<li><p>在一棵树上添加或删除一个叶子, 那么它的重心最多只移动一条边的距离.</p>
+</li>
+</ol>
+<p>考虑先维护 $core_i$ 表示以 $i$ 为根节点的子树重心, 再进行离线访问</p>
+<p>当枚举点 $x$ 的所有子树 $y$, 若 $x$ 的子树重心在 $y$ 子树中, 则一定在 $y$ 子树重心上方</p>
+<p>因此, 我们维护指针 $pos$, 不断从 $y$ 子树重心向上跳, 并进行更新即可</p>
+<p>发现 $pos$ 最多只会将每个点遍历一次, 因此预处理时间复杂度可以做到 $O(n)$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> father[N], siz[N], mx[N], core[N];</span><br><span class="line"><span class="comment">// 维护每个点的祖先, 以当前点为根的子树大小, 最大的子树大小</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> root)</span> </span>&#123;</span><br><span class="line">	siz[root] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[root], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="built_in">dfs</span>(j);</span><br><span class="line">		siz[root] += siz[j];</span><br><span class="line">		mx[root] = <span class="built_in">max</span>(mx[root], siz[j]);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> id = root, mn = mx[root];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[root], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="type">int</span> step = core[j], val = <span class="built_in">max</span>(mx[step], siz[root] - siz[step]);</span><br><span class="line">		<span class="type">int</span> pos = step;</span><br><span class="line">		<span class="keyword">while</span> (father[step] != root) &#123;</span><br><span class="line">			step = father[step];</span><br><span class="line">			<span class="type">int</span> nw = <span class="built_in">max</span>(mx[step], siz[root] - siz[step]);</span><br><span class="line">			<span class="keyword">if</span> (nw &lt; val) val = nw, pos = step; <span class="comment">// update</span></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (mn &gt; val) mn = val, id = pos;</span><br><span class="line">	&#125;</span><br><span class="line">	core[root] = id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="典例-4-最大独立集问题：没有上司的舞会"><a href="#典例-4-最大独立集问题：没有上司的舞会" class="headerlink" title="典例 $4$ - 最大独立集问题：没有上司的舞会"></a>典例 $4$ - 最大独立集问题：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1352">没有上司的舞会</a></h3><h4 id="简化题意-3"><a href="#简化题意-3" class="headerlink" title="简化题意"></a>简化题意</h4><p>在树中选带权点, 使得任意两个点都不相邻, 求最大权值</p>
+<h4 id="Solution-1"><a href="#Solution-1" class="headerlink" title="$Solution$"></a>$Solution$</h4><p>考虑设 $f_{i, 0&#x2F;1}$ 表示是否选择 $i$ 这个点, 任选一个入度为 $0$ 的点, 依据当前点的状态更新连向点的状态, 并递归处理. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> root)</span> </span>&#123;</span><br><span class="line">	f[u][<span class="number">1</span>] = r[u], f[u][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = head[u], j; ~i; i = edge[i].nxt)&#123;</span><br><span class="line">		j = edge[i].to;</span><br><span class="line">		<span class="built_in">dfs</span>(j);</span><br><span class="line">		f[u][<span class="number">1</span>] += f[j][<span class="number">0</span>];</span><br><span class="line">		f[u][<span class="number">0</span>] += <span class="built_in">max</span>(f[j][<span class="number">1</span>], f[j][<span class="number">0</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="状压-rm-dp"><a href="#状压-rm-dp" class="headerlink" title="状压 $\rm dp$"></a>状压 $\rm dp$</h2><h3 id="经典模型"><a href="#经典模型" class="headerlink" title="经典模型"></a>经典模型</h3><h4 id="旅行商问题：吃奶酪"><a href="#旅行商问题：吃奶酪" class="headerlink" title="旅行商问题：吃奶酪"></a>旅行商问题：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1433">吃奶酪</a></h4><p>考虑二进制每一位 $0&#x2F;1$ 表示是否经过该点, 设 $dp_{i, j}$ 表示状态为 $i$, 最后停在 $j$, 转移枚举从哪个点到 $j$ 的. </p>
+<p>注意初始化</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    f[i][<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>)] = <span class="built_in">dist</span>(dots[i], dots[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>枚举状态转移</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; (<span class="number">1</span> &lt;&lt; n); j ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">        <span class="keyword">if</span> ((j &gt;&gt; (i - <span class="number">1</span>)) &amp; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= n; k ++) </span><br><span class="line">                <span class="keyword">if</span> (((j &gt;&gt; (k - <span class="number">1</span>)) &amp; <span class="number">1</span>) &amp;&amp; k != i)</span><br><span class="line">                    f[i][j] = <span class="built_in">min</span>(f[i][j], f[k][j - (<span class="number">1</span> &lt;&lt; (i - <span class="number">1</span>))] + <span class="built_in">dist</span>(dots[i], dots[k]));</span><br></pre></td></tr></table></figure>
+
+<h4 id="轮廓线-rm-dp-：一双木棋"><a href="#轮廓线-rm-dp-：一双木棋" class="headerlink" title="轮廓线 $\rm dp$：一双木棋"></a>轮廓线 $\rm dp$：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4363">一双木棋</a></h4><p><del>手切 $\sout{2018}$ 联合省选 $\sout{\rm Day2\ T1}$</del></p>
+<p>考虑使用状压记录当前轮廓线形状, 如 $1$ 表示向下的轮廓, $0$ 表示向右的轮廓, 每次转移时找到 $0$ $1$ 交界处转移即可. </p>
+<p><img src="https://pic.imgdb.cn/item/64985cfd1ddac507ccd38e60.jpg"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(f, <span class="number">0xff</span>, <span class="keyword">sizeof</span> f);</span><br><span class="line">f[((<span class="number">1</span> &lt;&lt; n) - <span class="number">1</span>) &lt;&lt; m] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dp</span><span class="params">(<span class="type">int</span> s, <span class="type">bool</span> p)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (~f[s]) <span class="keyword">return</span> f[s];</span><br><span class="line">	f[s] = p ? -INF : INF;</span><br><span class="line">	<span class="type">int</span> x = n, y = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n + m - <span class="number">1</span>; ++ i) &#123;</span><br><span class="line">		(s &gt;&gt; i &amp; <span class="number">1</span>) ? x -- : y ++;</span><br><span class="line">		<span class="keyword">if</span> ((s &gt;&gt; i &amp; <span class="number">3</span>) != <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">if</span> (p) f[s] = <span class="built_in">max</span>(f[s], <span class="built_in">dp</span>(s ^ (<span class="number">3</span> &lt;&lt; i), p ^ <span class="number">1</span>) + a[x][y]);</span><br><span class="line">		<span class="keyword">else</span> f[s] = <span class="built_in">min</span>(f[s], <span class="built_in">dp</span>(s ^ (<span class="number">3</span> &lt;&lt; i), p ^ <span class="number">1</span>) - b[x][y]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[s];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="状压拓展-子集枚举"><a href="#状压拓展-子集枚举" class="headerlink" title="状压拓展: 子集枚举"></a>状压拓展: 子集枚举</h3><h4 id="子集枚举的时间复杂度分析-text-for-text-T-in-text-S"><a href="#子集枚举的时间复杂度分析-text-for-text-T-in-text-S" class="headerlink" title="子集枚举的时间复杂度分析 $\text{for}\ \text{T} \in \text{S}$"></a>子集枚举的时间复杂度分析 $\text{for}\ \text{T} \in \text{S}$</h4><p>首先枚举 $\text{T}$ 集合大小 $k$：$\sum \limits_{k &#x3D; 0}^{n}$. </p>
+<p>大小为 $k$ 的集合数量共有：$\binom{n}{k}$ 个. </p>
+<p>大小为 $k$ 的子集数量共有：$2^k$ 个. </p>
+<p>根据二项式定理, 得</p>
+<p>$$<br>\sum \limits_{k &#x3D; 0}^{n} \binom{n}{k} 2^k &#x3D;<br>\sum \limits_{k &#x3D; 0}^{n} \binom{n}{k} 1^{n - k} \cdot 2^k &#x3D; ( 2 + 1 )^n &#x3D; 3^n.<br>$$</p>
+<p>$3^n$ 一般能过 $n \le 15$ 的数据. </p>
+<hr>
+<h2 id="计数类-rm-dp"><a href="#计数类-rm-dp" class="headerlink" title="计数类 $\rm dp$"></a>计数类 $\rm dp$</h2><h3 id="整数划分"><a href="#整数划分" class="headerlink" title="整数划分"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/902/">整数划分</a></h3><h4 id="完全背包解"><a href="#完全背包解" class="headerlink" title="完全背包解"></a>完全背包解</h4><p>$f_{i, j}$ 表示从 $1 \sim i$ 中选并且总和等于 $j$ 的所有选法集合, 可得状态转移方程：</p>
+<p>$$f_{i, j} &#x3D; f_{i - 1, j} + f_{i, j - i}$$</p>
+<p>类比于完全背包的一维优化, 优化后的状态转移方程：</p>
+<p>$$f_j &#x3D; f_j + f_{j - i}$$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, f[N];</span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n;</span><br><span class="line">f[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = i; j &lt;= n; j ++)</span><br><span class="line">        f[j] = (f[j] + f[j - i]) % MOD;</span><br><span class="line">cout &lt;&lt; f[n] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他解法"><a href="#其他解法" class="headerlink" title="其他解法"></a>其他解法</h4><h5 id="状态表示-1"><a href="#状态表示-1" class="headerlink" title="状态表示"></a>状态表示</h5><p>$f_{i, j}$ 表示所有总和为 $i$ , 并且恰好表示为 $j$ 个数的和的方案数集合</p>
+<h5 id="状态计算"><a href="#状态计算" class="headerlink" title="状态计算"></a>状态计算</h5><p>将全集按照<strong>所有拆分成的数字</strong>分为：</p>
+<ol>
+<li>拆分成的数字中最小值为 $1$</li>
+<li>拆分成的数字中最小值不为 $1$</li>
+</ol>
+<ul>
+<li>那么如何表示这两种状态呢 ？</li>
+</ul>
+<p>对于第一种情况, 如果将其中的一个 $1$ 删除, 则可以从前面的状态转移到此状态且<strong>并不影响总方案数</strong>, 则该状态表示为 $f_{i - 1, j - 1}$</p>
+<p>对于第二种情况, 如果将所有数都减去 $1$ , 在能够从前面状态转移到此状态的前提下<strong>仍能保证集合中的数均为正整数</strong>, 则该状态表示为 $f_{i - j, j}$</p>
+<p>则有：$f_{i, j} &#x3D; f_{i - 1, j - 1} + f_{i - j, j}$</p>
+<p>值得注意的是, 题目要求输出一个正整数 $n$ 的所有拆分方案, 而以上的状态转移方程<strong>仅限于正整数 $i$ 拆分为 $j$ 个数</strong>, 因此对于所有方案的计算, 只需：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++) ans += f[n][i];</span><br></pre></td></tr></table></figure>
+
+<h5 id="Solutions-3"><a href="#Solutions-3" class="headerlink" title="$Solutions$"></a>$Solutions$</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, f[N][N], res;</span><br><span class="line">cin &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">f[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= i; j ++)</span><br><span class="line">        f[i][j] = (f[i - <span class="number">1</span>][j - <span class="number">1</span>] + f[i - j][j]) % MOD;</span><br><span class="line">        </span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">    res = (res + f[n][i]) % MOD;</span><br><span class="line">cout &lt;&lt; res &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="数位-rm-dp"><a href="#数位-rm-dp" class="headerlink" title="数位 $\rm dp$"></a>数位 $\rm dp$</h2><ul>
+<li>一般都是寻找特定区间内满足一定条件的数的个数.</li>
+</ul>
+<p>另外, 由于数位 $\rm dp$ 转移较为麻烦, 因此常采用记忆化搜索的方式. </p>
+<p>记忆化搜索函数传入的参数:</p>
+<ul>
+<li>枚举到的数字位数 $pos$</li>
+<li>最高位限制 $lim$</li>
+<li>前导 $0$ $zeo$</li>
+<li>另外的参数视题目而定</li>
+</ul>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="数位和整除原数"><a href="#数位和整除原数" class="headerlink" title="数位和整除原数"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4127">数位和整除原数</a></h4><hr>
+<h2 id="较难的状态设计"><a href="#较难的状态设计" class="headerlink" title="较难的状态设计"></a>较难的状态设计</h2><hr>
+<h2 id="环形-dp-与后效性处理"><a href="#环形-dp-与后效性处理" class="headerlink" title="环形 dp 与后效性处理"></a>环形 dp 与后效性处理</h2><h3 id=""><a href="#" class="headerlink" title=""></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4610"></a></h3>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Minimum_Spanning_Tree/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/64b010071ddac507cc7679e3.jpg">
+                </span>
+                <h6 class="trm-op-title">最小生成树 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/01/20</li>
+                <li>21:16</li>
+                <li>图论</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Shortest_Paths/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/63d53e8aface21e9efc274a0.jpg">
+                </span>
+                <h6 class="trm-op-title">最短路算法 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/01/17</li>
+                <li>15:42</li>
+                <li>图论</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="进阶动态规划与常见题型"><a rel="nofollow" class="trm-toc-link" href="#进阶动态规划与常见题型"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">进阶动态规划与常见题型</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="区间 $\rm dp$"><a rel="nofollow" class="trm-toc-link" href="#区间-rm-dp"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">区间 $\rm dp$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="石子合并"><a rel="nofollow" class="trm-toc-link" href="#石子合并"><span class="trm-toc-number">1.1.1.</span> <span class="trm-toc-text">石子合并</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="状态表示"><a rel="nofollow" class="trm-toc-link" href="#状态表示"><span class="trm-toc-number">1.1.1.1.</span> <span class="trm-toc-text">状态表示</span></a></li><li class="trm-toc-item trm-toc-level-4" title="时间复杂度分析"><a rel="nofollow" class="trm-toc-link" href="#时间复杂度分析"><span class="trm-toc-number">1.1.1.2.</span> <span class="trm-toc-text">时间复杂度分析</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions"><span class="trm-toc-number">1.1.1.3.</span> <span class="trm-toc-text">$Solutions$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="树形 $\rm dp$"><a rel="nofollow" class="trm-toc-link" href="#树形-rm-dp"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">树形 $\rm dp$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="典例 $1$ - 树的直径"><a rel="nofollow" class="trm-toc-link" href="#典例-1-树的直径"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">典例 $1$ - 树的直径</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="简化题意"><a rel="nofollow" class="trm-toc-link" href="#简化题意"><span class="trm-toc-number">1.2.1.1.</span> <span class="trm-toc-text">简化题意</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solution$："><a rel="nofollow" class="trm-toc-link" href="#Solution-："><span class="trm-toc-number">1.2.1.2.</span> <span class="trm-toc-text">$Solution$：</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Code$"><a rel="nofollow" class="trm-toc-link" href="#Code"><span class="trm-toc-number">1.2.1.3.</span> <span class="trm-toc-text">$Code$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="扩展: 寻找直径必经边 SDOI2013 直径"><a rel="nofollow" class="trm-toc-link" href="#扩展-寻找直径必经边-SDOI2013-直径"><span class="trm-toc-number">1.2.1.4.</span> <span class="trm-toc-text">扩展: 寻找直径必经边 SDOI2013 直径</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="典例 $2$ - 树的中心"><a rel="nofollow" class="trm-toc-link" href="#典例-2-树的中心"><span class="trm-toc-number">1.2.2.</span> <span class="trm-toc-text">典例 $2$ - 树的中心</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="简化题意"><a rel="nofollow" class="trm-toc-link" href="#简化题意-1"><span class="trm-toc-number">1.2.2.1.</span> <span class="trm-toc-text">简化题意</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions-1"><span class="trm-toc-number">1.2.2.2.</span> <span class="trm-toc-text">$Solutions$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions-2"><span class="trm-toc-number">1.2.2.3.</span> <span class="trm-toc-text">$Solutions$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="典例 $3$ - CF685B - 树的重心"><a rel="nofollow" class="trm-toc-link" href="#典例-3-CF685B-树的重心"><span class="trm-toc-number">1.2.3.</span> <span class="trm-toc-text">典例 $3$ - CF685B - 树的重心</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="简化题意"><a rel="nofollow" class="trm-toc-link" href="#简化题意-2"><span class="trm-toc-number">1.2.3.1.</span> <span class="trm-toc-text">简化题意</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solution$"><a rel="nofollow" class="trm-toc-link" href="#Solution"><span class="trm-toc-number">1.2.3.2.</span> <span class="trm-toc-text">$Solution$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="典例 $4$ - 最大独立集问题：没有上司的舞会"><a rel="nofollow" class="trm-toc-link" href="#典例-4-最大独立集问题：没有上司的舞会"><span class="trm-toc-number">1.2.4.</span> <span class="trm-toc-text">典例 $4$ - 最大独立集问题：没有上司的舞会</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="简化题意"><a rel="nofollow" class="trm-toc-link" href="#简化题意-3"><span class="trm-toc-number">1.2.4.1.</span> <span class="trm-toc-text">简化题意</span></a></li><li class="trm-toc-item trm-toc-level-4" title="$Solution$"><a rel="nofollow" class="trm-toc-link" href="#Solution-1"><span class="trm-toc-number">1.2.4.2.</span> <span class="trm-toc-text">$Solution$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="状压 $\rm dp$"><a rel="nofollow" class="trm-toc-link" href="#状压-rm-dp"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">状压 $\rm dp$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="经典模型"><a rel="nofollow" class="trm-toc-link" href="#经典模型"><span class="trm-toc-number">1.3.1.</span> <span class="trm-toc-text">经典模型</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="旅行商问题：吃奶酪"><a rel="nofollow" class="trm-toc-link" href="#旅行商问题：吃奶酪"><span class="trm-toc-number">1.3.1.1.</span> <span class="trm-toc-text">旅行商问题：吃奶酪</span></a></li><li class="trm-toc-item trm-toc-level-4" title="轮廓线 $\rm dp$：一双木棋"><a rel="nofollow" class="trm-toc-link" href="#轮廓线-rm-dp-：一双木棋"><span class="trm-toc-number">1.3.1.2.</span> <span class="trm-toc-text">轮廓线 $\rm dp$：一双木棋</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="状压拓展: 子集枚举"><a rel="nofollow" class="trm-toc-link" href="#状压拓展-子集枚举"><span class="trm-toc-number">1.3.2.</span> <span class="trm-toc-text">状压拓展: 子集枚举</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="子集枚举的时间复杂度分析 $\text{for}\ \text{T} \in \text{S}$"><a rel="nofollow" class="trm-toc-link" href="#子集枚举的时间复杂度分析-text-for-text-T-in-text-S"><span class="trm-toc-number">1.3.2.1.</span> <span class="trm-toc-text">子集枚举的时间复杂度分析 $\text{for}\ \text{T} \in \text{S}$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="计数类 $\rm dp$"><a rel="nofollow" class="trm-toc-link" href="#计数类-rm-dp"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">计数类 $\rm dp$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="整数划分"><a rel="nofollow" class="trm-toc-link" href="#整数划分"><span class="trm-toc-number">1.4.1.</span> <span class="trm-toc-text">整数划分</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="完全背包解"><a rel="nofollow" class="trm-toc-link" href="#完全背包解"><span class="trm-toc-number">1.4.1.1.</span> <span class="trm-toc-text">完全背包解</span></a></li><li class="trm-toc-item trm-toc-level-4" title="其他解法"><a rel="nofollow" class="trm-toc-link" href="#其他解法"><span class="trm-toc-number">1.4.1.2.</span> <span class="trm-toc-text">其他解法</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="数位 $\rm dp$"><a rel="nofollow" class="trm-toc-link" href="#数位-rm-dp"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">数位 $\rm dp$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="例题"><a rel="nofollow" class="trm-toc-link" href="#例题"><span class="trm-toc-number">1.5.1.</span> <span class="trm-toc-text">例题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="数位和整除原数"><a rel="nofollow" class="trm-toc-link" href="#数位和整除原数"><span class="trm-toc-number">1.5.1.1.</span> <span class="trm-toc-text">数位和整除原数</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="较难的状态设计"><a rel="nofollow" class="trm-toc-link" href="#较难的状态设计"><span class="trm-toc-number">1.6.</span> <span class="trm-toc-text">较难的状态设计</span></a></li><li class="trm-toc-item trm-toc-level-2" title="环形 dp 与后效性处理"><a rel="nofollow" class="trm-toc-link" href="#环形-dp-与后效性处理"><span class="trm-toc-number">1.7.</span> <span class="trm-toc-text">环形 dp 与后效性处理</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title=""><a class="trm-toc-link"><span class="trm-toc-number">1.7.1.</span> <span class="trm-toc-text"></span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

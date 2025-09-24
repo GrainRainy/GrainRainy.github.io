@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="单源最短路 $Single\ Source\ Shortest\ Path$源点指起点, 单源最短路径问题即为求一个点到另一个点的最短路.  $\rm Dijkstra$ 基于贪心的思想.  仅适用于正数边权.  使用 $n$ 表示点集, $m$ 表示边集, 朴素版 $Dijkstra$ 时间复杂度为 $O(n^2)$ , 二叉堆优化的 $Dijkstra$ 时间复杂度为 $O(m \cdot l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路算法 | 学习笔记">
+<meta property="og:url" content="http://example.com/Shortest_Paths/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="单源最短路 $Single\ Source\ Shortest\ Path$源点指起点, 单源最短路径问题即为求一个点到另一个点的最短路.  $\rm Dijkstra$ 基于贪心的思想.  仅适用于正数边权.  使用 $n$ 表示点集, $m$ 表示边集, 朴素版 $Dijkstra$ 时间复杂度为 $O(n^2)$ , 二叉堆优化的 $Dijkstra$ 时间复杂度为 $O(m \cdot l">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-17T07:42:34.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.029Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+
+
+<title >最短路算法 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            最短路算法 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        Shortest_Paths
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            01/17
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            15:42
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="单源最短路-Single-Source-Shortest-Path"><a href="#单源最短路-Single-Source-Shortest-Path" class="headerlink" title="单源最短路 $Single\ Source\ Shortest\ Path$"></a>单源最短路 $Single\ Source\ Shortest\ Path$</h1><p>源点指起点, 单源最短路径问题即为求一个点到另一个点的最短路. </p>
+<h2 id="rm-Dijkstra"><a href="#rm-Dijkstra" class="headerlink" title="$\rm Dijkstra$"></a>$\rm Dijkstra$</h2><ul>
+<li>基于贪心的思想. </li>
+<li>仅适用于正数边权.</li>
+</ul>
+<p>使用 $n$ 表示点集, $m$ 表示边集, 朴素版 $Dijkstra$ 时间复杂度为 $O(n^2)$ , 二叉堆优化的 $Dijkstra$ 时间复杂度为 $O(m \cdot log_2n)$. </p>
+<p>由于朴素版 $Dijkstra$ 时间复杂度与边数没有关系, 因此<strong>稠密图适合使用朴素版 $Dijkstra$</strong>. </p>
+<h3 id="朴素版-O-n-2"><a href="#朴素版-O-n-2" class="headerlink" title="朴素版 $O(n^2)$"></a>朴素版 $O(n^2)$</h3><p>$Dijkstra$ 算法的基本思想有以下几步：</p>
+<ol>
+<li>初始化距离 $dist$ <code>dist[1] = 0, dist[i] = INF</code></li>
+<li>循环 $n$ 次重复找到当前位置能确定的 (且未被标记的), 距源点最近的节点 $x$, 放入标记最短距离的点 $s$ 数组, 再用该点更新与之最近的点.</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> map[N][N];</span><br><span class="line"><span class="comment">// 邻接矩阵存图</span></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="comment">// 存储点的距离 </span></span><br><span class="line"><span class="type">bool</span> st[N]; </span><br><span class="line"><span class="comment">// 存储已经确定最短距离的点 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">	dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i ++) &#123; <span class="comment">// 迭代 n 次求最短路 </span></span><br><span class="line">		<span class="type">int</span> t = <span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++)</span><br><span class="line">			<span class="keyword">if</span> (!st[j] &amp;&amp; (t == <span class="number">-1</span> <span class="keyword">or</span> dist[t] &gt; dist[j]))</span><br><span class="line">				t = j; <span class="comment">// 更新可扩展的最短路径 </span></span><br><span class="line">		st[t] = <span class="literal">true</span>; <span class="comment">// t 已确定最小值, 标记为最短</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++)</span><br><span class="line">			dist[j] = <span class="built_in">min</span>(dist[j], dist[t] + map[t][j]);</span><br><span class="line">			<span class="comment">// 使用 t 对新的最短边进行更新</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (dist[n] == <span class="number">0x3f3f3f3f</span>) <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">// 特判无解 </span></span><br><span class="line">	<span class="keyword">return</span> dist[n]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二叉堆优化"><a href="#二叉堆优化" class="headerlink" title="二叉堆优化"></a>二叉堆优化</h3><p>在上述算法中, 我们枚举了所有点 $n$ 以及与该点相连的其他点, 因此 $\rm Dijkstra$ 未优化时的时间复杂度为 $O(n^2)$</p>
+<p>在此基础上, 如果使用 $\rm STL$ 二叉堆对 $dis$ 数组进行维护, 可以达到 $O(m \cdot \log _2 n)$ 的时间复杂度</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N]; </span><br><span class="line">priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;</span><br><span class="line"><span class="comment">// 小根堆, 每次取出距离源点最近的点</span></span><br><span class="line"><span class="comment">// 双关键字, 节点大小以及节点编号 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dijkstra</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">	dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">	heap.<span class="built_in">push</span>(&#123;<span class="number">0</span>, <span class="number">1</span>&#125;);</span><br><span class="line">	<span class="keyword">while</span> (heap.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		PII t = heap.<span class="built_in">top</span>(); heap.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="type">int</span> cur = t.second; <span class="comment">// 节点编号</span></span><br><span class="line">		<span class="keyword">if</span> (st[cur]) <span class="keyword">continue</span>; <span class="comment">// 当已经确定该点的最短路径时, 代表当前队列中存储的元素冗余, 直接跳过</span></span><br><span class="line">		st[cur] = <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = head[cur], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">			j = edge[i].to;</span><br><span class="line">			<span class="keyword">if</span> (dist[j] &gt; dist[cur] + edge[i].w) &#123;</span><br><span class="line">				dist[j] = dist[cur] + edge[i].w;</span><br><span class="line">				heap.<span class="built_in">push</span>(&#123;dist[j], j&#125;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="rm-Bellman-Ford"><a href="#rm-Bellman-Ford" class="headerlink" title="$\rm Bellman - Ford$"></a>$\rm Bellman - Ford$</h2><ul>
+<li>适用于对经过的边数有限制的最短路问题. </li>
+<li>可适用于负权边. </li>
+<li>时间复杂度 $O(m \cdot n)$.</li>
+</ul>
+<h3 id="基本过程"><a href="#基本过程" class="headerlink" title="基本过程"></a>基本过程</h3><ol>
+<li>进行 $n$ 次迭代, 迭代 $k$ 次表示经过不超过 $k$ 条边所能到达的点的最短路. </li>
+<li>遍历所有边 $a$, $b$, $w$ 表示从 $a$ 到 $b$ 存在边权为 $w$ 的边. </li>
+<li>松弛操作 <code>dist[b] = min(dist[b], dist[a] + w)</code>.</li>
+</ol>
+<p>另外, 如果在迭代 $n$ 次之后再次迭代仍可更新, 则代表图中存在负环. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n, m, k;</span><br><span class="line"><span class="type">int</span> dist[N], last[N];</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">	<span class="type">int</span> a, b, w;</span><br><span class="line">&#125;edge[M];</span><br><span class="line"><span class="comment">// 表示从 a 到 b 有一条边权为 w 的边 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bellman_ford</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">	dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; i ++) &#123;</span><br><span class="line">		<span class="built_in">memcpy</span>(last, dist, <span class="keyword">sizeof</span> dist);</span><br><span class="line">		<span class="comment">// 备份 dist, 存储上一次迭代结果</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; m; j ++) &#123;</span><br><span class="line">			<span class="type">int</span> a = edge[j].a, b = edge[j].b, w = edge[j].w;</span><br><span class="line">			dist[b] = <span class="built_in">min</span>(dist[b], last[a] + w);</span><br><span class="line">			<span class="comment">// 使用上一次迭代结果更新, 防止前面的结果影响后面 </span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, a, b, w; i &lt; m; i ++) &#123;</span><br><span class="line">		cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;</span><br><span class="line">		edge[i] = &#123;a, b, w&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">bellman_ford</span>();</span><br><span class="line">	<span class="keyword">if</span> (dist[n] &gt; <span class="number">0x3f3f3f3f</span> / <span class="number">2</span>) <span class="built_in">puts</span>(<span class="string">&quot;impossible&quot;</span>);</span><br><span class="line">	<span class="keyword">else</span> cout &lt;&lt; dist[n] &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="rm-spfa"><a href="#rm-spfa" class="headerlink" title="$\rm spfa$"></a>$\rm spfa$</h2><h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><p>此时我们再观察 $\rm Bellman\ Ford$ 算法的公式 <code>dist[b] = min(dist[b], dist[a] + w[i])</code> , 会发现只有在 <code>dist[a]</code> 减小之后, <code>dist[b]</code> 才有可能进行更新, 因此我们可以将与 <code>dist[]</code> 减小点相连的点全部入队, 每次进行松弛操作, 可以达到减少循环的效果. </p>
+<p><strong>具体实现可以分为以下几步：</strong></p>
+<ol>
+<li>将起点放入队列. </li>
+<li>当队列不空时, 取出队头 $t$. </li>
+<li>更新 $t$ 的所有出边. </li>
+<li>如果 $t$ 更新到的点不在队列中, 将该点距离更新并加入队列.</li>
+</ol>
+<h3 id="rm-spfa-特点"><a href="#rm-spfa-特点" class="headerlink" title="$\rm spfa$ 特点"></a>$\rm spfa$ 特点</h3><ul>
+<li>可适用于负数边权. </li>
+<li>不可用于负环. </li>
+<li>平均时间复杂度 $O(m)$, 由于常数问题, 最坏情况下时间复杂度为 $O(n \cdot m)$, 经常被<del>毒瘤</del>出题人卡常.</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">spfa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">	dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	queue&lt;<span class="type">int</span>&gt; q; <span class="comment">// 存储所有待更新的点 </span></span><br><span class="line">	q.<span class="built_in">push</span>(<span class="number">1</span>); st[<span class="number">1</span>] = <span class="literal">true</span>; <span class="comment">// st 存储当前点是否在队列中</span></span><br><span class="line">	<span class="keyword">while</span> (q.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		<span class="type">int</span> t = q.<span class="built_in">front</span>();</span><br><span class="line">		q.<span class="built_in">pop</span>(), st[t] = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = head[t], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">			j = edge[i].to;</span><br><span class="line">			<span class="keyword">if</span> (dist[j] &gt; dist[t] + edge[i].w) &#123;</span><br><span class="line">				dist[j] = dist[t] + edge[i].w;</span><br><span class="line">				<span class="keyword">if</span> (!st[j]) q.<span class="built_in">push</span>(j), st[j] = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rm-spfa-判负环"><a href="#rm-spfa-判负环" class="headerlink" title="$\rm spfa$ 判负环"></a>$\rm spfa$ 判负环</h3><p>在使用 $spfa$ 判断负环时, 只需要多存储从<strong>源点到该点的边数</strong> <code>cnt[]</code>, 当 <code>cnt[x] &gt;= n</code> 时, 表示经过了大于 $n$ 条边, 由抽屉原理可得, 图中必定存在负环. </p>
+<p>使用 <code>cnt[]</code> 数组存储最短路径长度, 在 <code>dist[j] = dist[t] + edge[i].w</code> 更新时记录路径长度 <code>cnt[j] = cnt[t] + 1</code> , 大于等于 $n$ 返回即可. </p>
+<p>或存储入队次数, 若入队大于 $n$ 此次则存在负环. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; PII;</span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> dist[N], cnt[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">spfa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) st[i] = <span class="literal">true</span>, q.<span class="built_in">push</span>(i);</span><br><span class="line">	<span class="keyword">while</span> (q.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		<span class="type">int</span> t = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">		st[t] = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = head[t], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">			j = edge[i].to;</span><br><span class="line">			<span class="keyword">if</span> (dist[j] &gt; dist[t] + edge[i].w) &#123;</span><br><span class="line">				dist[j] = dist[t] + edge[i].w;</span><br><span class="line">				cnt[j] = cnt[t] + <span class="number">1</span>;</span><br><span class="line">				<span class="keyword">if</span> (cnt[j] &gt;= n) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">				<span class="keyword">if</span> (!st[j]) q.<span class="built_in">push</span>(j), st[j] = <span class="literal">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rm-spfa-与差分约束系统"><a href="#rm-spfa-与差分约束系统" class="headerlink" title="$\rm spfa$ 与差分约束系统"></a>$\rm spfa$ 与差分约束系统</h3><p>差分约束系统, 指若干个形如 $x_i - x_j \leqslant w$ 的不等式. </p>
+<p>可以用 $\rm spfa$ 求对于给定的一组差分约束系统中各变量的一个特解. </p>
+<p>尝试将 $x_i - x_j \leqslant a$ 转化为图论模型. 原式等价于 $x_i \leqslant x_j + w$ 将 $x_i$ 视为从起点到 $i$ 的最短路, 则原式的实际意义为点 $j$ 到点 $i$ 的距离不超过 $w$, 即从 $j$ 向 $i$ 连一条边权为 $w$ 的边, $\rm spfa$ 最终跑出最短路的 $\rm dist_i$ 即为原式的一组特解. </p>
+<p>另外, 由这样的不等式组成的图可能出现负环, 当一个点入队 $n + 1$ 次时, 根据抽屉原理, 必然出现一条边被经过两次, 即出现负环. </p>
+<p>具体实现上需要注意的是, 原图也可能出现不连通的情况. 因此需要建立超级源点或初始时将所有点入队. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">spfa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++ i) q.<span class="built_in">push</span>(i), st[i] = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">while</span> (q.<span class="built_in">size</span>()) &#123;</span><br><span class="line">		<span class="type">int</span> u = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>(); st[u] = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = head[u], j; ~i; i = edge[i].nxt) &#123;</span><br><span class="line">			j = edge[i].to;</span><br><span class="line">			<span class="keyword">if</span> (dis[j] &gt; dis[u] + edge[i].w) &#123;</span><br><span class="line">				dis[j] = dis[u] + edge[i].w;</span><br><span class="line">				<span class="keyword">if</span> (!st[j]) st[j] = <span class="literal">true</span>, q.<span class="built_in">push</span>(j), cnt[j] ++;</span><br><span class="line">				<span class="keyword">if</span> (cnt[j] &gt; n) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">rd</span>(n), <span class="built_in">rd</span>(m);</span><br><span class="line">	<span class="built_in">memset</span>(head, <span class="number">-1</span>, <span class="built_in">sizeof</span>(<span class="type">int</span>) * (n + <span class="number">10</span>));</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>, x, y, z; i &lt;= m; ++ i)</span><br><span class="line">		<span class="built_in">rd</span>(x), <span class="built_in">rd</span>(y), <span class="built_in">rd</span>(z), <span class="built_in">add</span>(y, x, z);</span><br><span class="line">	<span class="keyword">if</span> (!<span class="built_in">spfa</span>()) <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;NO&quot;</span>) &amp; <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++ i) <span class="built_in">ot</span>(dis[i], <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><h5 id="赛车游戏"><a href="#赛车游戏" class="headerlink" title="赛车游戏"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5590">赛车游戏</a></h5><hr>
+<h1 id="多源汇最短路径问题"><a href="#多源汇最短路径问题" class="headerlink" title="多源汇最短路径问题"></a>多源汇最短路径问题</h1><h2 id="rm-Floyd"><a href="#rm-Floyd" class="headerlink" title="$\rm Floyd$"></a>$\rm Floyd$</h2><ul>
+<li>基于动态规划的思想</li>
+<li>时间复杂度 $O(n^3)$</li>
+</ul>
+<h3 id="算法思路-1"><a href="#算法思路-1" class="headerlink" title="算法思路"></a>算法思路</h3><p>基于动态规划, 三维状态 $d_{k, i, j}$ 表示<strong>从点 $i$ 经过 $1$ 到 $k$ 这些中间点到达 $j$ 的最短距离</strong>. 使用三层循环枚举中间点, 每层循环内尝试更新最短路径, 因此 $Floyd$ 算法的时间复杂度是 $O(n^3)$</p>
+<p>注意枚举顺序. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">floyd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">1</span>; k &lt;= n; k ++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++)</span><br><span class="line">				dist[i][j] = <span class="built_in">min</span>(dist[i][j], dist[i][k] + dist[k][j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/advanced_dp/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/64985c751ddac507ccd2d057.jpg">
+                </span>
+                <h6 class="trm-op-title">动态规划进阶 | 常见题型总结</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/01/18</li>
+                <li>23:07</li>
+                <li>动态规划</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Story_belongs_to_us/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/63baa3b6be43e0d30e183cca.jpg">
+                </span>
+                <h6 class="trm-op-title">我们的 2022 | 元旦随笔</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/01/01</li>
+                <li>00:00</li>
+                <li>鲜花</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="单源最短路 $Single\ Source\ Shortest\ Path$"><a rel="nofollow" class="trm-toc-link" href="#单源最短路-Single-Source-Shortest-Path"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">单源最短路 $Single\ Source\ Shortest\ Path$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="$\rm Dijkstra$"><a rel="nofollow" class="trm-toc-link" href="#rm-Dijkstra"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">$\rm Dijkstra$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="朴素版 $O(n^2)$"><a rel="nofollow" class="trm-toc-link" href="#朴素版-O-n-2"><span class="trm-toc-number">1.1.1.</span> <span class="trm-toc-text">朴素版 $O(n^2)$</span></a></li><li class="trm-toc-item trm-toc-level-3" title="二叉堆优化"><a rel="nofollow" class="trm-toc-link" href="#二叉堆优化"><span class="trm-toc-number">1.1.2.</span> <span class="trm-toc-text">二叉堆优化</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="$\rm Bellman - Ford$"><a rel="nofollow" class="trm-toc-link" href="#rm-Bellman-Ford"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">$\rm Bellman - Ford$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="基本过程"><a rel="nofollow" class="trm-toc-link" href="#基本过程"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">基本过程</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="$\rm spfa$"><a rel="nofollow" class="trm-toc-link" href="#rm-spfa"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">$\rm spfa$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="算法思路"><a rel="nofollow" class="trm-toc-link" href="#算法思路"><span class="trm-toc-number">1.3.1.</span> <span class="trm-toc-text">算法思路</span></a></li><li class="trm-toc-item trm-toc-level-3" title="$\rm spfa$ 特点"><a rel="nofollow" class="trm-toc-link" href="#rm-spfa-特点"><span class="trm-toc-number">1.3.2.</span> <span class="trm-toc-text">$\rm spfa$ 特点</span></a></li><li class="trm-toc-item trm-toc-level-3" title="$\rm spfa$ 判负环"><a rel="nofollow" class="trm-toc-link" href="#rm-spfa-判负环"><span class="trm-toc-number">1.3.3.</span> <span class="trm-toc-text">$\rm spfa$ 判负环</span></a></li><li class="trm-toc-item trm-toc-level-3" title="$\rm spfa$ 与差分约束系统"><a rel="nofollow" class="trm-toc-link" href="#rm-spfa-与差分约束系统"><span class="trm-toc-number">1.3.4.</span> <span class="trm-toc-text">$\rm spfa$ 与差分约束系统</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="应用"><a rel="nofollow" class="trm-toc-link" href="#应用"><span class="trm-toc-number">1.3.4.1.</span> <span class="trm-toc-text">应用</span></a></li></ol></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-1" title="多源汇最短路径问题"><a rel="nofollow" class="trm-toc-link" href="#多源汇最短路径问题"><span class="trm-toc-number">2.</span> <span class="trm-toc-text">多源汇最短路径问题</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="$\rm Floyd$"><a rel="nofollow" class="trm-toc-link" href="#rm-Floyd"><span class="trm-toc-number">2.1.</span> <span class="trm-toc-text">$\rm Floyd$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="算法思路"><a rel="nofollow" class="trm-toc-link" href="#算法思路-1"><span class="trm-toc-number">2.1.1.</span> <span class="trm-toc-text">算法思路</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

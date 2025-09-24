@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="组合数学排列数$$A_n^m &#x3D; m^{\underline{n}} &#x3D; \frac{n!}{(n - m)!}$$ 表示从 $n$ 个不同元素中选出 $m$ 个元素(有序). 多重集排列数当 $n$ 个元素中含有相同元素, 记不同元素的种类共 $k$ 个, 第 $k$ 种元素具有 $c_k$ 个. 则形成的排列数为 $$\frac{n!}{\prod_{i &#x3D; 1}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(未完工) 组合数学 | 学习笔记">
+<meta property="og:url" content="http://example.com/combinatorics/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="组合数学排列数$$A_n^m &#x3D; m^{\underline{n}} &#x3D; \frac{n!}{(n - m)!}$$ 表示从 $n$ 个不同元素中选出 $m$ 个元素(有序). 多重集排列数当 $n$ 个元素中含有相同元素, 记不同元素的种类共 $k$ 个, 第 $k$ 种元素具有 $c_k$ 个. 则形成的排列数为 $$\frac{n!}{\prod_{i &#x3D; 1}">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-17T15:08:21.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.035Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+
+<title >(未完工) 组合数学 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            (未完工) 组合数学 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        combinatorics
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            07/17
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            23:08
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="组合数学"><a href="#组合数学" class="headerlink" title="组合数学"></a>组合数学</h1><h2 id="排列数"><a href="#排列数" class="headerlink" title="排列数"></a>排列数</h2><p>$$A_n^m &#x3D; m^{\underline{n}} &#x3D; \frac{n!}{(n - m)!}$$</p>
+<p>表示从 $n$ 个不同元素中选出 $m$ 个元素(有序).</p>
+<h3 id="多重集排列数"><a href="#多重集排列数" class="headerlink" title="多重集排列数"></a>多重集排列数</h3><p>当 $n$ 个元素中含有相同元素, 记不同元素的种类共 $k$ 个, 第 $k$ 种元素具有 $c_k$ 个. 则形成的排列数为</p>
+<p>$$\frac{n!}{\prod_{i &#x3D; 1}^{k} c_i!}$$</p>
+<h2 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h2><p>$$C_n^m &#x3D; \binom{n}{m} &#x3D; \frac{n!}{m! \times (n - m)!} &#x3D; \frac{A_n^m}{A_m^m}.$$</p>
+<p>表示从 $n$ 个元素中选出 $m$ 个元素(无序).</p>
+<h3 id="多重集组合数"><a href="#多重集组合数" class="headerlink" title="多重集组合数"></a>多重集组合数</h3><h3 id="多重组合数"><a href="#多重组合数" class="headerlink" title="多重组合数"></a>多重组合数</h3><p>需要与多重集组合数做区分. </p>
+<p>$$\binom{n}{c_1, c_2, \cdots, c_k} &#x3D; \frac{n!}{\prod_{i &#x3D; 1}^{k} c_i!}$$</p>
+<p>组合意义为从 $n$ 个不同物品中不放回地选 $c_i$ 个, 共取 $k$ 次. </p>
+<h3 id="组合数线性递推式"><a href="#组合数线性递推式" class="headerlink" title="组合数线性递推式"></a>组合数线性递推式</h3><p>$$ \binom{n}{m} &#x3D; \binom{n - 1}{m} + \binom{n - 1}{m - 1}$$</p>
+<h4 id="组合意义"><a href="#组合意义" class="headerlink" title="组合意义"></a>组合意义</h4><p>动态规划: 当前第 $i$ 个物品选 &#x2F; 不选. </p>
+<h4 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h4><p>但由于</p>
+<blockquote>
+<p>组合意义灭天地, 代数推导保平安</p>
+</blockquote>
+<p>因此我们尝试下严谨的公式证明. </p>
+<div>
+$$
+\begin{aligned}
+    (1 + x)^n 
+    & = \sum\limits_{i = 1}^{n} \binom{n}{i} x^i \\ 
+    & = (1 + x) \times \sum\limits_{i = 1}^{n - 1} \binom{n - 1}{i} x^i = \sum\limits_{i = 1}^{n - 1} \binom{n - 1}{i} (x^i + x^{i + 1}) \\ 
+    & = 
+\end{aligned}
+$$
+</div>
+
+<h2 id="圆排列"><a href="#圆排列" class="headerlink" title="圆排列"></a>圆排列</h2><p>组合意义为 $n$ 个人全部来围成一圈，所有的排列数记为<br>$\mathrm Q_n^n$。考虑其中已经排好的一圈，从不同位置断开，又变成不同的队列。 所以有</p>
+<h2 id="组合恒等式"><a href="#组合恒等式" class="headerlink" title="组合恒等式"></a>组合恒等式</h2><h2 id="二项式定理"><a href="#二项式定理" class="headerlink" title="二项式定理"></a>二项式定理</h2><p>$$(x + y)^n &#x3D; \sum\limits_{i &#x3D; 1}^{n} \binom{n}{i} x^i y^{n - i}.$$</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用:"></a>应用:</h3><p>求 $\sum i \times \binom{n}{i}.$ </p>
+<h4 id="Solutions"><a href="#Solutions" class="headerlink" title="$Solutions$:"></a>$Solutions$:</h4><p>$$\sum i \times \binom{n}{i} &#x3D; \sum\limits_{i &#x3D; 1}^{n} n \times \binom{n - 1}{i - 1} &#x3D; n \times 2^n.$$</p>
+<h3 id="杨辉三角列前缀求和"><a href="#杨辉三角列前缀求和" class="headerlink" title="杨辉三角列前缀求和"></a>杨辉三角列前缀求和</h3><h3 id="范德蒙德恒等式"><a href="#范德蒙德恒等式" class="headerlink" title="范德蒙德恒等式"></a>范德蒙德恒等式</h3><h3 id="组合连乘"><a href="#组合连乘" class="headerlink" title="组合连乘"></a>组合连乘</h3><p>$$\binom{n}{i} \times \binom{i}{k} &#x3D; $$</p>
+<h3 id="吸收公式"><a href="#吸收公式" class="headerlink" title="吸收公式"></a>吸收公式</h3><p>$$\binom{n}{k} \times k^{\underline{i}} &#x3D; \binom{}{}$$</p>
+<p>同时使用下降幂到幂的转化, 使用第二类斯特林数, 可以吸收线性式. </p>
+<h3 id="二项式定理-1"><a href="#二项式定理-1" class="headerlink" title="二项式定理"></a>二项式定理</h3><p>$$(x + y)^n &#x3D; \sum \limits_{i &#x3D; 0}^n \binom{n}{i} x^{n - i} y^i$$</p>
+<h3 id="球盒模型"><a href="#球盒模型" class="headerlink" title="球盒模型"></a>球盒模型</h3><p>小球与盒子是组合数学的经典问题, 按照限制属性的不同可以分为共计 $12$ 中情况：</p>
+<p>（注：在下文陈述中, 使用 $n$ 表示球的个数, $m$ 表示盒子个数）</p>
+<h4 id="1-球无编号-盒子有编号-每个盒子至少放一个球"><a href="#1-球无编号-盒子有编号-每个盒子至少放一个球" class="headerlink" title="1. 球无编号, 盒子有编号, 每个盒子至少放一个球"></a>1. 球无编号, 盒子有编号, 每个盒子至少放一个球</h4><p>题面也可以表述为: 求不定方程</p>
+<p>$$x_1 + x_2 + \cdots + x_m &#x3D; n.$$</p>
+<p>的正整数解个数.</p>
+<p>由于每个球完全相同, 可以考虑将所有球排成一列, 进行若干分割得到答案, 这种方法被称为<strong>插板法</strong>. </p>
+<p>$n$ 个球排成一列共有 $n - 1$ 个空位, 在这些空位中插入 $m - 1$ 个板得到 $m$ 组球, 并且相邻两个空位之间必有一个球, 保证了题意所述 “每个盒子至少放一个球”. </p>
+<p>即答案为</p>
+<p>$$\binom{n - 1}{m - 1}$$</p>
+<h4 id="2-球无编号-盒子有编号-不限制个数"><a href="#2-球无编号-盒子有编号-不限制个数" class="headerlink" title="2. 球无编号, 盒子有编号, 不限制个数"></a>2. 球无编号, 盒子有编号, 不限制个数</h4><p>发现情况 $1$ 无法处理盒子为空的情况. 于是考虑把插板操作视为在 $n + m - 1$ 个球中选择 $m - 1$ 个作为板, 选择相邻的球则产生了一个空盒子, 满足题目限制条件. </p>
+<p>即答案为</p>
+<p>$$\binom{n + m - 1}{m - 1}$$</p>
+<h4 id="2-球无编号-盒子有编号-每个盒子至多放一个球"><a href="#2-球无编号-盒子有编号-每个盒子至多放一个球" class="headerlink" title="2. 球无编号, 盒子有编号, 每个盒子至多放一个球"></a>2. 球无编号, 盒子有编号, 每个盒子至多放一个球</h4><p>由于每个球相同, 因此问题等价于选出 $n$ 个盒子放球, 即答案为</p>
+<p>$$\binom{m}{n}$$</p>
+<h4 id="4-球有编号-盒子有编号-不限制个数"><a href="#4-球有编号-盒子有编号-不限制个数" class="headerlink" title="4. 球有编号, 盒子有编号, 不限制个数"></a>4. 球有编号, 盒子有编号, 不限制个数</h4><p>每个球都有 $m$ 种放法, 显然总方案数为 $m^n$. </p>
+<h4 id="5-球有编号-盒子有编号-每个盒子至多放一个"><a href="#5-球有编号-盒子有编号-每个盒子至多放一个" class="headerlink" title="5. 球有编号, 盒子有编号, 每个盒子至多放一个"></a>5. 球有编号, 盒子有编号, 每个盒子至多放一个</h4><p>对于 $m &lt; n$ 的情况显然无解. </p>
+<p>依次考虑放 $1 \sim n$ 个球的过程中, 每次可选的盒子减少 $1$ 个, 因此总方案数为 $n^{\underline m}$. </p>
+<h4 id="6-球有编号-盒子有编号-每个盒子至少放一个"><a href="#6-球有编号-盒子有编号-每个盒子至少放一个" class="headerlink" title="6. 球有编号, 盒子有编号, 每个盒子至少放一个"></a>6. 球有编号, 盒子有编号, 每个盒子至少放一个</h4><p>前置知识：<a href="%E5%BE%85%E8%A1%A5%E5%85%85%E9%93%BE%E6%8E%A5">二项式反演</a>, 如果你还不会, 可以通过链接跳转到下面先学习二项式反演. </p>
+<p>每个盒子至少放一个的限制不方便处理, 可以尝试转化为有 $0$ 个盒子没有放球. </p>
+<h4 id="7-球有编号-盒子无编号-不限制个数"><a href="#7-球有编号-盒子无编号-不限制个数" class="headerlink" title="7. 球有编号, 盒子无编号, 不限制个数"></a>7. 球有编号, 盒子无编号, 不限制个数</h4><p>第二类斯特林数. </p>
+<h4 id="8-球有编号-盒子无编号-每个盒子至少放一个"><a href="#8-球有编号-盒子无编号-每个盒子至少放一个" class="headerlink" title="8. 球有编号, 盒子无编号, 每个盒子至少放一个"></a>8. 球有编号, 盒子无编号, 每个盒子至少放一个</h4><h4 id="9-球有编号-盒子无编号-每个盒子至多放一个"><a href="#9-球有编号-盒子无编号-每个盒子至多放一个" class="headerlink" title="9. 球有编号, 盒子无编号, 每个盒子至多放一个"></a>9. 球有编号, 盒子无编号, 每个盒子至多放一个</h4><p>由于盒子全部相同, 这些球放在任何一个盒子都是同一种情况, 于是答案为</p>
+<p>$$[ m \geqslant n ]$$</p>
+<h4 id="10-球无编号-盒子无编号-不限制个数"><a href="#10-球无编号-盒子无编号-不限制个数" class="headerlink" title="10. 球无编号, 盒子无编号, 不限制个数"></a>10. 球无编号, 盒子无编号, 不限制个数</h4><p>拆分数, 不会捏. </p>
+<h4 id="11-球无编号-盒子无编号-每个盒子至多放入一个球"><a href="#11-球无编号-盒子无编号-每个盒子至多放入一个球" class="headerlink" title="11. 球无编号, 盒子无编号, 每个盒子至多放入一个球"></a>11. 球无编号, 盒子无编号, 每个盒子至多放入一个球</h4><p>与 $9$ 情况相同, 答案为</p>
+<p>$$[ m \geqslant n ]$$</p>
+<h4 id="12-球无编号-盒子无编号-每个盒子至少放入一个球"><a href="#12-球无编号-盒子无编号-每个盒子至少放入一个球" class="headerlink" title="12. 球无编号, 盒子无编号, 每个盒子至少放入一个球"></a>12. 球无编号, 盒子无编号, 每个盒子至少放入一个球</h4><p>先在每个盒子中放入一个球, 转化为情况 $10$, 答案为 $p_{n - m, m}$. </p>
+<h4 id="扩展-盒子容量有上限-CEOI2004-Sweets"><a href="#扩展-盒子容量有上限-CEOI2004-Sweets" class="headerlink" title="扩展: 盒子容量有上限: [CEOI2004] Sweets"></a>扩展: 盒子容量有上限: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6078">[CEOI2004] Sweets</a></h4><h2 id="容斥原理"><a href="#容斥原理" class="headerlink" title="容斥原理"></a>容斥原理</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p>这里通过一个简单的例子来引入容斥原理. </p>
+<blockquote>
+<p>给定 $n$, 求 $1 \sim n$ 中所有能被 $3$, $5$ 或 $7$ 整除的数. </p>
+</blockquote>
+<h4 id="Solutions-1"><a href="#Solutions-1" class="headerlink" title="$Solutions$"></a>$Solutions$</h4><p>设 $A$ 集合表示所有能被 $3$ 整除的数,  $B$ 集合表示所有能被 $5$ 整除的数,  $C$ 集合表示所有能被 $7$ 整除的数. </p>
+<p>则有</p>
+<p>$$A \cup B \cup C &#x3D; A + B + C - A \cap B - A \cap C - B \cap C + A \cap B \cap C$$</p>
+<h3 id="公式化定义"><a href="#公式化定义" class="headerlink" title="公式化定义"></a>公式化定义</h3><p>尝试以公式定义我们最常见的子集容斥：</p>
+<p>若</p>
+<p>$$g_T &#x3D; \sum \limits_{T \in S} f_S$$</p>
+<p>则有</p>
+<p>$$f_S &#x3D; $$</p>
+<h2 id="二项式反演"><a href="#二项式反演" class="headerlink" title="二项式反演"></a>二项式反演</h2><p>设 $f_x$ 表示</p>
+<p>同理, 也有类似形式的子集反演</p>
+<h3 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h3><p>有 $n$ 个白球和 $m$ 个黑球, 每次取出一个球, 不放回. 如果是白球在序列中插入 $0$, 如果是黑球在序列中插入 $1$, 求 $01$ 的期望个数. $n \leqslant 5 \times 10^3.$</p>
+<h4 id="扩展-n-leqslant-1e18"><a href="#扩展-n-leqslant-1e18" class="headerlink" title="扩展: $n \leqslant 1e18$"></a>扩展: $n \leqslant 1e18$</h4><p>答案为</p>
+<p>$$\frac{(n + m - 1) \times \binom{n + m - 2}{n - 1}}{\binom{n + m}{m}} &#x3D; \frac{n \times m}{n + m}$$</p>
+<h2 id="斯特林数"><a href="#斯特林数" class="headerlink" title="斯特林数"></a>斯特林数</h2><p>置换与圆排列对应. </p>
+<h3 id="第一类斯特林数"><a href="#第一类斯特林数" class="headerlink" title="第一类斯特林数"></a>第一类斯特林数</h3><p>递推公式</p>
+<p>$$\brack{}{}$$</p>
+<h4 id="FJOI2016-建筑师"><a href="#FJOI2016-建筑师" class="headerlink" title="FJOI2016 建筑师"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4609">FJOI2016 建筑师</a></h4><h3 id="第二类斯特林数"><a href="#第二类斯特林数" class="headerlink" title="第二类斯特林数"></a>第二类斯特林数</h3><p>递推式</p>
+<p>$$\brace{}{}$$</p>
+<h4 id="应用-转化次幂"><a href="#应用-转化次幂" class="headerlink" title="应用: 转化次幂"></a>应用: 转化次幂</h4><h2 id="斯特林反演"><a href="#斯特林反演" class="headerlink" title="斯特林反演"></a>斯特林反演</h2><h3 id="异或图"><a href="#异或图" class="headerlink" title="异或图"></a><a target="_blank" rel="noopener" href="https://hydro.ac/d/bzoj/p/4671">异或图</a></h3>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/chtholly_tree/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/65183cc4c458853aef6d628d.jpg">
+                </span>
+                <h6 class="trm-op-title">珂朵莉树 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/08/18</li>
+                <li>23:26</li>
+                <li>数据结构</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/advanced_segment_tree/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/64bfd2cc1ddac507cc65b86d.jpg">
+                </span>
+                <h6 class="trm-op-title">线段树进阶应用</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/07/04</li>
+                <li>15:07</li>
+                <li>数据结构</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="组合数学"><a rel="nofollow" class="trm-toc-link" href="#组合数学"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">组合数学</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="排列数"><a rel="nofollow" class="trm-toc-link" href="#排列数"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">排列数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="多重集排列数"><a rel="nofollow" class="trm-toc-link" href="#多重集排列数"><span class="trm-toc-number">1.1.1.</span> <span class="trm-toc-text">多重集排列数</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="组合数"><a rel="nofollow" class="trm-toc-link" href="#组合数"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">组合数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="多重集组合数"><a rel="nofollow" class="trm-toc-link" href="#多重集组合数"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">多重集组合数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="多重组合数"><a rel="nofollow" class="trm-toc-link" href="#多重组合数"><span class="trm-toc-number">1.2.2.</span> <span class="trm-toc-text">多重组合数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="组合数线性递推式"><a rel="nofollow" class="trm-toc-link" href="#组合数线性递推式"><span class="trm-toc-number">1.2.3.</span> <span class="trm-toc-text">组合数线性递推式</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="组合意义"><a rel="nofollow" class="trm-toc-link" href="#组合意义"><span class="trm-toc-number">1.2.3.1.</span> <span class="trm-toc-text">组合意义</span></a></li><li class="trm-toc-item trm-toc-level-4" title="数学证明"><a rel="nofollow" class="trm-toc-link" href="#数学证明"><span class="trm-toc-number">1.2.3.2.</span> <span class="trm-toc-text">数学证明</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="圆排列"><a rel="nofollow" class="trm-toc-link" href="#圆排列"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">圆排列</span></a></li><li class="trm-toc-item trm-toc-level-2" title="组合恒等式"><a rel="nofollow" class="trm-toc-link" href="#组合恒等式"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">组合恒等式</span></a></li><li class="trm-toc-item trm-toc-level-2" title="二项式定理"><a rel="nofollow" class="trm-toc-link" href="#二项式定理"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">二项式定理</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="应用:"><a rel="nofollow" class="trm-toc-link" href="#应用"><span class="trm-toc-number">1.5.1.</span> <span class="trm-toc-text">应用:</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="$Solutions$:"><a rel="nofollow" class="trm-toc-link" href="#Solutions"><span class="trm-toc-number">1.5.1.1.</span> <span class="trm-toc-text">$Solutions$:</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="杨辉三角列前缀求和"><a rel="nofollow" class="trm-toc-link" href="#杨辉三角列前缀求和"><span class="trm-toc-number">1.5.2.</span> <span class="trm-toc-text">杨辉三角列前缀求和</span></a></li><li class="trm-toc-item trm-toc-level-3" title="范德蒙德恒等式"><a rel="nofollow" class="trm-toc-link" href="#范德蒙德恒等式"><span class="trm-toc-number">1.5.3.</span> <span class="trm-toc-text">范德蒙德恒等式</span></a></li><li class="trm-toc-item trm-toc-level-3" title="组合连乘"><a rel="nofollow" class="trm-toc-link" href="#组合连乘"><span class="trm-toc-number">1.5.4.</span> <span class="trm-toc-text">组合连乘</span></a></li><li class="trm-toc-item trm-toc-level-3" title="吸收公式"><a rel="nofollow" class="trm-toc-link" href="#吸收公式"><span class="trm-toc-number">1.5.5.</span> <span class="trm-toc-text">吸收公式</span></a></li><li class="trm-toc-item trm-toc-level-3" title="二项式定理"><a rel="nofollow" class="trm-toc-link" href="#二项式定理-1"><span class="trm-toc-number">1.5.6.</span> <span class="trm-toc-text">二项式定理</span></a></li><li class="trm-toc-item trm-toc-level-3" title="球盒模型"><a rel="nofollow" class="trm-toc-link" href="#球盒模型"><span class="trm-toc-number">1.5.7.</span> <span class="trm-toc-text">球盒模型</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="1. 球无编号, 盒子有编号, 每个盒子至少放一个球"><a rel="nofollow" class="trm-toc-link" href="#1-球无编号-盒子有编号-每个盒子至少放一个球"><span class="trm-toc-number">1.5.7.1.</span> <span class="trm-toc-text">1. 球无编号, 盒子有编号, 每个盒子至少放一个球</span></a></li><li class="trm-toc-item trm-toc-level-4" title="2. 球无编号, 盒子有编号, 不限制个数"><a rel="nofollow" class="trm-toc-link" href="#2-球无编号-盒子有编号-不限制个数"><span class="trm-toc-number">1.5.7.2.</span> <span class="trm-toc-text">2. 球无编号, 盒子有编号, 不限制个数</span></a></li><li class="trm-toc-item trm-toc-level-4" title="2. 球无编号, 盒子有编号, 每个盒子至多放一个球"><a rel="nofollow" class="trm-toc-link" href="#2-球无编号-盒子有编号-每个盒子至多放一个球"><span class="trm-toc-number">1.5.7.3.</span> <span class="trm-toc-text">2. 球无编号, 盒子有编号, 每个盒子至多放一个球</span></a></li><li class="trm-toc-item trm-toc-level-4" title="4. 球有编号, 盒子有编号, 不限制个数"><a rel="nofollow" class="trm-toc-link" href="#4-球有编号-盒子有编号-不限制个数"><span class="trm-toc-number">1.5.7.4.</span> <span class="trm-toc-text">4. 球有编号, 盒子有编号, 不限制个数</span></a></li><li class="trm-toc-item trm-toc-level-4" title="5. 球有编号, 盒子有编号, 每个盒子至多放一个"><a rel="nofollow" class="trm-toc-link" href="#5-球有编号-盒子有编号-每个盒子至多放一个"><span class="trm-toc-number">1.5.7.5.</span> <span class="trm-toc-text">5. 球有编号, 盒子有编号, 每个盒子至多放一个</span></a></li><li class="trm-toc-item trm-toc-level-4" title="6. 球有编号, 盒子有编号, 每个盒子至少放一个"><a rel="nofollow" class="trm-toc-link" href="#6-球有编号-盒子有编号-每个盒子至少放一个"><span class="trm-toc-number">1.5.7.6.</span> <span class="trm-toc-text">6. 球有编号, 盒子有编号, 每个盒子至少放一个</span></a></li><li class="trm-toc-item trm-toc-level-4" title="7. 球有编号, 盒子无编号, 不限制个数"><a rel="nofollow" class="trm-toc-link" href="#7-球有编号-盒子无编号-不限制个数"><span class="trm-toc-number">1.5.7.7.</span> <span class="trm-toc-text">7. 球有编号, 盒子无编号, 不限制个数</span></a></li><li class="trm-toc-item trm-toc-level-4" title="8. 球有编号, 盒子无编号, 每个盒子至少放一个"><a rel="nofollow" class="trm-toc-link" href="#8-球有编号-盒子无编号-每个盒子至少放一个"><span class="trm-toc-number">1.5.7.8.</span> <span class="trm-toc-text">8. 球有编号, 盒子无编号, 每个盒子至少放一个</span></a></li><li class="trm-toc-item trm-toc-level-4" title="9. 球有编号, 盒子无编号, 每个盒子至多放一个"><a rel="nofollow" class="trm-toc-link" href="#9-球有编号-盒子无编号-每个盒子至多放一个"><span class="trm-toc-number">1.5.7.9.</span> <span class="trm-toc-text">9. 球有编号, 盒子无编号, 每个盒子至多放一个</span></a></li><li class="trm-toc-item trm-toc-level-4" title="10. 球无编号, 盒子无编号, 不限制个数"><a rel="nofollow" class="trm-toc-link" href="#10-球无编号-盒子无编号-不限制个数"><span class="trm-toc-number">1.5.7.10.</span> <span class="trm-toc-text">10. 球无编号, 盒子无编号, 不限制个数</span></a></li><li class="trm-toc-item trm-toc-level-4" title="11. 球无编号, 盒子无编号, 每个盒子至多放入一个球"><a rel="nofollow" class="trm-toc-link" href="#11-球无编号-盒子无编号-每个盒子至多放入一个球"><span class="trm-toc-number">1.5.7.11.</span> <span class="trm-toc-text">11. 球无编号, 盒子无编号, 每个盒子至多放入一个球</span></a></li><li class="trm-toc-item trm-toc-level-4" title="12. 球无编号, 盒子无编号, 每个盒子至少放入一个球"><a rel="nofollow" class="trm-toc-link" href="#12-球无编号-盒子无编号-每个盒子至少放入一个球"><span class="trm-toc-number">1.5.7.12.</span> <span class="trm-toc-text">12. 球无编号, 盒子无编号, 每个盒子至少放入一个球</span></a></li><li class="trm-toc-item trm-toc-level-4" title="扩展: 盒子容量有上限: [CEOI2004] Sweets"><a rel="nofollow" class="trm-toc-link" href="#扩展-盒子容量有上限-CEOI2004-Sweets"><span class="trm-toc-number">1.5.7.13.</span> <span class="trm-toc-text">扩展: 盒子容量有上限: [CEOI2004] Sweets</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="容斥原理"><a rel="nofollow" class="trm-toc-link" href="#容斥原理"><span class="trm-toc-number">1.6.</span> <span class="trm-toc-text">容斥原理</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="引入"><a rel="nofollow" class="trm-toc-link" href="#引入"><span class="trm-toc-number">1.6.1.</span> <span class="trm-toc-text">引入</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="$Solutions$"><a rel="nofollow" class="trm-toc-link" href="#Solutions-1"><span class="trm-toc-number">1.6.1.1.</span> <span class="trm-toc-text">$Solutions$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="公式化定义"><a rel="nofollow" class="trm-toc-link" href="#公式化定义"><span class="trm-toc-number">1.6.2.</span> <span class="trm-toc-text">公式化定义</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="二项式反演"><a rel="nofollow" class="trm-toc-link" href="#二项式反演"><span class="trm-toc-number">1.7.</span> <span class="trm-toc-text">二项式反演</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="简单应用"><a rel="nofollow" class="trm-toc-link" href="#简单应用"><span class="trm-toc-number">1.7.1.</span> <span class="trm-toc-text">简单应用</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="扩展: $n \leqslant 1e18$"><a rel="nofollow" class="trm-toc-link" href="#扩展-n-leqslant-1e18"><span class="trm-toc-number">1.7.1.1.</span> <span class="trm-toc-text">扩展: $n \leqslant 1e18$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="斯特林数"><a rel="nofollow" class="trm-toc-link" href="#斯特林数"><span class="trm-toc-number">1.8.</span> <span class="trm-toc-text">斯特林数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="第一类斯特林数"><a rel="nofollow" class="trm-toc-link" href="#第一类斯特林数"><span class="trm-toc-number">1.8.1.</span> <span class="trm-toc-text">第一类斯特林数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="FJOI2016 建筑师"><a rel="nofollow" class="trm-toc-link" href="#FJOI2016-建筑师"><span class="trm-toc-number">1.8.1.1.</span> <span class="trm-toc-text">FJOI2016 建筑师</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="第二类斯特林数"><a rel="nofollow" class="trm-toc-link" href="#第二类斯特林数"><span class="trm-toc-number">1.8.2.</span> <span class="trm-toc-text">第二类斯特林数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="应用: 转化次幂"><a rel="nofollow" class="trm-toc-link" href="#应用-转化次幂"><span class="trm-toc-number">1.8.2.1.</span> <span class="trm-toc-text">应用: 转化次幂</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="斯特林反演"><a rel="nofollow" class="trm-toc-link" href="#斯特林反演"><span class="trm-toc-number">1.9.</span> <span class="trm-toc-text">斯特林反演</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="异或图"><a rel="nofollow" class="trm-toc-link" href="#异或图"><span class="trm-toc-number">1.9.1.</span> <span class="trm-toc-text">异或图</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

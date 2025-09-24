@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="珂朵莉树 $Chtholly\ Tree$珂朵莉树是由 $\color{ff8c00}{\mathbf{ODT}}$ 在 Codeforces Round #449 的题解中发明的一种数据结构, 或者说是做法, 因为它事实上是一系列基于 $\rm set$ 实现维护区间信息的操作. 仅适用于随机数据, 并且随机数据下实际运行效率不错.  珂朵莉树能解决的问题事实上, 珂朵莉树维护的是若干值相同的区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="珂朵莉树 | 学习笔记">
+<meta property="og:url" content="http://example.com/chtholly_tree/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="珂朵莉树 $Chtholly\ Tree$珂朵莉树是由 $\color{ff8c00}{\mathbf{ODT}}$ 在 Codeforces Round #449 的题解中发明的一种数据结构, 或者说是做法, 因为它事实上是一系列基于 $\rm set$ 实现维护区间信息的操作. 仅适用于随机数据, 并且随机数据下实际运行效率不错.  珂朵莉树能解决的问题事实上, 珂朵莉树维护的是若干值相同的区">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-18T15:26:15.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.035Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+
+<title >珂朵莉树 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            珂朵莉树 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        chtholly_tree
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            08/18
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            23:26
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="珂朵莉树-Chtholly-Tree"><a href="#珂朵莉树-Chtholly-Tree" class="headerlink" title="珂朵莉树 $Chtholly\ Tree$"></a>珂朵莉树 $Chtholly\ Tree$</h1><p>珂朵莉树是由 <a target="_blank" rel="noopener" href="https://codeforces.com/profile/ODT">$\color{ff8c00}{\mathbf{ODT}}$</a> 在 <a target="_blank" rel="noopener" href="https://codeforces.com/contest/896">Codeforces Round #449</a> 的题解中发明的一种数据结构, 或者说是做法, 因为它事实上是一系列基于 $\rm set$ 实现维护区间信息的操作. 仅适用于随机数据, 并且随机数据下实际运行效率不错. </p>
+<h3 id="珂朵莉树能解决的问题"><a href="#珂朵莉树能解决的问题" class="headerlink" title="珂朵莉树能解决的问题"></a>珂朵莉树能解决的问题</h3><p>事实上, 珂朵莉树维护的是若干值相同的区间连续段, 对于具有区间推平类似的操作 (如区间赋值), 同时夹杂其他操作如区间加, 求区间第 $k$ 小 (可重), 询问区间每个数字的 $x$ 次方的和等, 并且数据随机的情况, 都能很好地应用珂朵莉树. </p>
+<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><p>既然有对一段区间赋值的操作, 那么考虑维护若干值相同的连续区间: </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Range</span> &#123;</span><br><span class="line">	<span class="type">int</span> l, r; <span class="comment">// 段首段尾 </span></span><br><span class="line">	<span class="keyword">mutable</span> LL val; <span class="comment">// 段值 </span></span><br><span class="line">	<span class="built_in">Range</span>(<span class="type">int</span> l, <span class="type">int</span> r = <span class="number">0</span>, LL val = <span class="number">0</span>) : <span class="built_in">l</span>(l), <span class="built_in">r</span>(r), <span class="built_in">val</span>(val) &#123;&#125;</span><br><span class="line">	<span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> Range &amp;t) <span class="type">const</span> &#123; <span class="keyword">return</span> l &lt; t.l; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>初始时将序列的每个元素视为一个区间插入 $\rm set$. </p>
+<p>注意这里定义 $val$ 变量为 $\rm mutable$ 类型.  $\rm mutable$ 关键字表示可修改的常量, 由于 $\rm set$ 迭代器是常量迭代器, 无法对它指向的值进行修改, 因此需要添加 $\rm mutable$ 关键字修饰. </p>
+<p>重载完运算符后, 我们将所有区间信息插入 $\rm set$, 即将每个区间按左端点排序, 得到了所维护的整个序列. </p>
+<h4 id="核心操作-分裂区间"><a href="#核心操作-分裂区间" class="headerlink" title="核心操作: 分裂区间"></a>核心操作: 分裂区间</h4><p>当区间赋值的操作覆盖到了某个区间段的一部分, 就需要将原区间分裂, 函数内传入 $pos$ 参数, 表示将该区间拆分成 $[l, pos - 1]$ 与 $[pos, r]$ 两部分. </p>
+<p>先将 $it$ 迭代器指向包含 $pos$ 的区间, 修改该区间的 $l, r$ 即可. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">set&lt;Range&gt;::<span class="function">iterator <span class="title">split</span><span class="params">(<span class="type">int</span> pos)</span> </span>&#123;</span><br><span class="line">	it = <span class="built_in">lower_bound</span>(st.<span class="built_in">begin</span>(), st.<span class="built_in">end</span>(), <span class="built_in">Range</span>(pos));</span><br><span class="line">	<span class="comment">// 找到左端点大于等于 pos 的第一个区间 </span></span><br><span class="line">	<span class="keyword">if</span> (it != st.<span class="built_in">end</span>() <span class="keyword">and</span> it-&gt;l == pos) <span class="keyword">return</span> it;</span><br><span class="line">	<span class="comment">// pos 为该区间的左端点, 直接返回该区间即可 </span></span><br><span class="line">	-- it;</span><br><span class="line">	<span class="comment">// 将 it 移动到包含 pos 的区间 </span></span><br><span class="line">	<span class="keyword">if</span> (it-&gt;r &lt; pos) <span class="keyword">return</span> st.<span class="built_in">end</span>(); <span class="comment">// 没有区间包含 pos </span></span><br><span class="line">	<span class="type">int</span> l = it-&gt;l, r = it-&gt;r; LL val = it-&gt;val;</span><br><span class="line">	st.<span class="built_in">erase</span>(it);</span><br><span class="line">	st.<span class="built_in">insert</span>((Range)&#123;l, pos - <span class="number">1</span>, val&#125;);</span><br><span class="line">	<span class="comment">// 修改区间值, 重新插入 set</span></span><br><span class="line">	<span class="keyword">return</span> st.<span class="built_in">insert</span>((Range)&#123;pos, r, val&#125;).first;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意这里的一个压行 $\rm Trick$: $\rm set$ 的 $\rm insert$ 函数返回一个二元组 $\rm pair$. 第一个关键字为插入位置的迭代器, 第二个关键字为是否插入成功的 $\rm bool$ 值. </p>
+<h3 id="合并区间"><a href="#合并区间" class="headerlink" title="合并区间"></a>合并区间</h3><p>当进行区间赋值等 “推平” 操作, 需要将多个区间信息合并为一个, 将包含 $l$ 和 $r$ 的区间断开, 移除 $l$ 到 $r$ 的所有区间即可. </p>
+<p>注意这里实现不好极容易 $\rm RE$, 必须要先 $\text{split}(r + 1)$ 再 $\text{split}(l)$. 如果先 $\text{split}(l)$ 则在 $\text{split}(r + 1)$ 时有可能移除 $itl$ 迭代器指向的区间 (当 $l$ 与 $r$ 同属于同一个区间时), 导致 $\rm RE$.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">	itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">	st.<span class="built_in">erase</span>(itl, itr);</span><br><span class="line">	st.<span class="built_in">insert</span>((Range)&#123;l, r, val&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改区间值"><a href="#修改区间值" class="headerlink" title="修改区间值"></a>修改区间值</h3><p>直接暴力修改即可. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">	itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> i = itl; i != itr; ++ i) i-&gt;val += val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="寻找区间第-k-小"><a href="#寻找区间第-k-小" class="headerlink" title="寻找区间第 $k$ 小"></a>寻找区间第 $k$ 小</h3><p>仍然是怎么暴力怎么来, 将 $l, r$ 区间内的所有区间全部取出顺次遍历, 每次减去该区间元素个数, 当 $k$ 第一次 $\leq cnt(l, r)$ 时意味着区间第 $k$ 小与该区间值相同. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LL <span class="title">rk</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">	vector&lt;Save&gt; a;</span><br><span class="line">	itr = <span class="built_in">split</span>(r + <span class="number">1</span>), itl = <span class="built_in">split</span>(l);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> i = itl; i != itr; ++ i)</span><br><span class="line">		a.<span class="built_in">push_back</span>((Save)&#123;i-&gt;r - i-&gt;l + <span class="number">1</span>, i-&gt;val&#125;);</span><br><span class="line">	<span class="built_in">sort</span>(a.<span class="built_in">begin</span>(), a.<span class="built_in">end</span>());</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> t : a) &#123;</span><br><span class="line">		<span class="keyword">if</span> (k &lt;= t.len) <span class="keyword">return</span> t.val;</span><br><span class="line">		<span class="keyword">else</span> k -= t.len;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>时间复杂度均摊 $O(n \cdot \log \log n)$, 对数据的随机性要求较强, 这也导致它的应用面偏窄, 只能跑过数据随机的情况. </p>
+<p>具体的时间复杂度证明可以看 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/blaze/solution-cf896c">https://www.luogu.com.cn/blog/blaze/solution-cf896c</a></p>
+
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/bullet/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/652ab187c458853aef7784b9.jpg">
+                </span>
+                <h6 class="trm-op-title">子弹 | 2023.10.13 鲜花</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/10/14</li>
+                <li>00:15</li>
+                <li>鲜花</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/combinatorics/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/64f9ea3f661c6c8e546b5acc.jpg">
+                </span>
+                <h6 class="trm-op-title">(未完工) 组合数学 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/07/17</li>
+                <li>23:08</li>
+                <li>数学</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="珂朵莉树 $Chtholly\ Tree$"><a rel="nofollow" class="trm-toc-link" href="#珂朵莉树-Chtholly-Tree"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">珂朵莉树 $Chtholly\ Tree$</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="珂朵莉树能解决的问题"><a rel="nofollow" class="trm-toc-link" href="#珂朵莉树能解决的问题"><span class="trm-toc-number">1.0.1.</span> <span class="trm-toc-text">珂朵莉树能解决的问题</span></a></li><li class="trm-toc-item trm-toc-level-3" title="算法思想"><a rel="nofollow" class="trm-toc-link" href="#算法思想"><span class="trm-toc-number">1.0.2.</span> <span class="trm-toc-text">算法思想</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="核心操作: 分裂区间"><a rel="nofollow" class="trm-toc-link" href="#核心操作-分裂区间"><span class="trm-toc-number">1.0.2.1.</span> <span class="trm-toc-text">核心操作: 分裂区间</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="合并区间"><a rel="nofollow" class="trm-toc-link" href="#合并区间"><span class="trm-toc-number">1.0.3.</span> <span class="trm-toc-text">合并区间</span></a></li><li class="trm-toc-item trm-toc-level-3" title="修改区间值"><a rel="nofollow" class="trm-toc-link" href="#修改区间值"><span class="trm-toc-number">1.0.4.</span> <span class="trm-toc-text">修改区间值</span></a></li><li class="trm-toc-item trm-toc-level-3" title="寻找区间第 $k$ 小"><a rel="nofollow" class="trm-toc-link" href="#寻找区间第-k-小"><span class="trm-toc-number">1.0.5.</span> <span class="trm-toc-text">寻找区间第 $k$ 小</span></a></li><li class="trm-toc-item trm-toc-level-3" title="复杂度分析"><a rel="nofollow" class="trm-toc-link" href="#复杂度分析"><span class="trm-toc-number">1.0.6.</span> <span class="trm-toc-text">复杂度分析</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

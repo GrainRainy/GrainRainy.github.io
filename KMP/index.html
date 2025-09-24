@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="$\rm KMP$ 字符串匹配一些基本概念的解释： s 表示文本串(主串, 一般是较长的一个)  p 表示模板串(子串, 在主串中匹配位置, 一般是较短的一个)  $nxt$ 数组存储 字符串 $p$ 后缀与字符串 $p$ 前缀相等的情况（$\rm border$）中 长度最长情况 的长度  $\rm border$ 见后文.   暴力解法 $ O(n^2)$1234567891011121314">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KMP 字符串匹配算法 | 学习笔记">
+<meta property="og:url" content="http://example.com/KMP/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="$\rm KMP$ 字符串匹配一些基本概念的解释： s 表示文本串(主串, 一般是较长的一个)  p 表示模板串(子串, 在主串中匹配位置, 一般是较短的一个)  $nxt$ 数组存储 字符串 $p$ 后缀与字符串 $p$ 前缀相等的情况（$\rm border$）中 长度最长情况 的长度  $\rm border$ 见后文.   暴力解法 $ O(n^2)$1234567891011121314">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2022-10-14T10:34:20.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.013Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >KMP 字符串匹配算法 | 学习笔记</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            KMP 字符串匹配算法 | 学习笔记
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        KMP
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            10/14
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            18:34
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="rm-KMP-字符串匹配"><a href="#rm-KMP-字符串匹配" class="headerlink" title="$\rm KMP$ 字符串匹配"></a>$\rm KMP$ 字符串匹配</h1><h2 id="一些基本概念的解释："><a href="#一些基本概念的解释：" class="headerlink" title="一些基本概念的解释："></a>一些基本概念的解释：</h2><ul>
+<li><p>s 表示文本串(主串, 一般是较长的一个)</p>
+</li>
+<li><p>p 表示模板串(子串, 在主串中匹配位置, 一般是较短的一个)</p>
+</li>
+<li><p>$nxt$ 数组存储 字符串 $p$ 后缀与字符串 $p$ 前缀相等的情况（$\rm border$）中 长度最长情况 的<strong>长度</strong></p>
+</li>
+<li><p>$\rm border$ 见后文.</p>
+</li>
+</ul>
+<h2 id="暴力解法-O-n-2"><a href="#暴力解法-O-n-2" class="headerlink" title="暴力解法 $ O(n^2)$"></a>暴力解法 $ O(n^2)$</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> s[N], p[M];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ViolentMatch</span><span class="params">(<span class="type">char</span>* s, <span class="type">char</span>* p)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> sLen = <span class="built_in">strlen</span>(s);</span><br><span class="line">	<span class="type">int</span> pLen = <span class="built_in">strlen</span>(p);</span><br><span class="line"> </span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (i &lt; sLen &amp;&amp; j &lt; pLen) &#123;</span><br><span class="line">		<span class="keyword">if</span> (s[i] == p[j]) ++ i, ++ j;</span><br><span class="line">			<span class="comment">// 当前字符匹配成功（即S[i] == P[j]）</span></span><br><span class="line">		<span class="keyword">else</span> i = i - j + <span class="number">1</span>, j = <span class="number">0</span>;</span><br><span class="line">			<span class="comment">// 如果失配, 令i = i - (j - 1), j = 0 继续向后尝试匹配</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 匹配成功, 返回模式串p在文本串s中的位置, 否则返回-1</span></span><br><span class="line">	<span class="keyword">if</span> (j == pLen) <span class="keyword">return</span> i - j;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>考虑我们的暴力匹配过程. 对于每一个位置, 在匹配过程中, 对于：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模式串：abcabc</span><br><span class="line">文本串：abcabdababcabc</span><br></pre></td></tr></table></figure>
+
+<p>在第六个位置失配之后, 下一个状态为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模式串： abcabc</span><br><span class="line">文本串：abcabdababcabc</span><br></pre></td></tr></table></figure>
+
+<p>然而在第一次匹配时我们已经得知了文本串位置 $1$（下标从 $0$ 开始）的信息, 在第二次匹配中又对它进行了重复匹配.</p>
+<p>事实上, 我们希望能利用上一次匹配信息确定下一次匹配的开始位置, 从而跳过一些无效信息, 从位置 $3$ 开始匹配. </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">模式串：   abcabc</span><br><span class="line">文本串：abcabdababcabc</span><br></pre></td></tr></table></figure>
+
+<p>如何保存以上信息呢？尝试把字符串抽象成线段理解. </p>
+<p><img src="/"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>尝试在 $S$ 上进行枚举, 对于扫描指针 $i$, 可以存下所有的可能为成功匹配的起点位置（图中按长度由短至长从上到下排列）, 即这些位置到 $i$ 的一段字符串为模式串 $P$ 的一个合法前缀, 下文中暂且称这样的串为 “前缀串”. </p>
+<p>当扫描指针向右移动, 设当前位置的字符为 $c$, 直接更新当前维护的所出现的 $P$ 的前缀, 会出现四种情况：</p>
+<ol>
+<li>加入字符 $c$ 后该前缀串不是 $P$ 的前缀. -&gt; 删除该串.</li>
+<li>加入字符 $c$ 后该前缀串仍是 $P$ 的前缀. -&gt; 更新长度, 继续维护.</li>
+<li>加入字符 $c$ 后该前缀串仍是 $P$ 的前缀, 且长度等于 $P$. -&gt; 匹配成功.</li>
+<li>$c$ 与 $P$ 字符串的首字母相同. -&gt; 另维护一个新的前缀串.</li>
+</ol>
+<p>但暴力枚举维护这些串仍是 $O(n^2)$ 的时间复杂度, 尝试考虑当前维护的前缀串, 这些串是否具有一定关联？</p>
+<p>不难发现, 较短的字符串同样是较长字符串的后缀（在 $S$ 中的位置相同）, 而较短字符串又是 $P$ 的一段前缀, 较长字符串中也必然包含这一段前缀. 因此较短字符串同时较长字符串的前缀和后缀, 当短字符串是长度小于等于长字符串的第一个字符串, 它就成为了该长字符串的最长前缀和后缀. 我们称一个字符串的最长字符串且满足同时为它的前缀和后缀的串为 $\rm border$.</p>
+<p>形式化地, 定义字符串 $S$ 的 $\rm border$ 为最长字符串 $p$ (除其本身), 使得 $s[1, len_p] &#x3D; s[len_s - len_p + 1, len_s]$. </p>
+<p>注意到较长字符串是模式串 $P$ 的一个前缀, 因此很自然地, 我们想到要维护模式串 $P$ 的所有前缀 $\rm border$, 存储在 $nxt$ 数组中.</p>
+<p>回到较短的前缀串是较长前缀串的 $\rm border$ 这件事, 因此我们可以直接通过较长串跳 $\rm border$ 的方式得到较短前缀串, 按上文提到的方式维护即可. 这也就是算法中 <code>while (pos &amp;&amp; s[i] != p[pos + 1]) pos = nxt[pos];</code> 循环跳 $\rm border$ 的精髓.</p>
+<p>不难发现, 无论是较长前缀串, 亦或是较短前缀串, 它们都是模式串 $P$ 的一个 $\rm border$. 因此预处理模式串 $P$ 的所有位置的 $\rm border$ 并存储在 $nxt$ 数组中, 循环跳即可动态维护和匹配.</p>
+<h3 id="求子串的-rm-next-数组"><a href="#求子串的-rm-next-数组" class="headerlink" title="求子串的 $\rm next$ 数组"></a>求子串的 $\rm next$ 数组</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> pos = <span class="number">0</span>;</span><br><span class="line"><span class="comment">// 遍历 border 的指针</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i ++) &#123;</span><br><span class="line"><span class="comment">// border 定义中除去了其本身, 因此 p_1 的 border 长度为 0, 直接从 p_2 开始计算. </span></span><br><span class="line">	<span class="keyword">while</span> (pos <span class="keyword">and</span> p[i] != p[pos + <span class="number">1</span>]) pos = nxt[pos];</span><br><span class="line">	<span class="keyword">if</span> (p[i] == p[pos + <span class="number">1</span>]) pos ++;</span><br><span class="line">	nxt[i] = pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="匹配过程"><a href="#匹配过程" class="headerlink" title="匹配过程"></a>匹配过程</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pos = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i ++) &#123;</span><br><span class="line">	<span class="keyword">while</span> (pos <span class="keyword">and</span> s[i] != p[pos + <span class="number">1</span>]) pos = nxt[pos];</span><br><span class="line">	<span class="keyword">if</span> (s[i] == p[pos + <span class="number">1</span>]) pos ++;</span><br><span class="line">	<span class="keyword">if</span> (pos == n) <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, i - n); <span class="comment">// 匹配成功</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><del>至此, 相信你已经理解了被称为萌新杀手的 KMP 算法精髓.</del></p>
+<h2 id="时间复杂度分析"><a href="#时间复杂度分析" class="headerlink" title="时间复杂度分析"></a>时间复杂度分析</h2><p>不难发现, 在 $\rm KMP$ 匹配过程中, 模式串与文本串下标指针都是单调不降的, 因此时间复杂度为 $O(n + m)$. </p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="求最短-border-OKR-Periods-of-Words"><a href="#求最短-border-OKR-Periods-of-Words" class="headerlink" title="求最短 border: OKR-Periods of Words"></a>求最短 border: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3435">OKR-Periods of Words</a></h3><h3 id="求不互相重叠的公共前后缀个数-NOI2014-动物园"><a href="#求不互相重叠的公共前后缀个数-NOI2014-动物园" class="headerlink" title="求不互相重叠的公共前后缀个数: [NOI2014] 动物园"></a>求不互相重叠的公共前后缀个数: <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2375">[NOI2014] 动物园</a></h3>
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Basic_Graphs/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/648308191ddac507ccf44c1c.jpg">
+                </span>
+                <h6 class="trm-op-title">树与图的存储与遍历 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/29</li>
+                <li>19:10</li>
+                <li>图论</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/DFS_BFS/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/6482fc961ddac507cce18117.jpg">
+                </span>
+                <h6 class="trm-op-title">深度优先搜索与广度优先搜索 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>22/10/14</li>
+                <li>17:09</li>
+                <li>基础算法</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="$\rm KMP$ 字符串匹配"><a rel="nofollow" class="trm-toc-link" href="#rm-KMP-字符串匹配"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">$\rm KMP$ 字符串匹配</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="一些基本概念的解释："><a rel="nofollow" class="trm-toc-link" href="#一些基本概念的解释："><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">一些基本概念的解释：</span></a></li><li class="trm-toc-item trm-toc-level-2" title="暴力解法 $ O(n^2)$"><a rel="nofollow" class="trm-toc-link" href="#暴力解法-O-n-2"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">暴力解法 $ O(n^2)$</span></a></li><li class="trm-toc-item trm-toc-level-2" title="算法思路"><a rel="nofollow" class="trm-toc-link" href="#算法思路"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">算法思路</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="求子串的 $\rm next$ 数组"><a rel="nofollow" class="trm-toc-link" href="#求子串的-rm-next-数组"><span class="trm-toc-number">1.3.1.</span> <span class="trm-toc-text">求子串的 $\rm next$ 数组</span></a></li><li class="trm-toc-item trm-toc-level-3" title="匹配过程"><a rel="nofollow" class="trm-toc-link" href="#匹配过程"><span class="trm-toc-number">1.3.2.</span> <span class="trm-toc-text">匹配过程</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="时间复杂度分析"><a rel="nofollow" class="trm-toc-link" href="#时间复杂度分析"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">时间复杂度分析</span></a></li><li class="trm-toc-item trm-toc-level-2" title="应用"><a rel="nofollow" class="trm-toc-link" href="#应用"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">应用</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="求最短 border: OKR-Periods of Words"><a rel="nofollow" class="trm-toc-link" href="#求最短-border-OKR-Periods-of-Words"><span class="trm-toc-number">1.5.1.</span> <span class="trm-toc-text">求最短 border: OKR-Periods of Words</span></a></li><li class="trm-toc-item trm-toc-level-3" title="求不互相重叠的公共前后缀个数: [NOI2014] 动物园"><a rel="nofollow" class="trm-toc-link" href="#求不互相重叠的公共前后缀个数-NOI2014-动物园"><span class="trm-toc-number">1.5.2.</span> <span class="trm-toc-text">求不互相重叠的公共前后缀个数: [NOI2014] 动物园</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>

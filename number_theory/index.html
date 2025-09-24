@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="数论总述包含质数, 约数, 同余, 乘法逆元, 同余方程, 积性函数与数论中的重要函数.  质数千奇百怪的质数定理 $1\sim n$ 中共有 $\frac{n}{\ln n}$ 个质数.  判质数1. 试除法 $O(\sqrt n)$123456bool isPrime(int u)&amp;#123;	if (u &lt; 2) return false;	for (int i &#x3D; 2; i &lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数论总述 | 一文从入门到毕业">
+<meta property="og:url" content="http://example.com/number_theory/index.html">
+<meta property="og:site_name" content="GrainRain &#39;s Blog">
+<meta property="og:description" content="数论总述包含质数, 约数, 同余, 乘法逆元, 同余方程, 积性函数与数论中的重要函数.  质数千奇百怪的质数定理 $1\sim n$ 中共有 $\frac{n}{\ln n}$ 个质数.  判质数1. 试除法 $O(\sqrt n)$123456bool isPrime(int u)&amp;#123;	if (u &lt; 2) return false;	for (int i &#x3D; 2; i &lt;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-27T15:47:52.000Z">
+<meta property="article:modified_time" content="2025-09-24T15:28:06.035Z">
+<meta property="article:author" content="GrainRain">
+<meta property="article:tag" content="数学">
+<meta name="twitter:card" content="summary">
+
+
+<title >数论总述 | 一文从入门到毕业</title>
+
+<!-- Favicon -->
+
+    <link href='/img/logo-16%C3%9716.png?v=2.2.2' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/logo-32%C3%9732.png?v=2.2.2' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+    <link href='/apple-touch-icon.png?v=2.2.2' rel='apple-touch-icon' sizes='180x180' ></link>
+
+
+    <link href='/site.webmanifest' rel='manifest' ></link>
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+<link rel="stylesheet" href="https://unpkg.com/katex@latest/dist/katex.min.css">
+
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"GrainRain","root":"/","typed_text":null,"theme_version":"2.2.2","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/logo-32×32.png","icon16":"/img/logo-16×16.png","icon32":"/img/logo-32×32.png","apple_touch_icon":null,"webmanifest":"/site.webmanifest","visibilitychange":true,"hidden":"failure.ico","show_text":"(/≧▽≦/)Hey! Good again!","hide_text":"(●—●)Oh, crash!","appleTouchIcon":"apple-touch-icon.png","showText":"(/≧▽≦/)嘿！骗你的！","hideText":"(●—●)哎呀，崩溃了！"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","sticky":"TOP","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":true,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"12/25/2022 17:00:00","prefix":"该服务器已在冒烟的边缘运行了 undefined 天"},"danmu":{"enable":false,"el":".trm-banner"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2025-09-24 23:28:06"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.2.2" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+
+ 
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="GrainRain 's Blog" type="application/atom+xml">
+</head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" style="opacity: 0">
+            <!-- top bar -->
+            <header class="trm-top-bar">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/logo-32%C3%9732.png">
+    
+    
+        <div class="trm-logo-text">
+            Grain<span>Rain</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="#" target="">
+                    Archives
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/archives/" target="">
+                            year
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" target="">
+                            动态规划
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9B%BE%E8%AE%BA/" target="">
+                            图论
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/" target="">
+                            基础算法
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="">
+                            字符串
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E5%AD%A6/" target="">
+                            数学
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="">
+                            数据结构
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E9%B2%9C%E8%8A%B1/" target="">
+                            鲜花
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    Links
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    About
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text trm-text-center ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            数论总述 | 一文从入门到毕业
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        number_theory
+                                    </span>
+                                </li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <span id="scroll-triger" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </span>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+            <div class="trm-page-content col-lg-12">
+                <div id="trm-content" class="trm-content">
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            04/27
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            23:47
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            GrainRain
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="数论总述"><a href="#数论总述" class="headerlink" title="数论总述"></a>数论总述</h1><p>包含质数, 约数, 同余, 乘法逆元, 同余方程, 积性函数与数论中的重要函数. </p>
+<h2 id="质数"><a href="#质数" class="headerlink" title="质数"></a>质数</h2><h3 id="千奇百怪的质数定理"><a href="#千奇百怪的质数定理" class="headerlink" title="千奇百怪的质数定理"></a>千奇百怪的质数定理</h3><ul>
+<li>$1\sim n$ 中共有 $\frac{n}{\ln n}$ 个质数.</li>
+</ul>
+<h3 id="判质数"><a href="#判质数" class="headerlink" title="判质数"></a>判质数</h3><h4 id="1-试除法-O-sqrt-n"><a href="#1-试除法-O-sqrt-n" class="headerlink" title="1. 试除法 $O(\sqrt n)$"></a>1. 试除法 $O(\sqrt n)$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isPrime</span><span class="params">(<span class="type">int</span> u)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (u &lt; <span class="number">2</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n / i; i ++)</span><br><span class="line">		<span class="keyword">if</span> (n % i == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-埃氏筛-O-n-cdot-log-2-log-2-n"><a href="#2-埃氏筛-O-n-cdot-log-2-log-2-n" class="headerlink" title="2. 埃氏筛 $O(n \cdot \log_2 \log_2 n)$"></a>2. 埃氏筛 $O(n \cdot \log_2 \log_2 n)$</h4><p>基本思想是筛去质数的倍数. </p>
+<p>自己思考下就会发现埃氏筛很对, 若一个数是合数, 其必然含有小于它本身的因子, 同样地, 若一个数是质数, 其因子仅有 $1$ 和它本身. 当筛法指针指向 $i$ 时, 若它没被筛到, 则必然为质数, 反之亦然. </p>
+<p>由于在筛 $i$ 时, $2 \sim i - 1$ 都已被筛过, 因此代码中 $1$ 处从 $i \cdot i$ 开始筛即可. </p>
+<p>时间复杂度 $O(n \cdot \log_2 \log_2 n)$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; prime;</span><br><span class="line"><span class="comment">// Stacks for storing prime numbers</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Eratosthenes</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	np[<span class="number">0</span>] = np[<span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (!np[i]) &#123;</span><br><span class="line">			prime.<span class="built_in">push_back</span>(i);</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> j = i * i; j &lt;= n; j += i) <span class="comment">// 1 </span></span><br><span class="line">				np[j] = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-线性筛-欧拉筛-O-n"><a href="#3-线性筛-欧拉筛-O-n" class="headerlink" title="3. 线性筛 &#x2F; 欧拉筛 $O(n)$"></a>3. 线性筛 &#x2F; 欧拉筛 $O(n)$</h4><p>尝试优化埃式筛法, 发现在埃氏筛中一个合数会被多次标记, 可以尝试从此处进行优化, 诞生了线性筛的基本思想：一个合数 $n$ 只会被最小质因子筛出. </p>
+<p>我们发现, 埃氏筛的实现方式是对于每个质数依靠遍历自然数的方式来标记自身倍数. 线性筛则在遍历自然数的同时, 对于每个自然数遍乘质数表中的所有数.  </p>
+<p>标记非素数的过程相当于对于每一个素数之上建立一个剩余系, 随着 $i$ 的推进, 通过 $\times i$ 逐步扩大剩余系规模. 当 <code>i % prm[j] == 0</code> 则表示如果继续向下遍乘质数, 那么当前数不为下一个筛到的数的最小质因子, 直接退出即可. </p>
+<p>例如：如果 $i$ 是 $4$, 第一个质数是 $2$, 那么 $4$ % $2$ &#x3D;&#x3D; $0$. 如果继续向后遍历, 筛掉的数将是 $4 \times 3 &#x3D; 12$, 而 $12$ 的最小质因子是 $2$, 不应由 $4$ 来筛掉 $12$, 而应在遍历到 $6$ 时筛掉 $6 \times 2 &#x3D; 12$, 避免重复标记, 因此 <code>break</code> 掉. </p>
+<p>对于上述情况的处理也成为实现 $O(n)$ 预处理质数表的关键. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Euler</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	np[<span class="number">0</span>] = np[<span class="number">1</span>] = <span class="literal">true</span>; <span class="comment">// np -&gt; not prime</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; ++ i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (!np[i]) prm[++ top] = i; <span class="comment">// prm -&gt; primes </span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= top <span class="keyword">and</span> prm[j] &lt;= n / i; ++ j) &#123;</span><br><span class="line">			np[prm[j] * i] = <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">if</span> (!(i % prm[j])) <span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行以上算法之后, 我们即得到了一张质数表 <code>prm</code>. </p>
+<p>另外, 还可以在线性筛的过程中处理一些私货. 比如预处理每个数的最小质因子, 稍微改一下上面的代码即可. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Euler</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; ++ i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (!f[i]) prm[++ top] = i, f[i] = i;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= top <span class="keyword">and</span> prm[j] &lt;= n / i <span class="keyword">and</span> prm[j] &lt;= f[i])</span><br><span class="line">			f[i * prm[j]] = prm[j];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行以上算法之后, 我们同时得到了每个数的最小质因子 $f_i$</p>
+<p>然而, 线性筛中使用了大量<del>模法</del>模运算, 常数比埃氏筛略大. 在小数据范围时, 埃氏筛的 $\log$ 会很小, 因此数据范围不大时埃氏筛可能不失为一种更好的选择. </p>
+<h3 id="分解质因数"><a href="#分解质因数" class="headerlink" title="分解质因数"></a>分解质因数</h3><h4 id="试除法-O-sqrt-n"><a href="#试除法-O-sqrt-n" class="headerlink" title="试除法 $O(\sqrt n)$"></a>试除法 $O(\sqrt n)$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">decompose</span><span class="params">(<span class="type">int</span> u)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; ; ++ i) &#123;</span><br><span class="line">		<span class="keyword">while</span> (u % i == <span class="number">0</span>) cnt[i] ++, u /= i;</span><br><span class="line">		<span class="keyword">if</span> (u == <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="约数"><a href="#约数" class="headerlink" title="约数"></a>约数</h2><h3 id="求所有约数"><a href="#求所有约数" class="headerlink" title="求所有约数"></a>求所有约数</h3><h4 id="试除法-O-sqrt-n-1"><a href="#试除法-O-sqrt-n-1" class="headerlink" title="试除法 $O(\sqrt n)$"></a>试除法 $O(\sqrt n)$</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">getDivisors</span><span class="params">(<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; ans;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n / i; i ++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (n % i == <span class="number">0</span>)&#123;</span><br><span class="line">			ans.<span class="built_in">push_back</span>(i);</span><br><span class="line">			<span class="keyword">if</span> (i != n / i) ans.<span class="built_in">push_back</span>(n / i);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">sort</span>(ans.<span class="built_in">begin</span>(), ans.<span class="built_in">end</span>());</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是, $n$ 的约数个数约为 $\ln n$, 因此排序不是时间复杂度瓶颈. </p>
+<h3 id="约数个数"><a href="#约数个数" class="headerlink" title="约数个数"></a>约数个数</h3><p>一个数 $n$ 的约数个数常用函数 $d(n)$ 表示. </p>
+<p>依据算术基本定理计算约数个数：</p>
+<p>对于一个数 $n$, 若对其分解质因数可表示为若干个质因数相乘的形式, 即将 $n$ 写成标准分解式的形式</p>
+<p>$$n &#x3D; p_1^{c_1} \times p_2^{c_2} \times … \times p_k^{c_k}. $$</p>
+<p>不难发现, 约数个数相当于在若干个约数中选取若干个约数相乘, 组成一个新的约数, 计入答案, 因此使用乘法原理即可. </p>
+<p>则约数个数为</p>
+<div>
+$$
+\begin{aligned}
+    d(n) & = (c_1 + 1) \times (c_2 + 1) \times ... \times (c_k + 1) \\
+         & = \prod \limits_{i = 1}^{k} (c_i + 1). 
+\end{aligned}
+$$
+</div>
+
+<h3 id="约数之和"><a href="#约数之和" class="headerlink" title="约数之和"></a>约数之和</h3><p>一个数 $n$ 的约数之和的 $k$ 次方常用函数 $\sigma_k(n)$ 表示. </p>
+<p>首先考虑简单情况, 即 $k &#x3D; 1,\ \sigma_1(n)$, 常简记为 $\sigma(n)$. </p>
+<p>同样, 对于一个数 $n$ 写成它的标准分解式的形式</p>
+<p>$$n &#x3D; p_1^{c_1} \times p_2^{c_2} \times … \times p_k^{c_k}.$$</p>
+<p>同理, 考虑 $n$ 的一个因数是如何组成的：在每个质因子中选择 $0 \sim c_i$ 个相乘得到一个因数. 若求所有因数和, 根据乘法原理, 即得</p>
+<div>
+$$
+\begin{aligned}
+    \sigma_1(n) & = (p_1^0 + p_1^1 + ... + p_1^{c_1}) \times ... \times (p_k^0 + p_k^1 + ... + p_k^{c_k}) \\ 
+              & = \prod\limits_{i = 1}^{k} \sum\limits_{j = 0}^{c_i} p_i^j. 
+\end{aligned}
+$$
+</div>
+
+<p>推广可得</p>
+<p>$$\sigma_k(n) &#x3D; \prod\limits_{i &#x3D; 1}^{k} \sum\limits_{j &#x3D; 0}^{c_i} p_i^{j \times k}.$$</p>
+<p>特别地, 当 $k &#x3D; 0$, $\sigma_k(n) &#x3D; d(n)$.</p>
+<h3 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h3><h4 id="辗转相除法-欧几里得算法"><a href="#辗转相除法-欧几里得算法" class="headerlink" title="辗转相除法 &#x2F; 欧几里得算法"></a>辗转相除法 &#x2F; 欧几里得算法</h4><p>易证：</p>
+<p>若 $d \mid a$ 且 $d \mid b$, 则 $d \mid ax + by$. </p>
+<p>因此 $\gcd(a, b) &#x3D; \gcd(b, a \bmod b)$. </p>
+<hr>
+<h2 id="同余"><a href="#同余" class="headerlink" title="同余"></a>同余</h2><p>对于两个整数 $a$, $b$, 若满足 $a \bmod m &#x3D; b \bmod m$, 则称 $a$ 与 $b$ 在 $mod m$ 的意义下<strong>同余</strong>, 记作 $a \equiv b \pmod m$. </p>
+<h3 id="乘法逆元"><a href="#乘法逆元" class="headerlink" title="乘法逆元"></a>乘法逆元</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>对于两个互质的正整数 $a$, $b$, 若满足 $ax \equiv 1 \pmod b$, 则称 $x$ 为 $a$ 在 $mod\ b$ 意义下的<strong>逆元</strong>, 记作 $a^{-1}$</p>
+<blockquote>
+<p>另外, 对于逆元还有另一种定义：<br>若 $x$ 满足 $m &#x2F; a \equiv m * x \pmod b$, 则称 $x$ 为 $a$ 在 $mod\ b$ 意义下的逆元<br>(其中 $b$, $m$ 互质, $b\mid a$)</p>
+<p>(摘自李煜东《算法竞赛进阶指南》)</p>
+</blockquote>
+<p>形式化地, 我们可以将逆元理解为 在模运算下的倒数, 即：</p>
+<p>$$a * a^{-1} \bmod b &#x3D; 1$$</p>
+<h4 id="求一个数-a-在-模-b-意义下的逆元"><a href="#求一个数-a-在-模-b-意义下的逆元" class="headerlink" title="求一个数 $a$ 在 模 $b$ 意义下的逆元"></a>求一个数 $a$ 在 模 $b$ 意义下的逆元</h4><h5 id="1-扩展欧几里得算法"><a href="#1-扩展欧几里得算法" class="headerlink" title="1. 扩展欧几里得算法"></a>1. 扩展欧几里得算法</h5><p>对于同余式 $ax \equiv 1 \pmod b$, 设 $ax - 1$ 是 $b$ 的 $-y$ 倍, 则有：</p>
+<p>$$ax + by &#x3D; 1$$</p>
+<p>根据 $Bézout$ 定理（裴蜀定理）, 对于以上的一个线性同于方程有解, 当且仅当 $\gcd(a, b) &#x3D; 1$, 即 $a$ 与 $b$ 互质. 我们直接应用 $exgcd$ 求出一组可行解, 再将解通过<del>模法</del>模运算偏移至 $[1, b - 1]$ 的区间即可</p>
+<p>这是我们可爱的扩展欧几里得算法板子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LL <span class="title">exgcd</span><span class="params">(LL a, LL b, LL &amp;x, LL &amp;y)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!b) &#123; x = <span class="number">1</span>, y = <span class="number">0</span>; <span class="keyword">return</span> a; &#125;</span><br><span class="line">	LL d = <span class="built_in">exgcd</span>(b, a % b, x, y);</span><br><span class="line">	LL tmp = x;</span><br><span class="line">	x = y, y = tmp - (a / b) * y;</span><br><span class="line">	<span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">x = (x % b + b) % b;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-费马小定理"><a href="#2-费马小定理" class="headerlink" title="2. 费马小定理"></a>2. 费马小定理</h5><p>当模数 $b$ 为质数时（此时经常写作 $p$）, 我们可以根据费马定理, 对以上同余式进行变形, 得到：</p>
+<p>$$b \times b^{p - 2} \equiv 1 \pmod p$$</p>
+<p>因此, 我们使用快速幂在 $O(log_2 p)$ 的时间内求出 $b^{p - 2}$ 对 $p$ 取模的模数即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LL <span class="title">fPow</span><span class="params">(LL a, LL b, LL p)</span> </span>&#123;</span><br><span class="line">	LL res = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (b) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b &amp; <span class="number">1</span>) res = res * a % p;</span><br><span class="line">		a = a * a % p;</span><br><span class="line">		b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-线性求逆元"><a href="#3-线性求逆元" class="headerlink" title="3. 线性求逆元"></a>3. 线性求逆元</h5><p>当解决形如：</p>
+<blockquote>
+<p>给定一个正整数 $n$, 求 $1$ ~ $n$ 之间所有数 $\bmod\ p$  意义下的逆元（保证 $p$ 为质数）</p>
+</blockquote>
+<p>的问题时, 可以考虑在线性时间内递推逆元. </p>
+<p>设 $p &#x3D; k \times i + r$, $(1 &lt; r &lt; i &lt; p )$</p>
+<p>因此 $k \times i + r \equiv 0 \pmod p$</p>
+<p>两侧同时乘 $r^{-1}, i^{-1}$ 可得</p>
+<p>$$i^{-1} \equiv -k \times r^{-1} \pmod p$$</p>
+<p>即</p>
+<p>$$i^{-1} \equiv -\lfloor \frac{p}{i} \rfloor \times (p \bmod i)^{-1} \pmod p$$</p>
+<p>因此, 我们获得了在线性时间内递推区间模 $p$ 的逆元的方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">inv[<span class="number">0</span>] = inv[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt; p; ++ i)</span><br><span class="line">	inv[i] = (p - p / i) * inv[p % i] % p;</span><br></pre></td></tr></table></figure>
+
+<h3 id="同余方程"><a href="#同余方程" class="headerlink" title="同余方程"></a>同余方程</h3><p>依据未知数次数的不同我们将同余方程分为以下两种：</p>
+<h4 id="1-线性同余方程"><a href="#1-线性同余方程" class="headerlink" title="1. 线性同余方程"></a>1. 线性同余方程</h4><h4 id="2-高次同余方程"><a href="#2-高次同余方程" class="headerlink" title="2. 高次同余方程"></a>2. 高次同余方程</h4><h4 id="解同余方程组"><a href="#解同余方程组" class="headerlink" title="解同余方程组"></a>解同余方程组</h4><h5 id="situation-1-模数两两互质"><a href="#situation-1-模数两两互质" class="headerlink" title="$situation\ 1$ : 模数两两互质"></a>$situation\ 1$ : 模数两两互质</h5><p>中国剩余定理($crt$)</p>
+<h5 id="situation-2-模数不保证互质"><a href="#situation-2-模数不保证互质" class="headerlink" title="$situation\ 2$ : 模数不保证互质"></a>$situation\ 2$ : 模数不保证互质</h5><p>扩展中国剩余定理 ($excrt$)</p>
+<p>对于</p>
+<h2 id="特殊函数通识"><a href="#特殊函数通识" class="headerlink" title="特殊函数通识"></a>特殊函数通识</h2><p>除了上文介绍过的 $d(n)$ 与 $\sigma_k(n)$ 以外, 下面再介绍几种数论中的常见函数. </p>
+<h3 id="下标函数"><a href="#下标函数" class="headerlink" title="下标函数"></a>下标函数</h3><p>$$\text{id}(n) &#x3D; n.$$</p>
+<h3 id="单位函数"><a href="#单位函数" class="headerlink" title="单位函数"></a>单位函数</h3><div>
+$$\epsilon(n) = \begin{cases} 1 & x = 1 \\ 0 & x \ne 1 \end{cases} = [n = 1].$$
+</div>
+
+<h3 id="莫比乌斯函数"><a href="#莫比乌斯函数" class="headerlink" title="莫比乌斯函数"></a>莫比乌斯函数</h3><h3 id="积性函数"><a href="#积性函数" class="headerlink" title="积性函数"></a>积性函数</h3><p>定义：设 $f(n)$ 为定义在正整数上的函数, 如果有 $f(1) &#x3D; 1$, 且满足 $\forall a, b \in \text{N}^*, \gcd(a, b) &#x3D; 1 \Rightarrow f(ab) &#x3D; f(a) \times f(b)$, 则称 $f$ 函数为积性函数. </p>
+<p>更一般性地, 若不要求 $\gcd(a, b) &#x3D; 1$, 仍满足 $f(ab) &#x3D; f(a) \times f(b)$ 则称该函数为 <strong>完全积性函数</strong>. </p>
+<p>可以证明, $d(n)$ 为积性函数, $\text{id}(n)$, $\epsilon(n)$, 与 $\sigma_k(n)$ 均为完全积性函数. </p>
+<h4 id="积性函数线性递推"><a href="#积性函数线性递推" class="headerlink" title="积性函数线性递推"></a>积性函数线性递推</h4><p>利用积性函数性质, 若有关于 $n$ 的标准分解式 </p>
+<p>$$n &#x3D; \prod\limits_{i &#x3D; 1}^k p_i^{c_i}$$</p>
+<p>则有</p>
+<p>$$f(n) &#x3D; \prod\limits_{i &#x3D; 1}^k f(p_i^{c_i})$$</p>
+<p>有了以上递推式, 我们可以使用线性筛在 $O(n)$ 时间内预处理 $1 \sim n$ 内的积性函数值, 下文以求约数函数 $d(n)$ 为例. </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="简单应用-Sum-of-Divisors"><a href="#简单应用-Sum-of-Divisors" class="headerlink" title="简单应用: Sum of Divisors"></a>简单应用: <a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc172/tasks/abc172_d">Sum of Divisors</a></h5><h3 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h3><p>$\varphi(n)$ 表示 $1$ ~ $n - 1$ 中与 $n$ 互质的数的个数. </p>
+<p>对于任意正整数 $n$, 有</p>
+<p>$$\varphi(n) &#x3D; n \times \prod\limits_{p \mid n} (1 - \frac{1}{p})$$</p>
+<p>且</p>
+<p>$$\sum\limits_{d \mid n} \varphi(d) &#x3D; n$$</p>
+<p>对于任意两个正整数 $a$, $b$. </p>
+<p>$$\varphi(a \times b) &#x3D; \varphi(a) \times \varphi(b) \times \frac{gcd(a, b)}{\varphi(\gcd(a, b))}$$</p>
+<h4 id="感性理解"><a href="#感性理解" class="headerlink" title="感性理解"></a>感性理解</h4><p>先考虑一种感性理解：</p>
+<p>对于 $$n &#x3D; p_1^{c_1} \times p_2^{c_2} \times … \times p_k^{c_k}$$</p>
+<p>将 $n$ 视为数轴上的一个线段, 将 $1 \sim n$ 分为若干长度为 $p_i$ 的小段, 则每一小段中只有最后一个数与 $n$ 不互质, 即总的互质概率为</p>
+<p>$$\prod\limits_{p \mid n} \frac{p - 1}{p}$$</p>
+<p>则 $1 \sim n$ 中与 $n$ 互质的数的个数为 $$n \times \prod\limits_{p \mid n} \frac{p - 1}{p}$$asdfasdf</p>
+<h4 id="严格证明"><a href="#严格证明" class="headerlink" title="严格证明"></a>严格证明</h4><p>考虑容斥. </p>
+<p>$$n - \frac{n}{p_1} - \frac{n}{p_2} … + \frac{n}{p_1 \times p_2} … - \frac{n}{p_1 \times p_2 \times p_3} …$$</p>
+<p>将原式打开发现</p>
+<p>$$\varphi(n) &#x3D; n \times (1 - \frac{1}{p_1}) \times (1 - \frac{1}{p_2}) \times (1 - \frac{1}{p_3}) …$$</p>
+<p>即与上式等价, 证毕. </p>
+<h4 id="线性筛欧拉函数"><a href="#线性筛欧拉函数" class="headerlink" title="线性筛欧拉函数"></a>线性筛欧拉函数</h4><p>上文说到, 欧拉函数 $\varphi(n)$ 也是积性函数, 因此也可以通过线性筛在 $O(n)$ 时间内预处理 $1 \sim n$ 内的 $\varphi(n)$.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="text-Lucas-定理"><a href="#text-Lucas-定理" class="headerlink" title="$\text{Lucas}$ 定理"></a>$\text{Lucas}$ 定理</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LL <span class="title">Lucas</span><span class="params">(LL n, LL m)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (m == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">C</span>(n % p, m % p) * <span class="built_in">Lucas</span>(n / p, m / p) % p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="text-Dirichlet-卷积"><a href="#text-Dirichlet-卷积" class="headerlink" title="$\text{Dirichlet}$ 卷积"></a>$\text{Dirichlet}$ 卷积</h2><p>对于两个数论函数 $f(x)$ 和 $g(x)$, 定义两个函数的狄利克雷卷积 </p>
+<p>$$h(x) &#x3D; \sum\limits_{d \mid n} f(n) \times g(n &#x2F; d) &#x3D; \sum\limits_{a \times b &#x3D; n} f(a) \times g(b).$$</p>
+<p>记作</p>
+<p>$$h &#x3D; f \ast g.$$</p>
+<h2 id="莫比乌斯反演"><a href="#莫比乌斯反演" class="headerlink" title="莫比乌斯反演"></a>莫比乌斯反演</h2><h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="text-Legengre’-Law"><a href="#text-Legengre’-Law" class="headerlink" title="$\text{Legengre’ Law}$"></a>$\text{Legengre’ Law}$</h3><h3 id="text-Kummer’s-Law"><a href="#text-Kummer’s-Law" class="headerlink" title="$\text{Kummer’s Law}$"></a>$\text{Kummer’s Law}$</h3><p>$p$ 在组合数中的幂次等于 p 进制下 n - m 需要借位的次数. </p>
+<p>证明:</p>
+
+</article>
+    
+    
+
+</div>
+<div class="trm-post-next-prev row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Dsu_On_Tree/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/64b0176c1ddac507cc96f72b.jpg">
+                </span>
+                <h6 class="trm-op-title">树上启发式合并 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/05/31</li>
+                <li>21:20</li>
+                <li>图论</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/Persistable_Segment_Tree/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="https://pic.imgdb.cn/item/6483059e1ddac507ccf14f08.jpg">
+                </span>
+                <h6 class="trm-op-title">可持久化线段树 | 学习笔记</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/04</li>
+                <li>18:45</li>
+                <li>数据结构</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+    <div class="trm-card trm-scroll-animation comment-container">
+    <div id="tcomment"></div>
+</div>
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-footer-card trm-scroll-animation">
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>© 2022- 2025</span>
+            <span class="footer-separator"data-separator=" · "></span>
+            <span class="trm-accent-color">GrainRain</span>
+        </div>
+    
+
+      
+
+    
+        <div class="trm-footer-item blog-run-long"></div>
+     
+
+     
+</footer>
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            
+
+    <div id="post-toc" class="trm-post-toc">
+      <div class="trm-post-toc-header">
+        Article table of contents
+				<span id="post-toc-top">
+					TOP
+				</span>
+      </div>
+      <div class="trm-post-toc-content">
+        <ol class="trm-toc"><li class="trm-toc-item trm-toc-level-1" title="数论总述"><a rel="nofollow" class="trm-toc-link" href="#数论总述"><span class="trm-toc-number">1.</span> <span class="trm-toc-text">数论总述</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-2" title="质数"><a rel="nofollow" class="trm-toc-link" href="#质数"><span class="trm-toc-number">1.1.</span> <span class="trm-toc-text">质数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="千奇百怪的质数定理"><a rel="nofollow" class="trm-toc-link" href="#千奇百怪的质数定理"><span class="trm-toc-number">1.1.1.</span> <span class="trm-toc-text">千奇百怪的质数定理</span></a></li><li class="trm-toc-item trm-toc-level-3" title="判质数"><a rel="nofollow" class="trm-toc-link" href="#判质数"><span class="trm-toc-number">1.1.2.</span> <span class="trm-toc-text">判质数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="1. 试除法 $O(\sqrt n)$"><a rel="nofollow" class="trm-toc-link" href="#1-试除法-O-sqrt-n"><span class="trm-toc-number">1.1.2.1.</span> <span class="trm-toc-text">1. 试除法 $O(\sqrt n)$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="2. 埃氏筛 $O(n \cdot \log_2 \log_2 n)$"><a rel="nofollow" class="trm-toc-link" href="#2-埃氏筛-O-n-cdot-log-2-log-2-n"><span class="trm-toc-number">1.1.2.2.</span> <span class="trm-toc-text">2. 埃氏筛 $O(n \cdot \log_2 \log_2 n)$</span></a></li><li class="trm-toc-item trm-toc-level-4" title="3. 线性筛 &#x2F; 欧拉筛 $O(n)$"><a rel="nofollow" class="trm-toc-link" href="#3-线性筛-欧拉筛-O-n"><span class="trm-toc-number">1.1.2.3.</span> <span class="trm-toc-text">3. 线性筛 &#x2F; 欧拉筛 $O(n)$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="分解质因数"><a rel="nofollow" class="trm-toc-link" href="#分解质因数"><span class="trm-toc-number">1.1.3.</span> <span class="trm-toc-text">分解质因数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="试除法 $O(\sqrt n)$"><a rel="nofollow" class="trm-toc-link" href="#试除法-O-sqrt-n"><span class="trm-toc-number">1.1.3.1.</span> <span class="trm-toc-text">试除法 $O(\sqrt n)$</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="约数"><a rel="nofollow" class="trm-toc-link" href="#约数"><span class="trm-toc-number">1.2.</span> <span class="trm-toc-text">约数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="求所有约数"><a rel="nofollow" class="trm-toc-link" href="#求所有约数"><span class="trm-toc-number">1.2.1.</span> <span class="trm-toc-text">求所有约数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="试除法 $O(\sqrt n)$"><a rel="nofollow" class="trm-toc-link" href="#试除法-O-sqrt-n-1"><span class="trm-toc-number">1.2.1.1.</span> <span class="trm-toc-text">试除法 $O(\sqrt n)$</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="约数个数"><a rel="nofollow" class="trm-toc-link" href="#约数个数"><span class="trm-toc-number">1.2.2.</span> <span class="trm-toc-text">约数个数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="约数之和"><a rel="nofollow" class="trm-toc-link" href="#约数之和"><span class="trm-toc-number">1.2.3.</span> <span class="trm-toc-text">约数之和</span></a></li><li class="trm-toc-item trm-toc-level-3" title="最大公约数"><a rel="nofollow" class="trm-toc-link" href="#最大公约数"><span class="trm-toc-number">1.2.4.</span> <span class="trm-toc-text">最大公约数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="辗转相除法 &#x2F; 欧几里得算法"><a rel="nofollow" class="trm-toc-link" href="#辗转相除法-欧几里得算法"><span class="trm-toc-number">1.2.4.1.</span> <span class="trm-toc-text">辗转相除法 &#x2F; 欧几里得算法</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="同余"><a rel="nofollow" class="trm-toc-link" href="#同余"><span class="trm-toc-number">1.3.</span> <span class="trm-toc-text">同余</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="乘法逆元"><a rel="nofollow" class="trm-toc-link" href="#乘法逆元"><span class="trm-toc-number">1.3.1.</span> <span class="trm-toc-text">乘法逆元</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="定义"><a rel="nofollow" class="trm-toc-link" href="#定义"><span class="trm-toc-number">1.3.1.1.</span> <span class="trm-toc-text">定义</span></a></li><li class="trm-toc-item trm-toc-level-4" title="求一个数 $a$ 在 模 $b$ 意义下的逆元"><a rel="nofollow" class="trm-toc-link" href="#求一个数-a-在-模-b-意义下的逆元"><span class="trm-toc-number">1.3.1.2.</span> <span class="trm-toc-text">求一个数 $a$ 在 模 $b$ 意义下的逆元</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="同余方程"><a rel="nofollow" class="trm-toc-link" href="#同余方程"><span class="trm-toc-number">1.3.2.</span> <span class="trm-toc-text">同余方程</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="1. 线性同余方程"><a rel="nofollow" class="trm-toc-link" href="#1-线性同余方程"><span class="trm-toc-number">1.3.2.1.</span> <span class="trm-toc-text">1. 线性同余方程</span></a></li><li class="trm-toc-item trm-toc-level-4" title="2. 高次同余方程"><a rel="nofollow" class="trm-toc-link" href="#2-高次同余方程"><span class="trm-toc-number">1.3.2.2.</span> <span class="trm-toc-text">2. 高次同余方程</span></a></li><li class="trm-toc-item trm-toc-level-4" title="解同余方程组"><a rel="nofollow" class="trm-toc-link" href="#解同余方程组"><span class="trm-toc-number">1.3.2.3.</span> <span class="trm-toc-text">解同余方程组</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="特殊函数通识"><a rel="nofollow" class="trm-toc-link" href="#特殊函数通识"><span class="trm-toc-number">1.4.</span> <span class="trm-toc-text">特殊函数通识</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="下标函数"><a rel="nofollow" class="trm-toc-link" href="#下标函数"><span class="trm-toc-number">1.4.1.</span> <span class="trm-toc-text">下标函数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="单位函数"><a rel="nofollow" class="trm-toc-link" href="#单位函数"><span class="trm-toc-number">1.4.2.</span> <span class="trm-toc-text">单位函数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="莫比乌斯函数"><a rel="nofollow" class="trm-toc-link" href="#莫比乌斯函数"><span class="trm-toc-number">1.4.3.</span> <span class="trm-toc-text">莫比乌斯函数</span></a></li><li class="trm-toc-item trm-toc-level-3" title="积性函数"><a rel="nofollow" class="trm-toc-link" href="#积性函数"><span class="trm-toc-number">1.4.4.</span> <span class="trm-toc-text">积性函数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="积性函数线性递推"><a rel="nofollow" class="trm-toc-link" href="#积性函数线性递推"><span class="trm-toc-number">1.4.4.1.</span> <span class="trm-toc-text">积性函数线性递推</span></a></li></ol></li><li class="trm-toc-item trm-toc-level-3" title="欧拉函数"><a rel="nofollow" class="trm-toc-link" href="#欧拉函数"><span class="trm-toc-number">1.4.5.</span> <span class="trm-toc-text">欧拉函数</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-4" title="感性理解"><a rel="nofollow" class="trm-toc-link" href="#感性理解"><span class="trm-toc-number">1.4.5.1.</span> <span class="trm-toc-text">感性理解</span></a></li><li class="trm-toc-item trm-toc-level-4" title="严格证明"><a rel="nofollow" class="trm-toc-link" href="#严格证明"><span class="trm-toc-number">1.4.5.2.</span> <span class="trm-toc-text">严格证明</span></a></li><li class="trm-toc-item trm-toc-level-4" title="线性筛欧拉函数"><a rel="nofollow" class="trm-toc-link" href="#线性筛欧拉函数"><span class="trm-toc-number">1.4.5.3.</span> <span class="trm-toc-text">线性筛欧拉函数</span></a></li></ol></li></ol></li><li class="trm-toc-item trm-toc-level-2" title="$\text{Lucas}$ 定理"><a rel="nofollow" class="trm-toc-link" href="#text-Lucas-定理"><span class="trm-toc-number">1.5.</span> <span class="trm-toc-text">$\text{Lucas}$ 定理</span></a></li><li class="trm-toc-item trm-toc-level-2" title="$\text{Dirichlet}$ 卷积"><a rel="nofollow" class="trm-toc-link" href="#text-Dirichlet-卷积"><span class="trm-toc-number">1.6.</span> <span class="trm-toc-text">$\text{Dirichlet}$ 卷积</span></a></li><li class="trm-toc-item trm-toc-level-2" title="莫比乌斯反演"><a rel="nofollow" class="trm-toc-link" href="#莫比乌斯反演"><span class="trm-toc-number">1.7.</span> <span class="trm-toc-text">莫比乌斯反演</span></a></li><li class="trm-toc-item trm-toc-level-2" title="杂项"><a rel="nofollow" class="trm-toc-link" href="#杂项"><span class="trm-toc-number">1.8.</span> <span class="trm-toc-text">杂项</span></a><ol class="trm-toc-child"><li class="trm-toc-item trm-toc-level-3" title="$\text{Legengre’ Law}$"><a rel="nofollow" class="trm-toc-link" href="#text-Legengre’-Law"><span class="trm-toc-number">1.8.1.</span> <span class="trm-toc-text">$\text{Legengre’ Law}$</span></a></li><li class="trm-toc-item trm-toc-level-3" title="$\text{Kummer’s Law}$"><a rel="nofollow" class="trm-toc-link" href="#text-Kummer’s-Law"><span class="trm-toc-number">1.8.2.</span> <span class="trm-toc-text">$\text{Kummer’s Law}$</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+            
+<div class="trm-fixed-container">
+    
+        <div class="trm-fixed-btn post-toc-btn" data-title="Open toc">
+            <i class="iconfont fas fa-th-list"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+  </div>
+  <!-- app wrapper end -->
+
+  
+    <div class="trm-search-popup">
+        <div class="trm-search-wrapper">
+            <div class="form trm-search-form">
+                <div class="trm-search-input-icon">
+                    <i class="iconfont fas fa-search"></i>
+                </div>
+                <input class="trm-search-input" type="text" placeholder="Searching...">
+                <div class="trm-search-btn-close">
+                    <i class="iconfont fas fa-times"></i>
+                </div>
+            </div>
+            <div class="trm-search-result-container">
+                <div class="trm-search-empty">
+                    Please enter keywords to search
+                </div>
+            </div>
+            <div class="trm-search-footer">
+                <div class="trm-search-stats"></div>
+                <ul class="trm-search-commands">
+                    <li>
+                        <kbd class="command-palette-commands-key">
+                            <svg width="15" height="15" aria-label="Escape key" role="img">
+                                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.2">
+                                    <path
+                                        d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956">
+                                    </path>
+                                </g>
+                            </svg>
+                        </kbd>
+                        <span class="command-palette-Label">to close</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+<script src="https://unpkg.com/swup@2.0.19/dist/swup.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.2.2"></script>
+    
+
+    <!-- 数学公式 -->
+    
+        
+<script src="https://unpkg.com/katex@latest/dist/katex.min.js" data-swup-reload-script></script>
+
+        
+            
+<script src="https://unpkg.com/katex@latest/dist/contrib/copy-tex.min.js" data-swup-reload-script></script>
+
+        
+        
+<script src="https://unpkg.com/katex@latest/dist/contrib/auto-render.min.js" data-swup-reload-script></script>
+
+        <script data-swup-reload-script>
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+                ...{},
+            })
+        </script>
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+
+            
+<script src="https://unpkg.com/twikoo@1.6.7/dist/twikoo.all.min.js" data-swup-reload-script data-reset="true"></script>
+
+            <script data-swup-reload-script>
+                twikoo.init({
+                    ...{"enable":true,"envId":"https://grianrain.netlify.app/.netlify/functions/twikoo","visitor":true},
+                    el:'#tcomment'
+                }).then(function () {
+                    let container = document.querySelector('body>.tk-admin-container')
+                    if(container) container.remove()
+                    document.body.append(document.querySelector('.tk-admin-container'))
+                });;
+            </script>
+
+        
+    
+
+		
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+    <script data-swup-reload-script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+
+
+<script id="async-script" src="/js/main.js?v=2.2.2"></script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+</body>
+
+</html>
