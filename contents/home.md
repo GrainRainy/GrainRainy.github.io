@@ -10,7 +10,7 @@ I'm a freshman of NJU, majoring in software engineering.
 
 #### Research Interests
 
-My current passion revolves around building **EFFICIENT** system solutions to AGI (<strong style="color:red;"><strong>Now I am interested in O1-like models ML Infra</strong></strong>).
+My current passion revolves around building **EFFICIENT** system solutions to AGI and more reliable robotics. 
 
 -----
 
@@ -23,5 +23,5 @@ My current passion revolves around building **EFFICIENT** system solutions to AG
 ---
 
 🕒 **2025.9 - 2029.6** *(Undergraduate)*  
-📍 **NanJing University**  
+📍 **Nanjing University**  
 🎓 **Major in Software Engineering**
