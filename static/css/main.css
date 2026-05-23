@@ -353,18 +353,20 @@ main a:hover {
         max-height: 100vh;
         overflow-y: auto;
         padding: 2rem 1.5rem;
-        box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0.4);
+        box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0); /* 默认无阴影（完全透明），彻底根治左侧边界阴影渗透溢出 */
         border-right: 1px solid var(--sidebar-border);
         border-bottom: none;
         z-index: 1040; /* 提升至 1040 层级，优雅覆盖在 1035 顶部导航栏之上，实现原生 App 级侧滑 */
         background: var(--header-bg-glass) !important;
         backdrop-filter: blur(20px) saturate(190%);
         -webkit-backdrop-filter: blur(20px) saturate(190%);
-        transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     .sidebar.show {
         transform: translateX(0);
+        box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0.35); /* 呼出导航栏时，阴影透明度随滑出动作丝滑过渡到 100% */
     }
 
     .sidebar-overlay {
