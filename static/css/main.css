@@ -4,20 +4,31 @@
 /* ==================== THEME SYSTEM ==================== */
 /* 默认浅色模式 (Light Mode) */
 :root {
-    --bg-primary: #f8fafc;        /* 柔和的浅灰蓝背景 */
-    --bg-card: #ffffff;           /* 纯白主内容卡片 */
-    --text-primary: #0f172a;      /* 醒目深黑色（高对比度） */
-    --text-secondary: #1e293b;    /* 深石板黑正文（大幅增强对比度，阅读体验极佳） */
-    --border-color: #cbd5e1;      /* 边框色 */
-    --card-border: #e2e8f0;       /* 卡片边框 */
+    --bg-primary: #f8fafc;
+    /* 柔和的浅灰蓝背景 */
+    --bg-card: #ffffff;
+    /* 纯白主内容卡片 */
+    --text-primary: #0f172a;
+    /* 醒目深黑色（高对比度） */
+    --text-secondary: #1e293b;
+    /* 深石板黑正文（大幅增强对比度，阅读体验极佳） */
+    --border-color: #cbd5e1;
+    /* 边框色 */
+    --card-border: #e2e8f0;
+    /* 卡片边框 */
     --shadow-color: rgba(15, 23, 42, 0.04);
-    --h-title-color: #0f172a;     /* 醒目深黑色 */
-    --link-color: #2563eb;        /* 经典学术皇家蓝 */
-    --link-hover-color: #1d4ed8;  /* 悬停深蓝 */
+    --h-title-color: #0f172a;
+    /* 醒目深黑色 */
+    --link-color: #2563eb;
+    /* 经典学术皇家蓝 */
+    --link-hover-color: #1d4ed8;
+    /* 悬停深蓝 */
     --accent-hover: rgba(15, 23, 42, 0.03);
-    --highlight-color: rgba(37, 99, 235, 0.22); /* 与主题高度匹配的低饱和度皇家蓝高亮线下划线 */
-    
-    --sidebar-bg: #0f172a;        /* 侧边栏保持经典深石板色 */
+    --highlight-color: rgba(37, 99, 235, 0.22);
+    /* 与主题高度匹配的低饱和度皇家蓝高亮线下划线 */
+
+    --sidebar-bg: #0f172a;
+    /* 侧边栏保持经典深石板色 */
     --sidebar-text: #94a3b8;
     --sidebar-text-active: #ffffff;
     --sidebar-accent: #3b82f6;
@@ -27,20 +38,31 @@
 
 /* 深色模式 (Dark Mode) */
 [data-theme="dark"] {
-    --bg-primary: #090d16;        /* 极深幽邃太空蓝 */
-    --bg-card: #111827;           /* 深邃午夜灰 */
-    --text-primary: #ffffff;      /* 纯白色标题（增强对比度） */
-    --text-secondary: #e2e8f0;    /* 亮银灰正文（大幅增强对比度，极易阅读） */
-    --border-color: #334155;      /* 暗沉石板灰边框 */
-    --card-border: #1f2937;       /* 灰黑分割线 */
+    --bg-primary: #090d16;
+    /* 极深幽邃太空蓝 */
+    --bg-card: #111827;
+    /* 深邃午夜灰 */
+    --text-primary: #ffffff;
+    /* 纯白色标题（增强对比度） */
+    --text-secondary: #e2e8f0;
+    /* 亮银灰正文（大幅增强对比度，极易阅读） */
+    --border-color: #334155;
+    /* 暗沉石板灰边框 */
+    --card-border: #1f2937;
+    /* 灰黑分割线 */
     --shadow-color: rgba(0, 0, 0, 0.4);
-    --h-title-color: #f1f5f9;     /* 亮白色标题 */
-    --link-color: #60a5fa;        /* 柔和明亮的天蓝链接 */
-    --link-hover-color: #93c5fd;  /* 高亮淡蓝 */
+    --h-title-color: #f1f5f9;
+    /* 亮白色标题 */
+    --link-color: #60a5fa;
+    /* 柔和明亮的天蓝链接 */
+    --link-hover-color: #93c5fd;
+    /* 高亮淡蓝 */
     --accent-hover: rgba(255, 255, 255, 0.04);
-    --highlight-color: rgba(96, 165, 250, 0.32); /* 与主题高度匹配的低饱和度天际蓝高亮线下划线 */
-    
-    --sidebar-bg: #07090f;        /* 彻底融入暗黑环境的黑曜石侧边栏 */
+    --highlight-color: rgba(96, 165, 250, 0.32);
+    /* 与主题高度匹配的低饱和度天际蓝高亮线下划线 */
+
+    --sidebar-bg: #07090f;
+    /* 彻底融入暗黑环境的黑曜石侧边栏 */
     --sidebar-border: rgba(255, 255, 255, 0.04);
     --sidebar-text: #64748b;
     --sidebar-text-active: #f1f5f9;
@@ -256,19 +278,23 @@ section .main-body {
     transition: color 0.3s ease;
 }
 
-/* 自动捕获网页与 Markdown 中的红色文本，并替换为与网页主题蓝色匹配的低饱和度、马克笔高亮背景样式（加粗、字号稍微加大、下划线加粗并向上偏移充当文字背景） */
-main [style*="color:red"],
-main [style*="color: red"],
+/* 自动捕获 HTML 原生下划线 <u> 格式以及自定义高亮类，替换为与网页主题蓝色匹配的低饱和度、马克笔高亮背景样式（加粗、字号稍微加大、下划线加粗并向上偏移充当文字背景） */
+main u,
 .emphasis-highlight {
     font-weight: 700 !important;
     font-size: 1.06em !important;
     color: var(--text-primary) !important;
-    text-decoration: none !important; /* 消除原有的文本下划线，避免冲突 */
-    box-shadow: inset 0 -0.48em 0 var(--highlight-color) !important; /* 向上偏移 48% 充当高质感的低饱和度蓝色马克笔背景 */
-    padding: 0 3px !important; /* 左右增加极微内边距，使高亮背景包裹字形更自然 */
-    border-radius: 2px !important; /* 微微圆角，增加学术质感 */
+    text-decoration: none !important;
+    /* 彻底消除原生浏览器极其难看的细下划线，避免冲突 */
+    box-shadow: inset 0 -0.48em 0 var(--highlight-color) !important;
+    /* 向上偏移 48% 充当高质感的低饱和度蓝色马克笔背景 */
+    padding: 0 3px !important;
+    /* 左右增加极微内边距，使高亮背景包裹字形更自然 */
+    border-radius: 2px !important;
+    /* 微微圆角，增加学术质感 */
     background: none !important;
-    display: inline !important; /* 保持行内连续自然换行 */
+    display: inline !important;
+    /* 保持行内连续自然换行 */
 }
 
 /* 高自适应的高级学术链接样式 */
