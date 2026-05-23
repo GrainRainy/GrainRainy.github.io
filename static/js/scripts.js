@@ -163,17 +163,57 @@ function setupThemeToggleListeners() {
     updateThemeToggleButtons();
 }
 
+// 初始化移动端小标题与滚动监听
+function initMobileHeaderTitle() {
+    const actions = document.querySelector('.mobile-header-actions');
+    if (actions && !document.getElementById('mobileSectionTitle')) {
+        const titleSpan = document.createElement('span');
+        titleSpan.id = 'mobileSectionTitle';
+        titleSpan.className = 'mobile-section-title';
+        actions.appendChild(titleSpan);
+    }
+}
+
+// 处理滚动事件，动态控制小标题显隐和文字
+function handleScroll() {
+    const mobileHeader = document.querySelector('.mobile-header');
+    const titleSpan = document.getElementById('mobileSectionTitle');
+    
+    // 始终保持小标题的文字内容与侧边栏激活的导航项绝对一致（即便在未滚动时也准备就绪）
+    if (titleSpan) {
+        const activeLink = document.querySelector('#sidebarNav .nav-link.active');
+        if (activeLink) {
+            titleSpan.textContent = activeLink.textContent.trim();
+        }
+    }
+
+    if (mobileHeader) {
+        if (window.scrollY > 40) { // 滚动超过 40px 时显示小标题
+            mobileHeader.classList.add('scrolled');
+        } else {
+            mobileHeader.classList.remove('scrolled');
+        }
+    }
+}
+
 // 页面初次载入
 window.addEventListener('DOMContentLoaded', () => {
     // 渲染本页内容与链接高亮
     loadPageContent();
     highlightActiveLink();
     
+    // 初始化移动端顶部小标题
+    initMobileHeaderTitle();
+    
     // 绑定移动端抽屉事件
     initMobileMenu();
 
     // 绑定主题切换事件
     setupThemeToggleListeners();
+
+    // 绑定滚动监听
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 初始化滚动状态
 
     // 初始化 Swup 局部路由刷新
     try {
@@ -184,6 +224,7 @@ window.addEventListener('DOMContentLoaded', () => {
         swup.hooks.on('content:replace', async () => {
             await loadPageContent();
             highlightActiveLink();
+            handleScroll(); // 导航切换后，立即刷新小标题状态
         });
     } catch (e) {
         console.error('Swup initialization skipped or failed:', e);
